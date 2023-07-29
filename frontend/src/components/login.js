@@ -12,26 +12,27 @@ const LoginForm = () => {
   };
 
   return (
-    <><h1>
+    <><p className="AppSubtitle">
       ログインページ
-    </h1><form onSubmit={handleSubmit}>
+    </p><form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="mail">mail:</label>
           <input
+            placeholder="メールアドレス"
             type="text"
             id="mail"
+            className="mail"
             value={mail}
             onChange={(e) => setMail(e.target.value)} />
         </div>
         <div>
-          <label htmlFor="password">Password:</label>
           <input
+            placeholder="パスワード"
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)} />
         </div>
-        <button type="submit">Log In</button>
+        <button type="submit" className="LoginButton">ログイン</button>
       </form></>
   );
 };

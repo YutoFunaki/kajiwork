@@ -1,10 +1,13 @@
 //import React, { useState } from "react";
+import "./MyComponent.css";
 
 const Header = () => {
   return (
     <div className="header">
-      KajiWork
-    </div>
+      <p className="AppTitle">
+        KajiWork
+      </p>
+    </div>  
   );
 };
 
