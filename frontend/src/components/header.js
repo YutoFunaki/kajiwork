@@ -1,35 +1,27 @@
 import React, { useState} from "react";
 import "./MyComponent.css";
-import { Menu, MenuItem } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ListIcon from '@mui/icons-material/List';
 
 const Header = () => {
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleButtonClick = () => {
+    setShowDropdown(!showDropdown);
   };
 
   return (
     <div className="header">
       <div className="HeaderList">
-       <button onClick={handleClick} className="HeaderListButton">< ListIcon className="ListIcon" /></button>
-       <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        className="HeaderListMenu"
-      >
-        <MenuItem onClick={handleClose}>家事の新規登録　＞＞</MenuItem>
-        <MenuItem onClick={handleClose}>家事の管理　　　＞＞</MenuItem>
-        <MenuItem onClick={handleClose}>ログアウト　　　＞＞</MenuItem>
-      </Menu>
+       <button onClick={handleButtonClick} className="HeaderListButton">< ListIcon className="ListIcon" /></button>
+      {showDropdown && (
+          <ul className="DropdownMenu">
+            <li><a href="#">家事の新規登録　　＞＞</a></li>
+            <li><a href="2">家事の管理　　　　＞＞</a></li>
+            <li><a href="1">ログアウト　　　　＞＞</a></li>
+          </ul>
+      )}
       </div>
       <p className="AppTitle">
         KajiWork
