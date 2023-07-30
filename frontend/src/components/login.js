@@ -33,7 +33,9 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)} />
         </div>
         <button type="submit" className="LoginButton">ログイン</button>
-      </form></>
+      </form>
+      <a href="https://google.co.jp" className="SigninHref">新規登録</a>
+      </>
   );
 };
 
