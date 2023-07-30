@@ -2,6 +2,20 @@
   background-color: #B58181;
   width: 100%;
   height: 72px;
+  display: flex;
+}
+
+.AccountCircleIconBackground {
+  display: block;
+  background-color: #D9D9D9;
+  height: 30px;
+  padding-top: 5px;
+  margin-top: 17px;
+}
+
+.AccountCircleIcon {
+  transform: scale(2.2);
+  border-radius: 50px / 50px;
 }
 
 .AppTitle {
@@ -51,4 +65,8 @@ input {
   display: block;
   margin-top: 20px;
   font-size: 20px;
+}
+
+.SigninHref:hover {
+  color: #5e719d;
 }
