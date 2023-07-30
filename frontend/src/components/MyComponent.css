@@ -5,6 +5,13 @@
   display: flex;
 }
 
+.ListIcon {
+  margin-top: 22px;
+  transform: scale(2.2);
+  margin-left: 20px;
+  color: #434343;
+}
+
 .AccountCircleIconBackground {
   display: block;
   background-color: #D9D9D9;
@@ -15,7 +22,7 @@
 
 .AccountCircleIcon {
   transform: scale(2.2);
-  border-radius: 50px / 50px;
+  color: #434343;
 }
 
 .AppTitle {
