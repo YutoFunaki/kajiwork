@@ -1,8 +1,14 @@
 .header {
   background-color: #B58181;
+  max-width: 100%;
   width: 100%;
   height: 72px;
   display: flex;
+}
+
+.HeaderListButton {
+  background-color: #B58181;
+  border: none;
 }
 
 .ListIcon {
@@ -17,7 +23,8 @@
   background-color: #D9D9D9;
   height: 30px;
   padding-top: 5px;
-  margin-top: 17px;
+  margin-top: 18px;
+  margin-left: 600px;
 }
 
 .AccountCircleIcon {
@@ -27,7 +34,8 @@
 
 .AppTitle {
   font-size: 36px;
-  margin: 0;
+  margin-top: 0;
+  margin-left: 600px;
   padding-top: 12px;
   color: #EAEAEA;
 }
@@ -56,9 +64,7 @@ input {
   border: none;
   border-radius: 120px / 40px;
   transition: 0.3s;
-
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-   
   -webkit-tap-highlight-color: transparent;
   transition: .2s ease-out;
 }

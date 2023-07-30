@@ -6,7 +6,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // ログイン処理をここに実装する
+    // ログイン処理書くとこ
     console.log("Mail:", mail);
     console.log("Password:", password);
   };
