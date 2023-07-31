@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {Link} from 'react-router-dom';
 
-
 const LoginForm = () => {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +35,7 @@ const LoginForm = () => {
         </div>
         <button type="submit" className="LoginButton">ログイン</button>
       </form>
-        <Link to="/Signin" className="SigninHref">新規登録</Link>
+        <Link to="Signin" className="SigninHref">新規登録</Link>
       </>
   );
 };
