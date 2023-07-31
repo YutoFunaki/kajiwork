@@ -46,7 +46,7 @@ const SigninForm = () => {
         </div>
         <button type="submit" className="LoginButton">新規登録</button>
       </form>
-      <Link to="/login" className="SigninHref">新規登録</Link>
+      <Link to="/Login" className="SigninHref">新規登録</Link>
       </>
   );
 };
