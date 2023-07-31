@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SigninForm = () => {
   const [username, setUsername] = useState("");
@@ -43,9 +44,9 @@ const SigninForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)} />
         </div>
-        <button type="submit" className="LoginButton">ログイン</button>
+        <button type="submit" className="LoginButton">新規登録</button>
       </form>
-      <a href="https://google.co.jp" className="SigninHref">新規登録</a>
+      <Link to="/login" className="SigninHref">新規登録</Link>
       </>
   );
 };

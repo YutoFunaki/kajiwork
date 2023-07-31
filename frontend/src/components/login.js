@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 
 const LoginForm = () => {
   const [mail, setMail] = useState("");
@@ -34,7 +36,7 @@ const LoginForm = () => {
         </div>
         <button type="submit" className="LoginButton">ログイン</button>
       </form>
-      <a href="https://google.co.jp" className="SigninHref">新規登録</a>
+      <Link to="/signin" className="SigninHref">新規登録</Link>
       </>
   );
 };
