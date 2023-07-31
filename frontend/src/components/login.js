@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import {Routes, Route, Link} from 'react-router-dom';
-import Signin from '../pages/signinPage';
+import {Link} from 'react-router-dom';
 
 const LoginForm = () => {
   const [mail, setMail] = useState("");
@@ -35,11 +34,8 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)} />
         </div>
         <button type="submit" className="LoginButton">ログイン</button>
-        <Link to="Signin" className="SigninHref">新規登録</Link>
       </form>
-      <Routes>
-        <Route path="Signin" element={<Signin />} />
-      </Routes>
+        <Link to="Signin" className="SigninHref">新規登録</Link>
       </>
   );
 };
