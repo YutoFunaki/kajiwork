@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Routes, Route } from "react-router-dom";
+import Login from "../pages/loginPage";
 
 const SigninForm = () => {
   const [username, setUsername] = useState("");
@@ -45,8 +46,11 @@ const SigninForm = () => {
             onChange={(e) => setPassword(e.target.value)} />
         </div>
         <button type="submit" className="LoginButton">新規登録</button>
+        <Link to="Login" className="SigninHref">ログイン</Link>
       </form>
-      <Link to="Login" className="SigninHref">ログイン</Link>
+      <Routes>
+        <Route path="Login" element={<Login />} />
+      </Routes>
       </>
   );
 };
