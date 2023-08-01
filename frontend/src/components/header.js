@@ -17,8 +17,8 @@ const Header = () => {
        <button onClick={handleButtonClick} className="HeaderListButton">< ListIcon className="ListIcon" /></button>
       {showDropdown && (
           <ul className="DropdownMenu">
-            <li><a href="#">家事の新規登録　　＞＞</a></li>
-            <li><a href="2">家事の管理　　　　＞＞</a></li>
+            <li><a href="/">家事の新規登録　　＞＞</a></li>
+            <li><a href="/">家事の管理　　　　＞＞</a></li>
             <li><a href="/">ログアウト　　　　＞＞</a></li>
           </ul>
       )}

@@ -111,3 +111,20 @@ input {
 .SigninHref:hover {
   color: #5e719d;
 }
+
+/* HomePageのCSS */
+.homestyle {
+  display: flex;
+}
+
+.homeleft {
+  background-color: aqua;
+  width: 50%;
+  height: 100%;
+}
+
+.homeright {
+  background-color: rgb(255, 255, 255);
+  width: 50%;
+  height: 100%;
+}
