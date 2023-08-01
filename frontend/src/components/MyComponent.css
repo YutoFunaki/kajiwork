@@ -134,12 +134,31 @@ input {
   --fc-small-font-size: .9em;
   --fc-border: none;
   --fc-daygrid-event-dot-width: 10px;
-  --fc-event-bg-color: #bedeff;
-  --fc-event-border-color: #edf6ff;
+  --fc-event-bg-color: #ffffff;
+  --fc-event-font-color: #888888;
+  --fc-event-border-color: #ffffff;
   .fc .fc-toolbar-title {
     font-size: 30px;
     color: #37362f;
     padding-left: 35px;
+  }
+  .fc .fc-toolbar-chunk {
+    margin-right: 0;
+  }
+  .fc .fc-toolbar-chunk .fc-button {
+    padding-top: 15px;
+    margin-right: 20px;
+    background-color: #ffffff;
+    color: #37362f;
+    border: none;
+    font-size: 15px;
+  }
+  .fc .fc-toolbar-chunk .fc-button:hover {
+    background-color: #ffffff;
+    border: none;
+  }
+  .fc .fc-daygrid-day-top {
+    padding-right: 41.5px;
   }
 }
 
