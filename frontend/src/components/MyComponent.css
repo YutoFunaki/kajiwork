@@ -136,6 +136,11 @@ input {
   --fc-daygrid-event-dot-width: 10px;
   --fc-event-bg-color: #bedeff;
   --fc-event-border-color: #edf6ff;
+  .fc .fc-toolbar-title {
+    font-size: 30px;
+    color: #37362f;
+    padding-left: 35px;
+  }
 }
 
 .MyCalendar {
