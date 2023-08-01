@@ -128,3 +128,12 @@ input {
   width: 50%;
   height: 100%;
 }
+
+:root {
+  --fc-border-color: rgb(255, 255, 255);
+  --fc-small-font-size: .9em;
+  --fc-border: none;
+  --fc-daygrid-event-dot-width: 10px;
+  --fc-event-bg-color: #bedeff;
+  --fc-event-border-color: #edf6ff;
+}
