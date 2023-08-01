@@ -137,3 +137,7 @@ input {
   --fc-event-bg-color: #bedeff;
   --fc-event-border-color: #edf6ff;
 }
+
+.MyCalendar {
+  text-align: center;
+}

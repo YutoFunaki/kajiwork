@@ -2,6 +2,7 @@ import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
+//import jaLocale from '@fullcalendar/core/locales/ja';
 import "./MyComponent.css";
 
 class Calendar extends React.Component {
@@ -13,9 +14,10 @@ class Calendar extends React.Component {
   render() {
     return (
       <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]} // プラグインを指定
-        initialView="dayGridMonth" // カレンダーの初期表示形式を指定
-        dateClick={this.handleDateClick} // 日付をクリックしたときに呼び出すイベントハンドラを指定
+        plugins={[dayGridPlugin, interactionPlugin]} 
+        initialView="dayGridMonth" 
+        dateClick={this.handleDateClick} 
+
       />
     );
   }
