@@ -2,7 +2,6 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/loginPage';
 import Signin from './pages/signinPage';
-import Top from './components/top';
 
 function App() {
   return (
