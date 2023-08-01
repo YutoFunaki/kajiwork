@@ -1,7 +1,7 @@
 //import React, { useState } from "react";
 //import {Link} from 'react-router-dom';
 import "./MyComponent.css";
-import Calendarcomponent from './calendar2';
+import Calendarcomponent from './calendar';
 
 
 const Home = () => {

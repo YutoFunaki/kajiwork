@@ -16,7 +16,7 @@ class Calendar extends React.Component {
         plugins={[dayGridPlugin, interactionPlugin]} 
         initialView="dayGridMonth" 
         dateClick={this.handleDateClick} 
-
+        titleFormat={{ month: 'numeric', year: 'numeric' }}
       />
     );
   }
