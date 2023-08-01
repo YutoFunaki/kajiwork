@@ -118,9 +118,13 @@ input {
 }
 
 .homeleft {
-  background-color: aqua;
   width: 50%;
   height: 100%;
+}
+
+.monthMoney {
+  font-size: 30px;
+  margin-top: 0;
 }
 
 .homeright {
@@ -172,10 +176,6 @@ input {
     margin-right: 2px;
     background-color: #ebd2d2;
     text-align: center;
+  }
 }
 
-}
-
-.MyCalendar {
-  text-align: center;
-}
