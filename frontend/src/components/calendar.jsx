@@ -19,20 +19,15 @@ class Calendar extends React.Component {
         titleFormat={{ month: 'numeric', year: 'numeric' }}
         events= {[
           {
-            title: 'カラオケ',
+            title: '皿洗い',
             start: '2023-08-02'
           },
           {
-            title: 'ショッピング',
+            title: '洗濯',
             start: '2023-08-01'
           },
           {
-            title: '打ち合わせ',
-            start: '2023-08-06T10:00:00',
-            end: '2023-08-07T11:00:00'
-          },
-          {
-            title: '打ち上げ',
+            title: '料理',
             start: '2023-08-05T19:00:00'
           }
         ]}

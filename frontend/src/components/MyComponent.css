@@ -154,12 +154,26 @@ input {
     font-size: 15px;
   }
   .fc .fc-toolbar-chunk .fc-button:hover {
-    background-color: #ffffff;
+    background-color: transparent;
     border: none;
   }
   .fc .fc-daygrid-day-top {
     padding-right: 41.5px;
   }
+  .fc .fc-event-title {
+    font-size: 15px;
+    color: #37362f;
+  }
+  .fc .fc-daygrid-day-number {
+    font-size: 15px;
+    color: #37362f;
+  }
+  .fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start {
+    margin-right: 2px;
+    background-color: #ebd2d2;
+    text-align: center;
+}
+
 }
 
 .MyCalendar {
