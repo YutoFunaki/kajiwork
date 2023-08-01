@@ -2,7 +2,6 @@ import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
-//import jaLocale from '@fullcalendar/core/locales/ja';
 import "./MyComponent.css";
 
 class Calendar extends React.Component {

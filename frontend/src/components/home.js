@@ -1,7 +1,7 @@
 //import React, { useState } from "react";
 //import {Link} from 'react-router-dom';
 import "./MyComponent.css";
-import Calendar from './calendar';
+import Calendarcomponent from './calendar2';
 
 
 const Home = () => {
@@ -12,7 +12,7 @@ const Home = () => {
         <p className="">7月の生活費</p>
       </div>
       <div className="homeright">
-       <Calendar />
+       <Calendarcomponent />
       </div>
 
     </div>
