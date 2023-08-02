@@ -120,11 +120,32 @@ input {
 .homeleft {
   width: 50%;
   height: 100%;
+  text-align: center;
+}
+
+.lastMonth {
+  margin-top: 50px;
+}
+
+.thisMonth {
+  margin-top: 50px;
 }
 
 .monthMoney {
   font-size: 30px;
   margin-top: 0;
+}
+
+.lastMonthMoney, .thisMonthMoney, .todayCompleteWorkTitle {
+  font-size: 20px;
+}
+
+.thisdayCompleteWork {
+  margin-top: 0;
+}
+
+.todayCompleteWork {
+  font-size: 30px;
 }
 
 .homeright {
@@ -133,13 +154,14 @@ input {
   height: 100%;
 }
 
+/* CalendarのCSS */
 :root {
   --fc-border-color: rgb(255, 255, 255);
   --fc-small-font-size: .9em;
   --fc-border: none;
   --fc-daygrid-event-dot-width: 10px;
   --fc-event-bg-color: #ffffff;
-  --fc-event-font-color: #888888;
+  --fc-event-font-color: #4f4f4f;
   --fc-event-border-color: #ffffff;
   .fc .fc-toolbar-title {
     font-size: 30px;
@@ -150,7 +172,7 @@ input {
     margin-right: 0;
   }
   .fc .fc-toolbar-chunk .fc-button {
-    padding-top: 15px;
+    margin-top: 15px;
     margin-right: 20px;
     background-color: #ffffff;
     color: #37362f;

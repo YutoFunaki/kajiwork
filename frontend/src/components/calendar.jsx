@@ -28,7 +28,7 @@ class Calendar extends React.Component {
           },
           {
             title: '料理',
-            start: '2023-08-05T19:00:00'
+            start: '2023-08-05'
           }
         ]}
       />
