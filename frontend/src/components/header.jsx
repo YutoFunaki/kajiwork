@@ -24,7 +24,7 @@ const Header = () => {
       )}
       </div>
       <p className="AppTitle">
-        KajiWork
+        <a href="/home">KajiWork</a>
       </p>
       <div className="AccountCircleIconBackground">
         <AccountCircleIcon className="AccountCircleIcon" />

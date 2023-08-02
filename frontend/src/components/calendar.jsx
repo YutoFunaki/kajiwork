@@ -30,7 +30,7 @@ class Calendar extends React.Component {
             title: '料理',
             start: '2023-08-05'
           }
-        ]} /><button className="completeFormButton">家事完了</button></>
+        ]} /><button className="completeFormButton"><a href="/completeForm">家事完了</a></button></>
     );
   }
 }
