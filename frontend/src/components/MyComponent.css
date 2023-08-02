@@ -234,7 +234,7 @@ input {
 /* 家事完了ページのCSS */
 
 .completeForm {
-  display: inline-block;
+  display: block;
 }
 
 .userSelect {
