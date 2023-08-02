@@ -12,12 +12,12 @@ class Calendar extends React.Component {
 
   render() {
     return (
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]} 
-        initialView="dayGridMonth" 
-        dateClick={this.handleDateClick} 
+      <><FullCalendar
+        plugins={[dayGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        dateClick={this.handleDateClick}
         titleFormat={{ month: 'numeric', year: 'numeric' }}
-        events= {[
+        events={[
           {
             title: '皿洗い',
             start: '2023-08-02'
@@ -30,8 +30,7 @@ class Calendar extends React.Component {
             title: '料理',
             start: '2023-08-05'
           }
-        ]}
-      />
+        ]} /><button className="completeFormButton">家事完了</button></>
     );
   }
 }
