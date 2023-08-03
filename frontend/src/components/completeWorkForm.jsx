@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CompleteWorkForm = () => {
+  const navigate = useNavigate();
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedWork, setSelectedWork] = useState([]); // 初期値として空の配列を設定
 
@@ -30,6 +32,7 @@ const CompleteWorkForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(selectedUser, selectedWork);
+    navigate("/connectWork");
   };
 
   return (
@@ -47,7 +50,7 @@ const CompleteWorkForm = () => {
             ))}
           </select>
         </label>
-        <div>
+        <div className="workSelect">
           {works.map((work) => (
             <label key={work.value}>
               <input
@@ -60,8 +63,8 @@ const CompleteWorkForm = () => {
             </label>
           ))}
         </div>
-        <div>
-          <p>選択されたオプション:</p>
+        <div className="choseCompleteWork">
+          <p>選択された家事:</p>
           <ul>
             {selectedWork.map((work) => (
               <li key={work}>{work}</li>

@@ -37,12 +37,12 @@
   font-size: 25px;
 }
 
-.DropdownMenu a {
+ a {
   color:inherit;
   text-decoration: none;
 }
 
-.DropdownMenu a:hover {
+a:hover {
   color: #90a5d7;
 }
 
@@ -270,4 +270,15 @@ input {
 
 .userSelect select:focus {
   outline: none;
+}
+
+.workSelect label {
+  width: fit-content;
+}
+
+.workSelect input {
+  width: fit-content;
+  margin-bottom: 0px;
+  margin-left: 20px;
+  border: none;
 }
