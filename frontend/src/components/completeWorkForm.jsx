@@ -55,6 +55,7 @@ const CompleteWorkForm = () => {
             <label key={work.value}>
               <input
                 type="checkbox"
+                className="workCheckbox"
                 value={work.value}
                 checked={selectedWork.includes(work.value)}
                 onChange={handleCheckboxChange}

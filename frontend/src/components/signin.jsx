@@ -60,7 +60,7 @@ const SigninForm = () => {
           <input
             placeholder="ユーザー名"
             type="text"
-            className="username"
+            className="inputPersonalData"
             id="username"
             value={inputUsername}
             onChange={(e) => setInputUsername(e.target.value)} />
@@ -70,12 +70,13 @@ const SigninForm = () => {
             placeholder="メールアドレス"
             type="text"
             id="mail"
-            className="mail"
+            className="inputPersonalData"
             value={inputEmail}
             onChange={(e) => setInputEmail(e.target.value)} />
         </div>
         <div>
           <input
+            className="inputPersonalData"
             placeholder="パスワード"
             type="password"
             id="password"

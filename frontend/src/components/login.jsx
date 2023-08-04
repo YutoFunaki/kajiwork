@@ -53,7 +53,7 @@ const LoginForm = () => {
             placeholder="メールアドレス"
             type="text"
             id="mail"
-            className="mail"
+            className="inputPersonalData"
             value={inputEmail}
             onChange={(e) => setInputEmail(e.target.value)} />
         </div>
@@ -61,7 +61,7 @@ const LoginForm = () => {
           <input
             placeholder="パスワード"
             type="password"
-            id="password"
+            className="inputPersonalData"
             value={inputPassword}
             onChange={(e) => setInputPassword(e.target.value)} />
         </div>
