@@ -1,42 +1,79 @@
-import React, { useState } from "react";
-import {Link} from 'react-router-dom';
+import React, { useEffect, useState, useRef } from "react";
+import ko from "knockout";
+import { useNavigate } from "react-router-dom"; 
 
 const LoginForm = () => {
-  const [mail, setMail] = useState("");
-  const [password, setPassword] = useState("");
+  const containerRef = useRef(null);
+  const navigate = useNavigate();  
+  const [inputEmail, setInputEmail] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // ログイン処理書くとこ
-    console.log("Mail:", mail);
-    console.log("Password:", password);
+  useEffect(() => {
+    const viewModel = createKnockoutViewModel();
+
+    viewModel.inputEmail.subscribe((newValue) => {
+      setInputEmail(newValue);
+    });
+
+    viewModel.inputPassword.subscribe((newValue) => {
+      setInputPassword(newValue);
+    });
+
+
+  }, []);
+
+  const createKnockoutViewModel = () => {
+    var viewModel = {};
+
+    viewModel.inputEmail = ko.observable("");
+    viewModel.inputPassword = ko.observable("");
+
+    viewModel.canSubmitLogin = ko.computed(function () {
+      return (
+        viewModel.inputEmail().length > 0 &&
+        viewModel.inputPassword().length > 0
+      );
+    });
+
+    return viewModel;
+  };
+
+  const handleLoginSubmit = (event) => {
+    // ここでフォームのデータをサーバーに送信するなどの処理を追加
+    console.log(inputEmail, inputPassword);
+    navigate("/home");
   };
 
   return (
-    <><p className="AppSubtitle">
+    <div ref={containerRef}><p className="AppSubtitle">
       ログインページ
-    </p><form onSubmit={handleSubmit}>
+    </p><form onSubmit={handleLoginSubmit}>
         <div>
           <input
             placeholder="メールアドレス"
             type="text"
             id="mail"
             className="mail"
-            value={mail}
-            onChange={(e) => setMail(e.target.value)} />
+            value={inputEmail}
+            onChange={(e) => setInputEmail(e.target.value)} />
         </div>
         <div>
           <input
             placeholder="パスワード"
             type="password"
             id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} />
+            value={inputPassword}
+            onChange={(e) => setInputPassword(e.target.value)} />
         </div>
-        <button type="submit" className="LoginButton">ログイン</button>
+        <button 
+        type="submit" 
+        className="LoginButton"
+        disabled={!inputEmail || !inputPassword}
+        onClick={handleLoginSubmit}
+        >ログイン</button>
       </form>
-        <Link to="Signin" className="SigninHref">新規登録</Link>
-      </>
+        <a href="/Signin" className="SigninHref">新規登録</a>
+      </div>
   );
 };
 
