@@ -14,18 +14,22 @@ const CompleteWorkForm = () => {
   const works = [
     { value: "washing", label: "洗い物" },
     { value: "cleaning", label: "掃除" },
+    { value: "cooking", label: "料理" },
+    { value: "laundry", label: "洗濯uiuuuuiui" },
   ];
 
   const handleSelectChange = (event) => {
     setSelectedUser(event.target.value);
   };
 
-  const handleCheckboxChange = (event) => {
-    const value = event.target.value;
-    if (selectedWork.includes(value)) {
-      setSelectedWork(selectedWork.filter((work) => work !== value));
+  const handleWorkClick = (item) => {
+    // ボタンがクリックされたときの処理
+    if (selectedWork.includes(item)) {
+      // 選択されている状態なら、選択を解除する
+      setSelectedWork(selectedWork.filter((selectedWork) => selectedWork !== item));
     } else {
-      setSelectedWork([...selectedWork, value]);
+      // 選択されていない状態なら、選択する
+      setSelectedWork([...selectedWork, item]);
     }
   };
 
@@ -52,25 +56,17 @@ const CompleteWorkForm = () => {
         </label>
         <div className="workSelect">
           {works.map((work) => (
-            <label key={work.value}>
-              <input
-                type="checkbox"
-                className="workCheckbox"
-                value={work.value}
-                checked={selectedWork.includes(work.value)}
-                onChange={handleCheckboxChange}
-              />
-              {work.label}
-            </label>
-          ))}
+          <button
+            key={work.value}
+            onClick={() => handleWorkClick(work.value)}
+            className={(selectedWork.includes(work.value) ? "selectedWorkButton" : "selectWorkButton")}
+          >
+            {work.label}
+          </button>
+        ))}
         </div>
         <div className="choseCompleteWork">
-          <p>選択された家事:</p>
-          <ul>
-            {selectedWork.map((work) => (
-              <li key={work}>{work}</li>
-            ))}
-          </ul>
+          <p>今回の家事合計:</p>
         </div>
       </div>
       <button className="LoginButton" onClick={handleSubmit}>送信</button>
