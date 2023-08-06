@@ -201,10 +201,28 @@ a:hover {
   }
   .fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start {
     margin-right: 2px;
-    background-color: #ebd2d2;
+    background-color: #b4cbf1;
     text-align: center;
   }
+  .fc .fc-event {
+    height: 10px;
+    width: 10px;
+    position: absolute;
+    border-radius: 60px;
+  }  
+  .fc .fc-event-title.fc-sticky {
+    height: 10px;
+    width: 10px;
+    position: absolute;
+    color: transparent;
+  }
+  .fc .fc-daygrid-day-events {
+    padding-left: 45.5px;
+    padding-top: 20px;
+    color: #ffffff;
+  }
 }
+
 
 .completeFormButton {
   height: 60px;

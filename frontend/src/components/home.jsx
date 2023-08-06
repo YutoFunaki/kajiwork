@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 //import {Link} from 'react-router-dom';
 import "./MyComponent.css";
 import Calendarcomponent from './calendar';
 
 
 const Home = () => {
+
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const handleDateClick = (clickedDate) => {
+    setSelectedDate(clickedDate);
+  };
 
   return (
     <div className="homestyle">
@@ -20,14 +26,14 @@ const Home = () => {
           <p className="thisMonthMoney">れな：　○○○円</p>
         </div>
         <div className="thisdayCompleteWork">
-          <p className="todayCompleteWork">2023/7/6に行った家事</p>
+          <p className="todayCompleteWork">{selectedDate}に行った家事</p>
           <p className="todayCompleteWorkTitle">あなた：</p>
           <p className="todayCompleteWorkTitle">れな：</p>
         </div>
 
       </div>
       <div className="homeright">
-       <Calendarcomponent />
+       <Calendarcomponent onDateClick={handleDateClick} />
       </div>
 
     </div>
