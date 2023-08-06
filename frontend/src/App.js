@@ -8,6 +8,7 @@ import CompleteWorkPage from './pages/completeWorkPage';
 import ConnectWork from './pages/connectWorkPage';
 import Manage from './pages/workManagePage';
 import NewWork from './pages/newWorkPage';
+import MyPage from './pages/myPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='connectWork' element={<ConnectWork />}></Route>
         <Route path='Manage' element={<Manage />}></Route>
         <Route path='NewWork' element={<NewWork />}></Route>
+        <Route path='mypage' element={<MyPage />}></Route>
       </Routes>
     </div>
   );

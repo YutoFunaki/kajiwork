@@ -27,7 +27,9 @@ const Header = () => {
         <a href="/home">KajiWork</a>
       </p>
       <div className="AccountCircleIconBackground">
+        <a href="/mypage">
         <AccountCircleIcon className="AccountCircleIcon" />
+        </a>
       </div>
     </div>  
   );
