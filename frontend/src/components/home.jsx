@@ -21,16 +21,40 @@ const Home = () => {
     setPrevMonth(prevMonth);
   };
 
+  const determineStatus = (selectedMonth) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(selectedMonth);
+
+    if (selectedDate.getFullYear() < currentDate.getFullYear() ||
+        (selectedDate.getFullYear() === currentDate.getFullYear() && selectedDate.getMonth() < currentDate.getMonth())) {
+      return '確定';
+    } else {
+      return '未確定';
+    }
+  };
+
+  const determineStatus2 = (prevMonth) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(prevMonth);
+
+    if (prevMonth.getFullYear() < currentDate.getFullYear() ||
+        (prevMonth.getFullYear() === currentDate.getFullYear() && selectedDate.getMonth() < currentDate.getMonth())) {
+      return '確定';
+    } else {
+      return '未確定';
+    }
+  };
+
   return (
     <div className="homestyle">
       <div className="homeleft">
         <div className="lastMonth">
-          <p className="monthMoney">{prevMonth.toLocaleString("default", { month: "long", year: "numeric" })}の生活費(確定)</p>
+          <p className="monthMoney">{prevMonth.toLocaleString("default", { month: "long", year: "numeric" })}の生活費({determineStatus(selectedMonth)})</p>
           <p className="lastMonthMoney">あなた：　○○○円</p>
           <p className="lastMonthMoney">れな：　○○○円</p>
         </div>
         <div className="thisMonth">
-          <p className="monthMoney">{selectedMonth.toLocaleString("default", { month: "long", year: "numeric" })}の生活費(未確定)</p>
+          <p className="monthMoney">{selectedMonth.toLocaleString("default", { month: "long", year: "numeric" })}の生活費({determineStatus(prevMonth)})</p>
           <p className="thisMonthMoney">あなた：　○○○円</p>
           <p className="thisMonthMoney">れな：　○○○円</p>
         </div>
