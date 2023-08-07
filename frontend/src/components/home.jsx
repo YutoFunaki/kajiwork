@@ -5,12 +5,10 @@ import Calendarcomponent from './calendar';
 
 
 const Home = () => {
-
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [prevMonth, setPrevMonth] = useState(new Date());
 
-  
 
   const handleDateClick = (clickedDate) => {
     setSelectedDate(clickedDate);
@@ -33,28 +31,18 @@ const Home = () => {
     }
   };
 
-  const determineStatus2 = (prevMonth) => {
-    const currentDate = new Date();
-    const selectedDate = new Date(prevMonth);
 
-    if (prevMonth.getFullYear() < currentDate.getFullYear() ||
-        (prevMonth.getFullYear() === currentDate.getFullYear() && selectedDate.getMonth() < currentDate.getMonth())) {
-      return '確定';
-    } else {
-      return '未確定';
-    }
-  };
 
   return (
     <div className="homestyle">
       <div className="homeleft">
         <div className="lastMonth">
-          <p className="monthMoney">{prevMonth.toLocaleString("default", { month: "long", year: "numeric" })}の生活費({determineStatus(selectedMonth)})</p>
+          <p className="monthMoney">{prevMonth.toLocaleString("default", { month: "long", year: "numeric" })}の生活費({determineStatus(prevMonth)})</p>
           <p className="lastMonthMoney">あなた：　○○○円</p>
           <p className="lastMonthMoney">れな：　○○○円</p>
         </div>
         <div className="thisMonth">
-          <p className="monthMoney">{selectedMonth.toLocaleString("default", { month: "long", year: "numeric" })}の生活費({determineStatus(prevMonth)})</p>
+          <p className="monthMoney">{selectedMonth.toLocaleString("default", { month: "long", year: "numeric" })}の生活費({determineStatus(selectedMonth)})</p>
           <p className="thisMonthMoney">あなた：　○○○円</p>
           <p className="thisMonthMoney">れな：　○○○円</p>
         </div>
@@ -69,7 +57,8 @@ const Home = () => {
        <Calendarcomponent 
        onDateClick={handleDateClick}
        onMonthChange={handleMonthChange}
-       selectedMonth={selectedMonth} />
+       selectedMonth={selectedMonth}
+       prevMonth={prevMonth} />
       </div>
 
     </div>

@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import "./MyComponent.css";
 
-const Calendar = ({ onDateClick, onMonthChange }) => {
+const Calendar = ({ onDateClick, onMonthChange, selectedDate }) => {
   const calendarRef = useRef(null);
     
   const handleDateClick = (info) => {
@@ -29,6 +29,16 @@ const Calendar = ({ onDateClick, onMonthChange }) => {
     onMonthChange(selectedMonth, prevMonth);
   };
 
+  const clickEvents = [
+    // クリックした日付を囲むためのイベント
+    {
+      start: selectedDate,
+      end: selectedDate,
+      rendering: 'background', // 背景に表示
+      color: 'yellow', // イベントの背景色
+    }
+  ];
+
 
     return (
       <><FullCalendar
@@ -39,6 +49,7 @@ const Calendar = ({ onDateClick, onMonthChange }) => {
         datesSet={handleDateSet}
         titleFormat={{ month: 'numeric', year: 'numeric' }}
         events={[
+          {clickEvents},
           {
             title: '皿洗い',
             start: '2023-08-02'
