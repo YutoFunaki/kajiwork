@@ -45,6 +45,7 @@ const Calendar = ({ onDateClick, onMonthChange, selectedDate }) => {
         ref={calendarRef}
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
+        onDateClick={handleDateClick}
         dateClick={handleDateClick}
         datesSet={handleDateSet}
         titleFormat={{ month: 'numeric', year: 'numeric' }}
