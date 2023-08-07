@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import "./MyComponent.css";
 
-const Calendar = ({ onDateClick }) => {
+const Calendar = ({ onDateClick, onMonthChange }) => {
   const calendarRef = useRef(null);
     
   const handleDateClick = (info) => {
@@ -22,6 +22,13 @@ const Calendar = ({ onDateClick }) => {
     return `${year}/${month}/${day}`;
   };
 
+  const handleDateSet = (dateInfo) => {
+    const selectedMonth = dateInfo.view.currentStart;
+    const prevMonth = new Date(selectedMonth);
+    prevMonth.setMonth(prevMonth.getMonth() - 1);
+    onMonthChange(selectedMonth, prevMonth);
+  };
+
 
     return (
       <><FullCalendar
@@ -29,6 +36,7 @@ const Calendar = ({ onDateClick }) => {
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         dateClick={handleDateClick}
+        datesSet={handleDateSet}
         titleFormat={{ month: 'numeric', year: 'numeric' }}
         events={[
           {
