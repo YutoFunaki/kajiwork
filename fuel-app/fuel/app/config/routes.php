@@ -39,5 +39,5 @@ return [
 	 */
 
 	'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
-	'api/signup' => 'api/signup', //新規登録
+	'api/post_signup' => 'api/post_signup', //新規登録
 ];

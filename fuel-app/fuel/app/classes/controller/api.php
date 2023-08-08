@@ -4,6 +4,7 @@ class Controller_Api extends Controller
 {
     public function post_signup()
     {
+      echo "test";
         $input = Input::json();
         $username = $input['username'];
         $email = $input['email'];
@@ -16,6 +17,10 @@ class Controller_Api extends Controller
           'password' => $password,
       ));
 
+      if ($user->save()) {
         return $this->response(['message' => 'Signup successful']);
+    } else {
+        return $this->response(['message' => 'Signup failed'], 500);
+    }
     }
 };
