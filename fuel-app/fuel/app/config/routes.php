@@ -10,7 +10,7 @@
  * @link       https://fuelphp.com
  */
 
-return array(
+return [
 	/**
 	 * -------------------------------------------------------------------------
 	 *  Default route
@@ -39,4 +39,5 @@ return array(
 	 */
 
 	'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
-);
+	'api/signup' => 'api/signup', //新規登録
+];

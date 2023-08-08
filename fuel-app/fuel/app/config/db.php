@@ -21,5 +21,13 @@
  */
 
 return array(
-
+  'default' => array(
+    'type' => 'mysql',
+    'connection' => array(
+        'hostname' => 'mysql',
+        'database' => 'kajiwork',
+        'username' => 'root',
+        'password' => 'root',
+    ),
+  ),
 );

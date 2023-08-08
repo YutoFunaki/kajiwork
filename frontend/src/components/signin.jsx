@@ -45,12 +45,33 @@ const SigninForm = () => {
     return viewModel;
   };
 
-  const handleSigninSubmit = (event) => {
-    // ここでフォームのデータをサーバーに送信するなどの処理を追加
-    console.log(inputUsername, inputEmail, inputPassword);
-    navigate("/home");
+  const handleSigninSubmit = async(event) => {
+    event.preventDefault();
+   
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: inputUsername,
+          email: inputEmail,
+          password: inputPassword,
+        }),
+      });
+  
+      if (response.ok) {
+        // 成功した場合の処理
+        navigate('/home');
+      } else {
+        // エラーの場合の処理
+        console.error('Signup failed');
+      }
+    } catch (error) {
+      console.error('An error occurred', error);
+    }
   };
-
 
   return (
     <div ref={containerRef}><p className="AppSubtitle">
