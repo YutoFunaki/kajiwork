@@ -49,7 +49,7 @@ const SigninForm = () => {
     event.preventDefault();
    
     try {
-      const response = await fetch('/api/signup', {
+      const response = await fetch('http://localhost:8080/Registar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
