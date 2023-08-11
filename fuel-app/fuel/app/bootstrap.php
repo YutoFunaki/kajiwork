@@ -1,4 +1,5 @@
 <?php
+use Fuel\Core\Autoloader;
 /**
  * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
@@ -18,9 +19,8 @@ require COREPATH.'bootstrap.php';
 	//'Model' => APPPATH.'classes/model.php',
 	// Example: 'View' => APPPATH.'classes/myview.php',
 //));
-
 // Register the autoloader
-\Autoloader::register();
+Autoloader::register();
 
 /**
  * Your environment.  Can be set to any of the following:

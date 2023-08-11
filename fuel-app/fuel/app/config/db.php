@@ -21,5 +21,12 @@
  */
 
 return array(
-
+  'default' => array(
+    'connection'  => array(
+            'dsn'        => 'mysql:host=mysql;dbname=test;unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock',
+//unix_socketを指定
+            'username'   => 'root',
+            'password'   => 'root',
+    ),
+  ),
 );

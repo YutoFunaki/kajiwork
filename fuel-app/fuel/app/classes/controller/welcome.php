@@ -1,5 +1,5 @@
 <?php
-namespace Controller;
+//namespace Controller;
 /**
  * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
@@ -11,6 +11,9 @@ namespace Controller;
  * @link       https://fuelphp.com
  */
 
+use Fuel\Core\Response;
+use Fuel\Core\View;
+
 /**
  * The Welcome Controller.
  *
@@ -20,7 +23,7 @@ namespace Controller;
  * @package  app
  * @extends  Controller
  */
-class Welcome extends \Controller
+class Controller_Welcome extends Controller
 {
 	/**
 	 * The basic welcome message
