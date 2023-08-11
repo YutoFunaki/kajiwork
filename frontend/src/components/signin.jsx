@@ -2,6 +2,29 @@ import React, { useState, useEffect, useRef } from "react";
 import ko from "knockout";
 import { useNavigate } from "react-router-dom";
 
+
+const SignupAPI = async (username, password, email) => {
+  // 非同期処理
+  await fetch('http://localhost:8080/register', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      "Content-Type": "application/json",
+
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify({'username': username, 'password': password, 'email': email}),
+  }) 
+  .then(response => {
+    console.log(response);
+  }) //2
+  .catch((error) => {
+    // 非同期処理が失敗した場合
+    console.log('失敗 : ' + error)
+  })
+}
+
+
 const SigninForm = () => {
   const containerRef = useRef(null);
   const navigate = useNavigate();
@@ -46,37 +69,13 @@ const SigninForm = () => {
   };
 
   const handleSigninSubmit = async(event) => {
-    event.preventDefault();
-   
-    try {
-      const response = await fetch('http://localhost:8080/Registar', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: inputUsername,
-          email: inputEmail,
-          password: inputPassword,
-        }),
-      });
-  
-      if (response.ok) {
-        // 成功した場合の処理
-        navigate('/home');
-      } else {
-        // エラーの場合の処理
-        console.error('Signup failed');
-      }
-    } catch (error) {
-      console.error('An error occurred', error);
-    }
+    await SignupAPI(inputUsername, inputPassword, inputEmail);
   };
 
   return (
     <div ref={containerRef}><p className="AppSubtitle">
       新規登録ページ
-    </p><form onSubmit={handleSigninSubmit}>
+    </p><form>
         <div>
           <input
             placeholder="ユーザー名"
@@ -105,8 +104,9 @@ const SigninForm = () => {
             onChange={(e) => setInputPassword(e.target.value)} />
         </div>
         <button 
-        type="submit" 
+        type="button" 
         className="LoginButton"
+        onClick={handleSigninSubmit}
         disabled={!inputUsername || !inputEmail || !inputPassword}
         >新規登録</button>
       </form>
