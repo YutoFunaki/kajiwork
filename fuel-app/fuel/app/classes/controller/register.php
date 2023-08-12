@@ -33,7 +33,7 @@ class Controller_Register extends Controller
       $password = Input::json('password');
       $email = Input::json('email');
       
-      $query= DB::query('INSERT INTO users (username, password, email) VALUES (":username", ":password",":email")', DB::INSERT);
+      $query= DB::query('INSERT INTO users (username, password, email) VALUES (:username, :password,:email)', DB::INSERT);
       $query->bind("username", $username)->bind('password', $password)->bind('email', $email)->execute();
     
       return Response::forge(200);     

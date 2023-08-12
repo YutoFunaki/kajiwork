@@ -13,7 +13,7 @@ const SignupAPI = async (username, password, email) => {
 
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify({'username': username, 'password': password, 'email': email}),
+    body: JSON.stringify({"username": username, 'password': password, 'email': email}),
   }) 
   .then(response => {
     console.log(response);
@@ -70,6 +70,7 @@ const SigninForm = () => {
 
   const handleSigninSubmit = async(event) => {
     await SignupAPI(inputUsername, inputPassword, inputEmail);
+    console.log(inputUsername, inputPassword, inputEmail);
   };
 
   return (
