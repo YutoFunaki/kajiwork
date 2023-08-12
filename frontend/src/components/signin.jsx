@@ -7,7 +7,7 @@ const SignupAPI = async (username, password, email) => {
   // 非同期処理
   await fetch('http://localhost:8080/register', {
     method: 'POST',
-    mode: 'no-cors',
+    mode: 'cors',
     headers: {
       "Content-Type": "application/json",
 
@@ -16,10 +16,11 @@ const SignupAPI = async (username, password, email) => {
     body: JSON.stringify({"username": username, 'password': password, 'email': email}),
   }) 
   .then(response => {
+    // 成功
     console.log(response);
   }) //2
   .catch((error) => {
-    // 非同期処理が失敗した場合
+    // 失敗
     console.log('失敗 : ' + error)
   })
 }
@@ -68,9 +69,11 @@ const SigninForm = () => {
     return viewModel;
   };
 
-  const handleSigninSubmit = async(event) => {
+  const handleSigninSubmit = async() => {
+    console.log("inputUsername:", inputUsername);
+    console.log("inputPassword:", inputPassword);
+    console.log("inputEmail:", inputEmail);
     await SignupAPI(inputUsername, inputPassword, inputEmail);
-    console.log(inputUsername, inputPassword, inputEmail);
   };
 
   return (

@@ -1,7 +1,6 @@
 <?php
 //namespace Controller;
 
-
 use Fuel\Core\Controller;
 use Fuel\Core\Input;
 use Fuel\Core\Response;
@@ -30,11 +29,12 @@ class Controller_Register extends Controller
       }
   
       $username = Input::json('username');
-      $password = Input::json('password');
       $email = Input::json('email');
+      $password = Input::json('password');
+
       
-      $query= DB::query('INSERT INTO users (username, password, email) VALUES (:username, :password,:email)', DB::INSERT);
-      $query->bind("username", $username)->bind('password', $password)->bind('email', $email)->execute();
+      $query= DB::query('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)', DB::INSERT);
+      $query->bind("username", $username)->bind('email', $email)->bind('password', $password)->execute();
     
       return Response::forge(200);     
     }

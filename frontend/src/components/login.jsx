@@ -63,7 +63,8 @@ const LoginForm = () => {
 
 
   const handleLoginSubmit = async () => {
-    // ここでフォームのデータをサーバーに送信するなどの処理を追加
+    console.log("inputPassword:", inputPassword);
+    console.log("inputEmail:", inputEmail);
     await loginAPI(inputEmail, inputPassword);
   };
 
