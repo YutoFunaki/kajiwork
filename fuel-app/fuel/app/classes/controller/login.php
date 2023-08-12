@@ -28,11 +28,11 @@ class Controller_Login extends Controller
       return Response::forge('ログインできませんでした。', 401);
     }
 
-    $username = Input::json('username');
+    $email = Input::json('email');
     $password = Input::json('password');
     
-    $query= DB::query('SELECT * FROM `users` WHERE username = :username AND password = :password', DB::SELECT);
-    $user = $query->bind('username', $username)->bind('password', $password)->execute()->as_array();
+    $query= DB::query('SELECT * FROM `users` WHERE email = :email AND password = :password', DB::SELECT);
+    $user = $query->bind('email', $email)->bind('password', $password)->execute()->as_array();
     
     if (empty($user))
     {

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import ko from "knockout";
 import { useNavigate } from "react-router-dom"; 
 
-const loginAPI = async (username, password) => {
+const loginAPI = async (email, password) => {
   // 非同期処理
   await fetch('http://localhost:8080/login', {
     method: 'POST',
@@ -12,15 +12,15 @@ const loginAPI = async (username, password) => {
 
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify({'username': username, 'password': password}),
+    body: JSON.stringify({'email': email, 'password': password}),
   }) 
   .then(response => response.text()) //2
     .then(user => {  //3
-      console.log(user);
+      console.log("ログイン成功 : ", user);
     })
   .catch((error) => {
     // 非同期処理が失敗した場合
-    console.log('失敗 : ' + error)
+    console.log('ログイン失敗 : ' + error)
   })
 }
 
