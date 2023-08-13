@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ko from "knockout";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 
 const SignupAPI = async (username, password, email) => {
@@ -22,13 +22,14 @@ const SignupAPI = async (username, password, email) => {
   .catch((error) => {
     // 失敗
     console.log('失敗 : ' + error)
+    alert("ユーザー名またはメールアドレスが既に登録されています。");
+    redirect("/signin");
   })
 }
 
 
 const SigninForm = () => {
   const containerRef = useRef(null);
-  const navigate = useNavigate();
   const [inputUsername, setInputUsername] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");

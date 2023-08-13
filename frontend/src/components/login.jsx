@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import ko from "knockout";
-import { useNavigate } from "react-router-dom"; 
+import { redirect, useNavigate } from "react-router-dom"; 
 
 const loginAPI = async (email, password) => {
   // 非同期処理
@@ -17,10 +17,13 @@ const loginAPI = async (email, password) => {
   .then(response => response.text()) //2
     .then(user => {  //3
       console.log("ログイン成功 : ", user);
+      localStorage.setItem("user", user);
     })
   .catch((error) => {
     // 非同期処理が失敗した場合
-    console.log('ログイン失敗 : ' + error)
+    console.log('ログイン失敗 : ' + error);
+    alert("メールアドレスかパスワードに誤りがあります");
+    redirect("/");
   })
 }
 
@@ -41,8 +44,7 @@ const createKnockoutViewModel = () => {
 };
 
 const LoginForm = () => {
-  const containerRef = useRef(null);
-  const navigate = useNavigate();  
+  const containerRef = useRef(null); 
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
 
