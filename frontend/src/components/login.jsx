@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import ko from "knockout";
 import { redirect, useNavigate } from "react-router-dom"; 
 
-const loginAPI = async (email, password) => {
+const loginAPI = async (email, password, nav) => {
   // 非同期処理
   await fetch('http://localhost:8080/login', {
     method: 'POST',
@@ -18,6 +18,7 @@ const loginAPI = async (email, password) => {
     .then(user => {  //3
       console.log("ログイン成功 : ", user);
       localStorage.setItem("user", user);
+      nav("/Home");
     })
   .catch((error) => {
     // 非同期処理が失敗した場合
@@ -45,6 +46,7 @@ const createKnockoutViewModel = () => {
 
 const LoginForm = () => {
   const containerRef = useRef(null); 
+  const nav = useNavigate();
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
 
@@ -67,7 +69,7 @@ const LoginForm = () => {
   const handleLoginSubmit = async () => {
     console.log("inputPassword:", inputPassword);
     console.log("inputEmail:", inputEmail);
-    await loginAPI(inputEmail, inputPassword);
+    await loginAPI(inputEmail, inputPassword, nav);
   };
 
   return (

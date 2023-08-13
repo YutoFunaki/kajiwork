@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import ko from "knockout";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 
-const SignupAPI = async (username, password, email) => {
+const SignupAPI = async (username, password, email, nav) => {
   // 非同期処理
   await fetch('http://localhost:8080/register', {
     method: 'POST',
@@ -23,13 +23,15 @@ const SignupAPI = async (username, password, email) => {
   .catch((error) => {
     // 失敗
     console.log('失敗 : ' + error)
-    useNavigate("/signin");
+    alert("ユーザー名またはパスワードがすでに登録されています。")
+    redirect("/newPerson");
   })
 }
 
 
 const NewPersonForm = () => {
   const containerRef = useRef(null);
+  const nav = useNavigate();
   const [inputUsername, setInputUsername] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
@@ -74,7 +76,7 @@ const NewPersonForm = () => {
     console.log("inputUsername:", inputUsername);
     console.log("inputPassword:", inputPassword);
     console.log("inputEmail:", inputEmail);
-    await SignupAPI(inputUsername, inputPassword, inputEmail);
+    await SignupAPI(inputUsername, inputPassword, inputEmail, nav);
   };
 
   return (

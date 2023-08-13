@@ -3,7 +3,7 @@ import ko from "knockout";
 import { redirect, useNavigate } from "react-router-dom";
 
 
-const SignupAPI = async (username, password, email) => {
+const SignupAPI = async (username, password, email, nav) => {
   // 非同期処理
   await fetch('http://localhost:8080/register', {
     method: 'POST',
@@ -18,6 +18,7 @@ const SignupAPI = async (username, password, email) => {
   .then(response => {
     // 成功
     console.log(response);
+    nav("/newPerson");
   }) //2
   .catch((error) => {
     // 失敗
@@ -30,6 +31,7 @@ const SignupAPI = async (username, password, email) => {
 
 const SigninForm = () => {
   const containerRef = useRef(null);
+  const nav = useNavigate();
   const [inputUsername, setInputUsername] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
@@ -74,7 +76,7 @@ const SigninForm = () => {
     console.log("inputUsername:", inputUsername);
     console.log("inputPassword:", inputPassword);
     console.log("inputEmail:", inputEmail);
-    await SignupAPI(inputUsername, inputPassword, inputEmail);
+    await SignupAPI(inputUsername, inputPassword, inputEmail, nav);
   };
 
   return (
