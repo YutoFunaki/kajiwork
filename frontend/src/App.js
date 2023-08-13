@@ -9,6 +9,7 @@ import ConnectWork from './pages/connectWorkPage';
 import Manage from './pages/workManagePage';
 import NewWork from './pages/newWorkPage';
 import MyPage from './pages/myPage';
+import NewPerson from './pages/newPersonPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path='Manage' element={<Manage />}></Route>
         <Route path='NewWork' element={<NewWork />}></Route>
         <Route path='mypage' element={<MyPage />}></Route>
+        <Route path='newPerson' element={<NewPerson />}></Route>
       </Routes>
     </div>
   );
