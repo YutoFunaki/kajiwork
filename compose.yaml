@@ -32,6 +32,8 @@ services:
       - MYSQL_DATABASE=kajiwork
       - MYSQL_USER=test
       - MYSQL_PASSWORD=test
+      - TZ=Asia/Tokyo
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_general_ci','--default-time-zone=+09:00']
     
   #phpMyAdmin用コンテナ
   phpmyadmin:
