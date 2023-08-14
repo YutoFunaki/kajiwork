@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ko from "knockout";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const SignupAPI = async (username, password, email, nav) => {
@@ -17,14 +17,20 @@ const SignupAPI = async (username, password, email, nav) => {
   }) 
   .then(response => {
     // 成功
-    console.log(response);
-    nav("/newPerson");
+    if (response.status === 200) {
+      console.log("成功 : " + response.status);
+      nav("/newPerson"); 
+    } else if(response.status === 401) {
+      console.log('失敗 : ' + response.status)
+      alert("ユーザー名またはメールアドレスが既に登録されています。");
+      nav("/signin");
+    }
   }) //2
   .catch((error) => {
     // 失敗
     console.log('失敗 : ' + error)
     alert("ユーザー名またはメールアドレスが既に登録されています。");
-    redirect("/signin");
+    nav("/signin");
   })
 }
 

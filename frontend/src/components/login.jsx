@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import ko from "knockout";
-import { redirect, useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom"; 
 
 const loginAPI = async (email, password, nav) => {
   // 非同期処理
@@ -24,7 +24,7 @@ const loginAPI = async (email, password, nav) => {
     // 非同期処理が失敗した場合
     console.log('ログイン失敗 : ' + error);
     alert("メールアドレスかパスワードに誤りがあります");
-    redirect("/");
+    nav("/");
   })
 }
 

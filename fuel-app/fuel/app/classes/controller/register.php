@@ -31,12 +31,19 @@ class Controller_Register extends Controller
       $username = Input::json('username');
       $email = Input::json('email');
       $password = Input::json('password');
-
       
-      $query= DB::query('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)', DB::INSERT);
-      $query->bind("username", $username)->bind('email', $email)->bind('password', $password)->execute();
-    
-      return Response::forge(200);     
+      $query= DB::query('SELECT * FROM `users` WHERE email = :email', DB::SELECT)
+              ->bind(':email', $email )
+              ->execute();
+      
+      
+      if( !empty($query) ) {
+        return Response::forge(401);
+      } else {
+        $query= DB::query('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)', DB::INSERT);
+        $query->bind("username", $username)->bind('email', $email)->bind('password', $password)->execute();
+        return Response::forge(200);   
+      }  
     }
 }
 //新規登録できたらページ遷移できるようにする

@@ -154,7 +154,7 @@ return array(
 	 *  PHP set_locale() setting. Use null to not set.
 	 */
 
-	// 'locale' => 'en_US',
+	 'locale' => 'Asia/Tokyo',
 
 	/**
 	 * -------------------------------------------------------------------------
@@ -180,7 +180,7 @@ return array(
 	 *  Change the server's default timezone. This is optional.
 	 */
 
-	// 'default_timezone' => null,
+	'default_timezone' => 'Asia/Tokyo',
 
 	/**
 	 * -------------------------------------------------------------------------
