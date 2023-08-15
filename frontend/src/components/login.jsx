@@ -14,11 +14,20 @@ const loginAPI = async (email, password, nav) => {
     },
     body: JSON.stringify({'email': email, 'password': password}),
   }) 
-  .then(response => response.text()) //2
-    .then(user => {  //3
-      console.log("ログイン成功 : ", user);
-      localStorage.setItem("user", user);
-      nav("/Home");
+  .then(async response => {  //3
+    if (response.status === 200) {
+      console.log("成功 : " + response.status);
+      console.log(response);
+      const userData = await response.json();
+      const username = userData.username;
+    
+      // Cookieにユーザー名を保存
+      document.cookie = `username=${username}`;
+      nav("/home"); 
+    } else if(response.status === 401) {
+      console.log('失敗 : ' + response.status)
+      alert("メールアドレスまたはパスワードに誤りがあります。");
+    }
     })
   .catch((error) => {
     // 非同期処理が失敗した場合
@@ -71,6 +80,7 @@ const LoginForm = () => {
     console.log("inputEmail:", inputEmail);
     await loginAPI(inputEmail, inputPassword, nav);
   };
+
 
   return (
     <div ref={containerRef}><p className="AppSubtitle">

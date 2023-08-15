@@ -33,14 +33,15 @@ class Controller_Login extends Controller
     
     $query= DB::query('SELECT * FROM `users` WHERE email = :email AND password = :password', DB::SELECT);
     $user = $query->bind('email', $email)->bind('password', $password)->execute()->as_array();
-    
-    if (empty($user))
-    {
+
+    if (empty($user)) {
       return Response::forge('ログインできませんでした。', 401);
     }
 
     // ログイン成功
-    $json = Format::forge($user)->to_json();
+    $username = $user[0]['username'];
+    $json = Format::forge(['username' => $username])->to_json();
+    // $json = Format::forge($user)->to_json();
     return Response::forge($json, 200);     
   }
 }

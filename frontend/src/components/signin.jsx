@@ -23,7 +23,6 @@ const SignupAPI = async (username, password, email, nav) => {
     } else if(response.status === 401) {
       console.log('失敗 : ' + response.status)
       alert("ユーザー名またはメールアドレスが既に登録されています。");
-      nav("/signin");
     }
   }) //2
   .catch((error) => {
