@@ -39,8 +39,9 @@ class Controller_Login extends Controller
     }
 
     // ログイン成功
+    $user_id = $user[0]['id'];
     $username = $user[0]['username'];
-    $json = Format::forge(['username' => $username])->to_json();
+    $json = Format::forge(['username' => $username, 'user_id' => $user_id])->to_json();
     // $json = Format::forge($user)->to_json();
     return Response::forge($json, 200);     
   }

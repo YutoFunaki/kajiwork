@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const SignupAPI = async (username, password, email, nav) => {
   // 非同期処理
-  await fetch('http://localhost:8080/register', {
+  await fetch('http://localhost:8080/newperson', {
     method: 'POST',
     mode: 'cors',
     headers: {
@@ -15,9 +15,14 @@ const SignupAPI = async (username, password, email, nav) => {
     },
     body: JSON.stringify({"username": username, 'password': password, 'email': email}),
   }) 
-  .then(response => {
+  .then(async response => {
     // 成功
     console.log(response);
+    const userData = await response.json();
+    const personname = userData.username;
+  
+    // Cookieにユーザー名を保存
+    document.cookie = `username=${personname}`;
     nav("/home");
   }) //2
   .catch((error) => {

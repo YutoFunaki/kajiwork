@@ -3,7 +3,7 @@ import ko from "knockout";
 import { useNavigate } from "react-router-dom";
 
 
-const SignupAPI = async (username, password, email, nav) => {
+const SignupAPI = async (username, password, email, count, nav) => {
   // 非同期処理
   await fetch('http://localhost:8080/register', {
     method: 'POST',
@@ -13,24 +13,23 @@ const SignupAPI = async (username, password, email, nav) => {
 
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify({"username": username, 'password': password, 'email': email}),
+    body: JSON.stringify({"username": username, 'password': password, 'email': email, 'count': count}),
   }) 
-  .then(response => {
+  .then(async response => {
     // 成功
     if (response.status === 200) {
       console.log("成功 : " + response.status);
+      const userData = await response.json();
+      const username = userData.username;
+    
+      // Cookieにユーザー名を保存
+      document.cookie = `username=${username}`;
       nav("/newPerson"); 
     } else if(response.status === 401) {
       console.log('失敗 : ' + response.status)
       alert("ユーザー名またはメールアドレスが既に登録されています。");
     }
   }) //2
-  .catch((error) => {
-    // 失敗
-    console.log('失敗 : ' + error)
-    alert("ユーザー名またはメールアドレスが既に登録されています。");
-    nav("/signin");
-  })
 }
 
 
@@ -40,6 +39,7 @@ const SigninForm = () => {
   const [inputUsername, setInputUsername] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
+  const [count, setCount] = useState(Math.floor(Date.now()));
 
   useEffect(() => {
     const viewModel = createKnockoutViewModel();
@@ -56,7 +56,9 @@ const SigninForm = () => {
       setInputPassword(newValue);
     });
 
-
+    viewModel.count.subscribe((newValue) => {
+      setCount(newValue);
+    });
   }, []);
 
   const createKnockoutViewModel = () => {
@@ -65,12 +67,14 @@ const SigninForm = () => {
     viewModel.inputUsername = ko.observable("");
     viewModel.inputEmail = ko.observable("");
     viewModel.inputPassword = ko.observable("");
+    viewModel.count = ko.observable();
 
     viewModel.canSubmitLogin = ko.computed(function () {
       return (
         viewModel.inputUsername().length > 0 &&
         viewModel.inputEmail().length > 0 &&
-        viewModel.inputPassword().length > 0
+        viewModel.inputPassword().length > 0 &&
+        viewModel.count() > 0
       );
     });
 
@@ -81,8 +85,10 @@ const SigninForm = () => {
     console.log("inputUsername:", inputUsername);
     console.log("inputPassword:", inputPassword);
     console.log("inputEmail:", inputEmail);
-    await SignupAPI(inputUsername, inputPassword, inputEmail, nav);
+    console.log("count:", count);
+    await SignupAPI(inputUsername, inputPassword, inputEmail, count, nav);
   };
+
 
   return (
     <div ref={containerRef}><p className="AppSubtitle">
