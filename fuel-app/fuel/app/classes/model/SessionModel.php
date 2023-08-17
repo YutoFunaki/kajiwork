@@ -20,4 +20,9 @@ class SessionModel  {
     {
         return $this->session->set($key, $value);
     }
+
+    public function hasSession($key)
+    {
+        return $this->session->has($key);
+    }
 }

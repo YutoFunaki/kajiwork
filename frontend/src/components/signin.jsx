@@ -3,7 +3,7 @@ import ko from "knockout";
 import { useNavigate } from "react-router-dom";
 
 
-const SignupAPI = async (username, password, email, count, nav) => {
+const SignupAPI = async (username, password, email, room_id, nav) => {
   // 非同期処理
   await fetch('http://localhost:8080/register', {
     method: 'POST',
@@ -13,7 +13,7 @@ const SignupAPI = async (username, password, email, count, nav) => {
 
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify({"username": username, 'password': password, 'email': email, 'count': count}),
+    body: JSON.stringify({"username": username, 'password': password, 'email': email, 'room_id': room_id}),
   }) 
   .then(async response => {
     // 成功
@@ -39,7 +39,7 @@ const SigninForm = () => {
   const [inputUsername, setInputUsername] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
-  const [count, setCount] = useState(Math.floor(Date.now()));
+  const [room_id, setRoom_id] = useState(Math.floor(Date.now()));
 
   useEffect(() => {
     const viewModel = createKnockoutViewModel();
@@ -56,8 +56,8 @@ const SigninForm = () => {
       setInputPassword(newValue);
     });
 
-    viewModel.count.subscribe((newValue) => {
-      setCount(newValue);
+    viewModel.room_id.subscribe((newValue) => {
+      setRoom_id(newValue);
     });
   }, []);
 
@@ -67,14 +67,14 @@ const SigninForm = () => {
     viewModel.inputUsername = ko.observable("");
     viewModel.inputEmail = ko.observable("");
     viewModel.inputPassword = ko.observable("");
-    viewModel.count = ko.observable();
+    viewModel.room_id = ko.observable();
 
     viewModel.canSubmitLogin = ko.computed(function () {
       return (
         viewModel.inputUsername().length > 0 &&
         viewModel.inputEmail().length > 0 &&
         viewModel.inputPassword().length > 0 &&
-        viewModel.count() > 0
+        viewModel.room_id().length > 0
       );
     });
 
@@ -85,8 +85,8 @@ const SigninForm = () => {
     console.log("inputUsername:", inputUsername);
     console.log("inputPassword:", inputPassword);
     console.log("inputEmail:", inputEmail);
-    console.log("count:", count);
-    await SignupAPI(inputUsername, inputPassword, inputEmail, count, nav);
+    console.log("room_id:", room_id);
+    await SignupAPI(inputUsername, inputPassword, inputEmail, room_id, nav);
   };
 
 

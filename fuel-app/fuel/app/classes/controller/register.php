@@ -6,6 +6,7 @@ use Fuel\Core\Input;
 use Fuel\Core\Log;
 use Fuel\Core\Response;
 use Fuel\Core\DB;
+use Fuel\Core\Session;
 use Model\SessionModel;
 
 class Controller_Register extends Controller
@@ -27,6 +28,8 @@ class Controller_Register extends Controller
 
   public function action_index()
   {
+      $sessionmodel = new SessionModel();
+
       if (Input::method() !== 'POST') {
         return Response::forge('新規登録できませんでした。', 401);
       }
@@ -34,8 +37,7 @@ class Controller_Register extends Controller
       $username = Input::json('username');
       $email = Input::json('email');
       $password = Input::json('password');
-      $count = Input::json('count');
-      $sessionmodel = new SessionModel();
+      $room_id = Input::json('room_id');
 
       
       $query= DB::query('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)', DB::INSERT);
@@ -46,13 +48,16 @@ class Controller_Register extends Controller
 
       //room作成
       $query = DB::query('INSERT INTO room_users (room_id, user_id) VALUES (:room_id, :user_id)', DB::INSERT);
-      $query->bind('room_id', $count)->bind('user_id', $user_id)->execute();
-
+      $query->bind('room_id', $room_id)->bind('user_id', $user_id)->execute();
 
       //セッションに保存
-      $sessionmodel -> setSession('room_id', $count);
+      $sessionmodel -> getSession('room_id');
+      $sessionmodel -> getSession('user_id');
+      $sessionmodel -> getSession('username');
+      $sessionmodel -> setSession('room_id', $room_id);
       $sessionmodel -> setSession('user_id', $user_id);
       $sessionmodel -> setSession('username', $username);
+
 
       return Response::forge(200); 
 

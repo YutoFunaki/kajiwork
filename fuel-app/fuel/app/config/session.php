@@ -250,6 +250,10 @@ return array(
 
 	'cookie' => array(
 		'cookie_name' => 'fuelcid',
+		'write_on_set'   => true,
+		'expiration_time' => 0,  
+		'secure' => false,                    
+    'http_only' => false,
 	),
 
 	/**

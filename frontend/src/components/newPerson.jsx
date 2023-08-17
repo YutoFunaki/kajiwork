@@ -22,7 +22,7 @@ const SignupAPI = async (username, password, email, nav) => {
     const personname = userData.username;
   
     // Cookieにユーザー名を保存
-    document.cookie = `username=${personname}`;
+    document.cookie = `personname=${personname}`;
     nav("/home");
   }) //2
   .catch((error) => {
