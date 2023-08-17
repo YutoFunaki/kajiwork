@@ -3,10 +3,8 @@
 
 use Fuel\Core\Controller;
 use Fuel\Core\Input;
-use Fuel\Core\Log;
 use Fuel\Core\Response;
 use Fuel\Core\DB;
-use Fuel\Core\Session;
 use Model\SessionModel;
 
 class Controller_Newperson extends Controller
@@ -29,7 +27,8 @@ class Controller_Newperson extends Controller
   public function action_index()
   {
       $sessionmodel = new SessionModel();
-      $sessionmodel -> getSession('room_id');
+      $room_id = $sessionmodel->getSession('room_id');
+      var_dump($room_id);
 
       if (Input::method() !== 'POST') {
         return Response::forge('新規登録できませんでした。', 401);
@@ -38,7 +37,6 @@ class Controller_Newperson extends Controller
       $username = Input::json('username');
       $email = Input::json('email');
       $password = Input::json('password');
-      $room_id = Input::json('room_id');
 
       
       $query= DB::query('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)', DB::INSERT);

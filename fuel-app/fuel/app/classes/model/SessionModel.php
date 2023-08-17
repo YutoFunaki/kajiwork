@@ -25,4 +25,14 @@ class SessionModel  {
     {
         return $this->session->has($key);
     }
+
+    public function setFlashSession($key, $value)
+    {
+        return $this->session->set_flash($key, $value);
+    }
+
+    public function getFlashSession($key)
+    {
+        return $this->session->get_flash($key);
+    }
 }

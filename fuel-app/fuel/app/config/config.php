@@ -154,7 +154,7 @@ return array(
 	 *  PHP set_locale() setting. Use null to not set.
 	 */
 
-	 'locale' => 'Asia/Tokyo',
+	 'locale' => 'ja_JP',
 
 	/**
 	 * -------------------------------------------------------------------------

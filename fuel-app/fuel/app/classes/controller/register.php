@@ -3,10 +3,8 @@
 
 use Fuel\Core\Controller;
 use Fuel\Core\Input;
-use Fuel\Core\Log;
 use Fuel\Core\Response;
 use Fuel\Core\DB;
-use Fuel\Core\Session;
 use Model\SessionModel;
 
 class Controller_Register extends Controller
@@ -30,6 +28,10 @@ class Controller_Register extends Controller
   {
       $sessionmodel = new SessionModel();
 
+      if (!session_start()) {
+        return Response::forge("セッションが起動していない");
+      }
+
       if (Input::method() !== 'POST') {
         return Response::forge('新規登録できませんでした。', 401);
       }
@@ -51,16 +53,21 @@ class Controller_Register extends Controller
       $query->bind('room_id', $room_id)->bind('user_id', $user_id)->execute();
 
       //セッションに保存
-      $sessionmodel -> getSession('room_id');
-      $sessionmodel -> getSession('user_id');
-      $sessionmodel -> getSession('username');
       $sessionmodel -> setSession('room_id', $room_id);
       $sessionmodel -> setSession('user_id', $user_id);
       $sessionmodel -> setSession('username', $username);
+
+      // if ($sessionmodel -> getSession('room_id') === $room_id) {
+      //   return Response::forge('ok');
+      // }
+      // $saved_room_id = $sessionmodel->getSession('room_id');
+      // $saved_user_id = $sessionmodel->getSession('user_id');
+      // $saved_username = $sessionmodel->getSession('username');
+      // $session_data = [$saved_room_id, $saved_user_id, $saved_username];
+      // var_dump($session_data);
 
 
       return Response::forge(200); 
 
     }
 }
-//新規登録できたらページ遷移できるようにする
