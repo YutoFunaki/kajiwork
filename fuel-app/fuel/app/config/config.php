@@ -180,7 +180,7 @@ return array(
 	 *  Change the server's default timezone. This is optional.
 	 */
 
-	'default_timezone' => 'Asia/Tokyo',
+	'default_timezone' => null,
 
 	/**
 	 * -------------------------------------------------------------------------
@@ -220,7 +220,7 @@ return array(
 		// 'csrf_bad_request_on_fail' => false,
 		// 'csrf_auto_token'          => false,
 		// 'csrf_token_key'           => 'fuel_csrf_token',
-		// 'csrf_expiration'          => 0,
+		'csrf_expiration'          => 3600*10,
 
 		/**
 		 * ---------------------------------------------------------------------
@@ -324,7 +324,7 @@ return array(
 		 * ---------------------------------------------------------------------
 		 */
 
-		'expiration' => 0,
+		'expiration' => 3600*10,
 
 		/**
 		 * ---------------------------------------------------------------------

@@ -5,7 +5,7 @@ use Fuel\Core\Controller;
 use Fuel\Core\Input;
 use Fuel\Core\Response;
 use Fuel\Core\DB;
-use Model\SessionModel;
+use Fuel\Core\Session;
 
 class Controller_Register extends Controller
 {
@@ -14,9 +14,10 @@ class Controller_Register extends Controller
       parent::before();
 
       // CORSヘッダーを設定
-      header('Access-Control-Allow-Origin: *');
+      header('Access-Control-Allow-Origin: http://localhost:3000');
       header('Access-Control-Allow-Methods: POST');
-      header('Access-Control-Allow-Headers: *');
+      header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+      header('Access-Control-Allow-Credentials: true');
 
 
       if (Input::method() == 'OPTIONS') {
@@ -26,46 +27,39 @@ class Controller_Register extends Controller
 
   public function action_index()
   {
-      $sessionmodel = new SessionModel();
 
-      if (!session_start()) {
-        return Response::forge("セッションが起動していない");
-      }
 
       if (Input::method() !== 'POST') {
         return Response::forge('新規登録できませんでした。', 401);
       }
-  
+
+      $sessionId = Input::json('sessionId');
+      session_id($sessionId);
+      session::start();
+
       $username = Input::json('username');
       $email = Input::json('email');
       $password = Input::json('password');
       $room_id = Input::json('room_id');
+      var_dump($room_id=Session::get('room_id', $room_id));
 
-      
+      $session_id = session::key();
+        echo "Session ID in action_index: " . $session_id;
       $query= DB::query('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)', DB::INSERT);
       $query->bind("username", $username)->bind('email', $email)->bind('password', $password)->execute();
       $query= DB::query('SELECT * FROM `users` WHERE email = :email AND password = :password', DB::SELECT);
       $user = $query->bind('email', $email)->bind('password', $password)->execute()->as_array();
       $user_id = $user[0]['id'];
 
-      //room作成
+      // //room作成
       $query = DB::query('INSERT INTO room_users (room_id, user_id) VALUES (:room_id, :user_id)', DB::INSERT);
       $query->bind('room_id', $room_id)->bind('user_id', $user_id)->execute();
 
-      //セッションに保存
-      $sessionmodel -> setSession('room_id', $room_id);
-      $sessionmodel -> setSession('user_id', $user_id);
-      $sessionmodel -> setSession('username', $username);
-
-      // if ($sessionmodel -> getSession('room_id') === $room_id) {
-      //   return Response::forge('ok');
-      // }
-      // $saved_room_id = $sessionmodel->getSession('room_id');
-      // $saved_user_id = $sessionmodel->getSession('user_id');
-      // $saved_username = $sessionmodel->getSession('username');
-      // $session_data = [$saved_room_id, $saved_user_id, $saved_username];
-      // var_dump($session_data);
-
+      // //セッションに保存
+      Session::set('room_id', $room_id);
+      Session::set('user_id', $user_id);
+      Session::set('username', $username);
+      //ここまではsetもgetもできてる
 
       return Response::forge(200); 
 
@@ -73,9 +67,8 @@ class Controller_Register extends Controller
 
     public function action_person()
   {
-      $sessionmodel = new SessionModel();
-      $room_id = $sessionmodel->getSession('room_id');
-      var_dump($room_id);
+      $sessionId = Input::json('sessionId');
+      session_id($sessionId);
 
       if (Input::method() !== 'POST') {
         return Response::forge('新規登録できませんでした。', 401);
@@ -84,6 +77,7 @@ class Controller_Register extends Controller
       $username = Input::json('username');
       $email = Input::json('email');
       $password = Input::json('password');
+      $room_id = Session::get('room_id');
 
       
       $query= DB::query('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)', DB::INSERT);
@@ -92,16 +86,13 @@ class Controller_Register extends Controller
       $user = $query->bind('email', $email)->bind('password', $password)->execute()->as_array();
       $user_id = $user[0]['id'];
 
-      //room作成
+      // //room作成
       $query = DB::query('INSERT INTO room_users (room_id, user_id) VALUES (:room_id, :user_id)', DB::INSERT);
       $query->bind('room_id', $room_id)->bind('user_id', $user_id)->execute();
 
-      //セッションに保存
-      $sessionmodel -> getSession('user_id2');
-      $sessionmodel -> getSession('username2');
-      $sessionmodel -> setSession('user_id2', $user_id);
-      $sessionmodel -> setSession('username2', $username);
-
+      // //セッションに保存
+      Session::set('user_id2', $user_id);
+      Session::set('username2', $username);
 
       return Response::forge(200); 
 

@@ -8,6 +8,7 @@ const SignupAPI = async (username, password, email, room_id, nav) => {
   await fetch('http://localhost:8080/register', {
     method: 'POST',
     mode: 'cors',
+    // credentials: 'include',
     headers: {
       "Content-Type": "application/json",
 
@@ -32,6 +33,11 @@ const SignupAPI = async (username, password, email, room_id, nav) => {
   }) //2
 }
 
+// const getCookie = (name) => {
+//   const value = `; ${document.cookie}`;
+//   const parts = value.split(`; ${name}=`);
+//   if (parts.length === 2) return parts.pop().split(';').shift();
+// };
 
 const SigninForm = () => {
   const containerRef = useRef(null);
@@ -40,6 +46,7 @@ const SigninForm = () => {
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const [room_id, setRoom_id] = useState(Math.floor(Date.now()));
+  // const sessionId = getCookie('PHPSESSID') || '';
 
   useEffect(() => {
     const viewModel = createKnockoutViewModel();
