@@ -12,7 +12,7 @@
 
 return [
 	'auto_initialize' => false,
-	'auto_start' => false,
+	'auto_start' => true,
 	'driver' => 'cookie',
 	'match_ip' => false,
 	'match_ua' => true,
@@ -34,6 +34,13 @@ return [
 
 	'cookie' => array(
 		'cookie_name' => 'fuelcid',
+		'encrypted' => false, // セッションIDを暗号化しない
+		'lifetime' => 3600,   // セッションの有効期限
+		'path' => '/',
+		'domain' => null,
+		'http_only' => false,
+		'secure' => false,
+		'session_id' => 'testsessid', // ここにセッションIDを指定
 	),
 
 	'file' => array(

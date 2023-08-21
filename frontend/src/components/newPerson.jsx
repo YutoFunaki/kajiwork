@@ -28,8 +28,7 @@ const SignupAPI = async (username, password, email, nav) => {
   .catch((error) => {
     // 失敗
     console.log('失敗 : ' + error)
-    alert("ユーザー名またはパスワードがすでに登録されています。")
-    nav("/newPerson");
+    //alert("ユーザー名またはパスワードがすでに登録されています。")
   })
 }
 
