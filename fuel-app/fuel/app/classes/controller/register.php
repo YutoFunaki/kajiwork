@@ -27,9 +27,9 @@ class Controller_Register extends Controller
 
   public function action_index()
   {
-      Session::instance();
-      $customSessionId = "testsessid";
-      session_id($customSessionId);
+      \Session::instance();
+      $sessid = "tstsessid";
+      session_id($sessid);
 
       if (Input::method() !== 'POST') {
         return Response::forge('新規登録できませんでした。', 401);
@@ -51,17 +51,17 @@ class Controller_Register extends Controller
       $query->bind('room_id', $room_id)->bind('user_id', $user_id)->execute();
 
       // //セッションに保存
-      Session::set(array(
+      \Session::set(array(
         'username' => $username,
         'user_id' => $user_id,
         'room_id' => $room_id
       ));
       //ここまではsetもgetもできてる
-      $room_id = Session::get('room_id');
-      var_dump($room_id);
-      // $sessid = session_id();
+      // $room_id = Session::get('room_id');
+      // var_dump($room_id);
+      // $sessid = $session->key();
       // var_dump($sessid);
-      Session::instance()->rotate();
+      \Session::rotate();
       
       return Response::forge(200); 
 
@@ -69,9 +69,9 @@ class Controller_Register extends Controller
 
     public function action_person()
   {
-      Session::instance();
-      $customSessionId = "testsessid";
-      session_id($customSessionId);
+      \Session::instance();
+      $sessid = 'testsessid';
+      session_id($sessid);
 
       if (Input::method() !== 'POST') {
         return Response::forge('新規登録できませんでした。', 401);
@@ -80,7 +80,9 @@ class Controller_Register extends Controller
       $username = Input::json('username');
       $email = Input::json('email');
       $password = Input::json('password');
-      $room_id = Session::get('room_id');
+      $room_id = \Session::get('room_id');
+
+
 
       
       $query= DB::query('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)', DB::INSERT);
@@ -93,9 +95,13 @@ class Controller_Register extends Controller
       $query = DB::query('INSERT INTO room_users (room_id, user_id) VALUES (:room_id, :user_id)', DB::INSERT);
       $query->bind('room_id', $room_id)->bind('user_id', $user_id)->execute();
 
+      //rooms作成
+      $query = DB::query('INSERT INTO rooms (id) VALUES (:room_id)', DB::INSERT);
+      $query->bind('room_id', $room_id)->execute();
+
       // //セッションに保存
-      Session::set('person_id', $user_id);
-      Session::set('personname', $username);
+      \Session::set('person_id', $user_id);
+      \Session::set('personname', $username);
 
       // $sessid = session_id();
       // var_dump($sessid);

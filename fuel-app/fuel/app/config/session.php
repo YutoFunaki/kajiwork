@@ -11,7 +11,7 @@
  */
 
 return [
-	'auto_initialize' => false,
+	'auto_initialize' => true,
 	'auto_start' => true,
 	'driver' => 'cookie',
 	'match_ip' => false,
@@ -34,7 +34,7 @@ return [
 
 	'cookie' => array(
 		'cookie_name' => 'fuelcid',
-		'encrypted' => false, // セッションIDを暗号化しない
+		'encrypted' => true, // セッションIDを暗号化しない
 		'lifetime' => 3600,   // セッションの有効期限
 		'path' => '/',
 		'domain' => null,
