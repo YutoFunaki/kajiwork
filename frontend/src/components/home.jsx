@@ -24,12 +24,12 @@ const Home = () => {
   // const lifemoney = getCookie('lifemoney');
 
   useEffect(() => {
-    // APIからデータを取得する処理
+    // APIからデータを取得する
     fetch('http://localhost:8080/api')
       .then(response => response.json())
       .then(data => setUserData(data))
-      .catch(error => console.error('APIからデータの取得に失敗しました', error));
-  }, []);
+      .catch(error => console.error('データの取得に失敗しました', error));
+     }, []);
 
   const handleDateClick = (clickedDate) => {
     setSelectedDate(clickedDate);

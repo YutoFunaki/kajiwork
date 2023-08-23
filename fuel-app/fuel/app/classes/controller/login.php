@@ -75,4 +75,3 @@ class Controller_Login extends Controller
     return Response::forge($json, 200);     
   }
 }
-//ログインできたらページ遷移できるようにする
