@@ -13,7 +13,8 @@ const getCookie = (name) => {
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [clickedDate, setClickedDate] = useState(null);
+  const [clickedEvents, setClickedEvents] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [prevMonth, setPrevMonth] = useState(new Date());
   //usernameのvalueを取得
@@ -38,8 +39,10 @@ const Home = () => {
       .catch(error => console.error('データの取得に失敗しました', error));
      }, []);
 
-  const handleDateClick = (clickedDate) => {
-    setSelectedDate(clickedDate);
+  const handleDateClick = (clickedDate, clickedEvents) => {
+    setClickedDate(clickedDate);
+    console.log('Clicked Date:', clickedDate);
+    console.log('Clicked Events:', clickedEvents);
   };
 
   const handleMonthChange = (newMonth, prevMonth) => {
@@ -75,7 +78,7 @@ const Home = () => {
           <p className="thisMonthMoney">{personname} : 円</p>
         </div>
         <div className="thisdayCompleteWork">
-          <p className="todayCompleteWork">{selectedDate}に行った家事</p>
+          <p className="todayCompleteWork">{clickedDate}に行った家事</p>
           <p className="todayCompleteWorkTitle">{username} : </p>
           <p className="todayCompleteWorkTitle">{personname} :</p>
         </div>

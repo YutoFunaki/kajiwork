@@ -73,7 +73,6 @@ const Calendar = ({ onDateClick, onMonthChange }) => {
     const clickedDate = formatDate(info.dateStr);
     //eventsの中のstartとclickdateが同じ配列のみ取得する
     const clickedEvents = events.filter(event => event.start === clickedDate);
-    console.log(clickedEvents);
     onDateClick(clickedDate, clickedEvents);
   };
 
