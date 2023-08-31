@@ -14,10 +14,11 @@ class Controller_Register extends Controller
       parent::before();
 
       // CORSヘッダーを設定
-      header('Access-Control-Allow-Origin: http://localhost:3000');
+      header('Access-Control-Allow-Origin: *');
       header('Access-Control-Allow-Methods: POST');
       header('Access-Control-Allow-Headers: *');
       // header('Access-Control-Allow-Credentials: true');
+      Session::instance();
 
 
       if (Input::method() == 'OPTIONS') {
@@ -27,10 +28,6 @@ class Controller_Register extends Controller
 
   public function action_index()
   {
-      \Session::instance();
-      $sessid = "tstsessid";
-      session_id($sessid);
-
       if (Input::method() !== 'POST') {
         return Response::forge('新規登録できませんでした。', 401);
       }
@@ -46,32 +43,15 @@ class Controller_Register extends Controller
       $user = $query->bind('email', $email)->bind('password', $password)->execute()->as_array();
       $user_id = $user[0]['id'];
 
-      //room作成
+      // room作成
       $query = DB::query('INSERT INTO room_users (room_id, user_id) VALUES (:room_id, :user_id)', DB::INSERT);
       $query->bind('room_id', $room_id)->bind('user_id', $user_id)->execute();
-
-      // //セッションに保存
-      \Session::set(array(
-        'username' => $username,
-        'user_id' => $user_id,
-        'room_id' => $room_id
-      ));
-      //ここまではsetもgetもできてる
-      // $room_id = Session::get('room_id');
-      // var_dump($room_id);
-      // $sessid = $session->key();
-      // var_dump($sessid);
-      \Session::rotate();
-      
-      return Response::forge(200); 
-
+    
+       return Response::forge(200);
     }
 
     public function action_person()
   {
-      \Session::instance();
-      $sessid = 'testsessid';
-      session_id($sessid);
 
       if (Input::method() !== 'POST') {
         return Response::forge('新規登録できませんでした。', 401);
@@ -80,18 +60,16 @@ class Controller_Register extends Controller
       $username = Input::json('username');
       $email = Input::json('email');
       $password = Input::json('password');
-      $room_id = \Session::get('room_id');
+      $room_id = Input::json('room_id');
 
 
-
-      
       $query= DB::query('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)', DB::INSERT);
       $query->bind("username", $username)->bind('email', $email)->bind('password', $password)->execute();
       $query= DB::query('SELECT * FROM `users` WHERE email = :email AND password = :password', DB::SELECT);
       $user = $query->bind('email', $email)->bind('password', $password)->execute()->as_array();
       $user_id = $user[0]['id'];
 
-      //room作成
+      // room_users作成
       $query = DB::query('INSERT INTO room_users (room_id, user_id) VALUES (:room_id, :user_id)', DB::INSERT);
       $query->bind('room_id', $room_id)->bind('user_id', $user_id)->execute();
 
@@ -99,13 +77,22 @@ class Controller_Register extends Controller
       $query = DB::query('INSERT INTO rooms (id) VALUES (:room_id)', DB::INSERT);
       $query->bind('room_id', $room_id)->execute();
 
-      // //セッションに保存
-      \Session::set('person_id', $user_id);
-      \Session::set('personname', $username);
-
-      // $sessid = session_id();
-      // var_dump($sessid);
       return Response::forge(200); 
-
     }
+
+    public function action_testsession1(){
+      Session::set('userid', 'あいうえお');
+      $s1 = Session::get('userid', '失敗1');
+      var_dump($s1);
+      echo '</br>';
+      var_dump(Session::key('session_id'));
+  }
+
+  public function action_testsession2(){
+      echo '2desu</br>';
+      $s2 = Session::get('userid', '失敗2');
+      var_dump($s2);
+      echo '</br>';
+      var_dump(Session::key('session_id'));
+  }
 }

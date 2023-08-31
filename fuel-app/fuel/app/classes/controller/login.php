@@ -15,7 +15,7 @@ class Controller_Login extends Controller
 
       // CORSヘッダーを設定
       header('Access-Control-Allow-Origin: *');
-      header('Access-Control-Allow-Methods: POST');
+      header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
       header('Access-Control-Allow-Headers: *');
 
       if (Input::method() == 'OPTIONS') {
@@ -68,9 +68,8 @@ class Controller_Login extends Controller
     //ログインユーザーとその相方のIDと名前をセッションが使えないからひとまずcookieへ持ってく
     $json = Format::forge([
       'username' => $username, 
-      'user_id' => $user_id,
       'personname' => $personname,
-      'person_id' => $person_id,
+      'room_id' => $room_id,
       ])->to_json();
     return Response::forge($json, 200);     
   }

@@ -4,13 +4,49 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import "./MyComponent.css";
 
+//Cookieからusernameを取得
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+};
+
 const Calendar = ({ onDateClick, onMonthChange, selectedDate }) => {
   const calendarRef = useRef(null);
-    
+  const finish_task_date = getCookie('finish_task_date');
+  const finish_task_name = getCookie('finish_task_name');
+  const person_finish_task_date = getCookie('person_finish_task_date');
+  const person_finish_task_name = getCookie('person_finish_task_name');
+  const finish_task_date_array = finish_task_date.split(',');
+  const finish_task_name_array = finish_task_name.split(',');
+  const person_finish_task_date_array = person_finish_task_date.split(',');
+  const person_finish_task_name_array = person_finish_task_name.split(',');
+  
+  const combinedArray = finish_task_date_array.map((date, index) => ({
+    title: finish_task_name_array[index],
+    date: date,
+    status: 'username'
+  }));
+  const person_combinedArray = person_finish_task_date_array.map((date, index) => ({
+    title: person_finish_task_name_array[index],
+    date: date,
+    status: 'person'
+  }));
+
+  const events = [
+    ...combinedArray.map(item => ({
+      title: item.title,
+      start: item.date,
+    })),
+    ...person_combinedArray.map(item => ({
+      title: item.title,
+      start: item.date,
+    }))
+  ];
+
   const handleDateClick = (info) => {
     // クリックした日付の情報を取得してアラートを表示
     const clickedDate = formatDate(info.dateStr);
-    console.log(info.dateStr);
     onDateClick(clickedDate);
   }
 
@@ -29,15 +65,7 @@ const Calendar = ({ onDateClick, onMonthChange, selectedDate }) => {
     onMonthChange(selectedMonth, prevMonth);
   };
 
-  const clickEvents = [
-    // クリックした日付を囲むためのイベント
-    {
-      start: selectedDate,
-      end: selectedDate,
-      rendering: 'background', // 背景に表示
-      color: 'yellow', // イベントの背景色
-    }
-  ];
+
 
 
     return (
@@ -45,43 +73,14 @@ const Calendar = ({ onDateClick, onMonthChange, selectedDate }) => {
         ref={calendarRef}
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        onDateClick={handleDateClick}
         dateClick={handleDateClick}
         datesSet={handleDateSet}
         titleFormat={{ month: 'numeric', year: 'numeric' }}
-        events={[
-          {clickEvents},
-          {
-            title: '皿洗い',
-            start: '2023-08-02'
-          },
-          {
-            title: '洗濯',
-            start: '2023-08-01'
-          },
-          {
-            title: '洗濯',
-            start: '2023-08-01'
-          },
-          {
-            title: '洗濯',
-            start: '2023-08-01'
-          },
-          {
-            title: '洗濯',
-            start: '2023-08-01'
-          },
-          {
-            title: '洗濯',
-            start: '2023-08-01'
-          },
-          {
-            title: '料理',
-            start: '2023-08-05'
-          }
-        ]} /><button className="completeFormButton"><a href="/completeForm">家事完了</a></button></>
+        events={events} />
+
+        <button className="completeFormButton"><a href="/completeForm">家事完了</a></button>
+      </>
     );
 }
 
 export default Calendar;
-

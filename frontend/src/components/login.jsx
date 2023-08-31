@@ -19,22 +19,13 @@ const loginAPI = async (email, password, nav) => {
       console.log("成功 : " + response.status);
       console.log(response);
       const userData = await response.json();
+      console.log(userData);
       const username = userData.username;
-      const user_id = userData.user_id;
       const personname = userData.personname;
-      const person_id = userData.person_id;
-      const lifemoney = userData.lifemoney;
-    
-      // Cookieにユーザー名を保存
-      const cookieData = [
-        `username=${username}`,
-        `user_id=${user_id}`,
-        `personname=${personname}`,
-        `person_id=${person_id}`,
-        `lifemoney=${lifemoney}`
-         ].join('; ');
-      console.log(cookieData);
-      document.cookie = cookieData;
+      const room_id = userData.room_id;
+      document.cookie = `username=${username}`;
+      document.cookie = `personname=${personname}`;
+      document.cookie = `room_id=${room_id}`;
       nav("/home"); 
     } else if(response.status === 401) {
       console.log('失敗 : ' + response.status)

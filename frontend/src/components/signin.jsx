@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const SignupAPI = async (username, password, email, room_id, nav) => {
   // 非同期処理
+  document.cookie = `room_id=${room_id}`;
+  document.cookie = `username=${username}`;
   await fetch('http://localhost:8080/register', {
     method: 'POST',
     mode: 'cors',
@@ -20,11 +22,6 @@ const SignupAPI = async (username, password, email, room_id, nav) => {
     // 成功
     if (response.status === 200) {
       console.log("成功 : " + response.status);
-      const userData = await response.json();
-      const username = userData.username;
-    
-      // Cookieにユーザー名を保存
-      document.cookie = `username=${username}`;
       nav("/newPerson"); 
     } else if(response.status === 401) {
       console.log('失敗 : ' + response.status)
