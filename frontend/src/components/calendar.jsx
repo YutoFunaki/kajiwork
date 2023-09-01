@@ -4,19 +4,19 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import "./MyComponent.css";
 
-//Cookieからusernameを取得
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-};
 
-const Calendar = ({ onDateClick, onMonthChange }) => {
+const Calendar = ({ onDateClick, onMonthChange, userData, isReady }) => {
+  if (!isReady) {
+    return <div>Loading...</div>;
+  }
   const calendarRef = useRef(null);
-  const finish_task_date = getCookie('finish_task_date');
-  const finish_task_name = getCookie('finish_task_name');
-  const person_finish_task_date = getCookie('person_finish_task_date');
-  const person_finish_task_name = getCookie('person_finish_task_name');
+  //userDataからfinish_task_dateとfinish_task_nameを取得
+  const finish_task_date = userData.finish_task_date.join(',');
+  const finish_task_name = userData.finish_task_name.join(',');
+  const person_finish_task_date = userData.person_finish_task_date.join(',');
+  const person_finish_task_name = userData.person_finish_task_name.join(',');
+  console.log(finish_task_date, finish_task_name, person_finish_task_date, person_finish_task_name);
+  //finish_task_dateとfinish_task_nameを配列に変換
   const finish_task_date_array = finish_task_date.split(',');
   const finish_task_name_array = finish_task_name.split(',');
   const person_finish_task_date_array = person_finish_task_date.split(',');

@@ -1,6 +1,8 @@
 <?php
 
+use Fuel\Core\Config;
 use Fuel\Core\Controller;
+use Fuel\Core\Response;
 use Fuel\Core\Session;
 
 class Controller_Logout extends Controller
@@ -17,7 +19,12 @@ class Controller_Logout extends Controller
     }
     public function action_logout()
     {
-      Session::delete('user');
+      // サーバーサイドでセッションを無効化
+      Session::destroy();
+
+      // ログアウト後にリダイレクト
+      Response::redirect('login'); // ログインページにリダイレクト
+
     }
 }
 //セッションを削除する処理を書く
