@@ -24,7 +24,10 @@ const Home = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [prevMonth, setPrevMonth] = useState(new Date());
 
-  
+  //もしcookieにroom_idがなければ、localhost:3000に飛ばす
+  if (room_id === '') {
+    window.location.href = 'http://localhost:3000/';
+  }
 
   useEffect(() => {
     // APIからデータを取得する
@@ -34,11 +37,16 @@ const Home = () => {
         const data = await response.json();
         setUserData(data);
         setIsReady(true);
-        document.cookie = `lifemoney=${data.lifemoney}`;
-        document.cookie = `finish_task_name=${data.finish_task_name}`;
-        document.cookie = `finish_task_date=${data.finish_task_date}`;
-        document.cookie = `person_finish_task_name=${data.person_finish_task_name}`;
-        document.cookie = `person_finish_task_date=${data.person_finish_task_date}`;
+        //dataからlifemoneyを取り出す
+        const lifemoney = data.lifemoney;
+        const frequency = data.frequency;
+        const userlifemoney = lifemoney / 2;
+        const personlifemoney = lifemoney / 2;
+        const oneworkmoney = lifemoney / frequency;
+        const userworklength = data.finish_task_name.length;
+        const personworklength = data.person_finish_task_name.length;
+        
+        console.log(data);
       } catch (error) {
         console.error('データの取得に失敗しました', error);
       }
@@ -101,7 +109,7 @@ const Home = () => {
         <div className="thisdayCompleteWork">
           <p className="todayCompleteWork">{clickedDate}に行った家事</p>
           <p className="todayCompleteWorkTitle">{username} : <span className="userEventsTitle">{usernameEventsTitle.join('  ')}</span></p>
-          <p className="todayCompleteWorkTitle">{personname} : <span className="userEventsTitle">{personnameEventsTitle.join(', ')}</span></p>
+          <p className="todayCompleteWorkTitle">{personname} : <span className="userEventsTitle">{personnameEventsTitle.join(' ')}</span></p>
         </div>
 
       </div>
