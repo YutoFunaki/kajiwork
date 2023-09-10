@@ -4,21 +4,23 @@ import "./MyComponent.css";
 import { useNavigate } from "react-router-dom";
 
 const ConnectWorkForm = () => {
-
-  const navigate = useNavigate();
+   const navigate = useNavigate();
 
   const handleSubmit = () => {
     navigate("/home");
+  };
+  const nextSubmit = () => {
+    navigate("/completeform");
   };
 
   return (
     <div>
       <p className="AppSubtitle">送信完了しました！お疲れ様でした！</p>
-      <p>あなた</p>
-      <p>完了した家事：</p>
-      <p>今回の家事合計：</p>
 
-      <button className="LoginButton" onClick={handleSubmit}>送信</button>
+      <div className="buttons">
+        <button className="LoginButton" onClick={handleSubmit}>TOPへ</button>
+        <button className="LoginButton" onClick={nextSubmit}>続けて登録</button>
+      </div>
     </div>
   );
 };
