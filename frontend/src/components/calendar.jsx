@@ -15,7 +15,6 @@ const Calendar = ({ onDateClick, onMonthChange, userData, isReady }) => {
   const finish_task_name = userData.finish_task_name.join(',');
   const person_finish_task_date = userData.person_finish_task_date.join(',');
   const person_finish_task_name = userData.person_finish_task_name.join(',');
-  console.log(finish_task_date, finish_task_name, person_finish_task_date, person_finish_task_name);
   //finish_task_dateとfinish_task_nameを配列に変換
   const finish_task_date_array = finish_task_date.split(',');
   const finish_task_name_array = finish_task_name.split(',');
@@ -31,7 +30,7 @@ const Calendar = ({ onDateClick, onMonthChange, userData, isReady }) => {
     finish_task_date_array[i] = `${year}-${month}-${day}`;
   }
 
-  //person_finish_task_date_arrayをYYYY-MM-DDの形式に変換
+  //person_finish_task_date_arrayもYYYY-MM-DDの形式に変換
   for (let i = 0; i < person_finish_task_date_array.length; i++) {
     const date = new Date(person_finish_task_date_array[i]);
     const year = date.getFullYear();
