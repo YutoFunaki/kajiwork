@@ -352,3 +352,19 @@ a:hover {
   text-align: center;
   font-size: 20px;
 }
+
+.mypage {
+  display: flex;
+  text-align: center;
+  margin-top: 80px;
+}
+
+p {
+  font-size: 20px;
+}
+
+.inputcontainer {
+  margin-left: 95px;
+  text-align: center;
+
+}
