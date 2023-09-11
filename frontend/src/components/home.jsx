@@ -23,6 +23,10 @@ const Home = () => {
   const [personnameEventsTitle, setPersonnameEventsTitle] = useState([]); // 新たに追
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [prevMonth, setPrevMonth] = useState(new Date());
+  const [lifemoney, setLifemoney] = useState(null);
+  const [frequency, setFrequency] = useState(null);
+  const count = lifemoney / frequency;
+
 
   //もしcookieにroom_idがなければ、localhost:3000に飛ばす
   if (room_id === '') {
@@ -37,14 +41,8 @@ const Home = () => {
         const data = await response.json();
         setUserData(data);
         setIsReady(true);
-        //dataからlifemoneyを取り出す
-        const lifemoney = data.lifemoney;
-        const frequency = data.frequency;
-        const userlifemoney = lifemoney / 2;
-        const personlifemoney = lifemoney / 2;
-        const oneworkmoney = lifemoney / frequency;
-        const userworklength = data.finish_task_name.length;
-        const personworklength = data.person_finish_task_name.length;
+        setLifemoney(data.lifemoney);
+        setFrequency(data.frequency);
         
         console.log(data);
       } catch (error) {
@@ -98,7 +96,7 @@ const Home = () => {
       <div className="homeleft">
         <div className="lastMonth">
           <p className="monthMoney">{prevMonth.toLocaleString("default", { month: "long", year: "numeric" })}の生活費({determineStatus(prevMonth)})</p>
-          <p className="lastMonthMoney">{username} : 円</p>
+          <p className="lastMonthMoney">{username} : {lifemoney}円</p>
           <p className="lastMonthMoney">{personname} : 円</p>
         </div>
         <div className="thisMonth">

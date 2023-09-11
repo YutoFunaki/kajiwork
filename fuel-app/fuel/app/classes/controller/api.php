@@ -51,6 +51,16 @@ class Controller_Api extends Controller
     $finish_task_name = array_column($finish_tasks, 'tasks_name');
     $finish_task_date = array_column($finish_tasks, 'finish_date');
 
+    $query = DB::query('SELECT YEAR(finish_date) AS year, MONTH(finish_date) AS month, count(*) AS count FROM `finish_tasks` WHERE user_id = :user_id GROUP BY YEAR(finish_date), MONTH(finish_date) ORDER BY year ASC, month ASC', DB::SELECT);
+    $finish_tasks = $query->bind('user_id', $user_id)->execute()->as_array();
+    $finish_task_month = array_column($finish_tasks, 'month');
+    $finish_task_count = array_column($finish_tasks, 'count');
+
+    $query = DB::query('SELECT YEAR(finish_date) AS year, MONTH(finish_date) AS month, count(*) AS count FROM `finish_tasks` WHERE user_id = :user_id GROUP BY YEAR(finish_date), MONTH(finish_date) ORDER BY year ASC, month ASC', DB::SELECT);
+    $finish_tasks = $query->bind('user_id', $person_id)->execute()->as_array();
+    $person_finish_task_month = array_column($finish_tasks, 'month');
+    $person_finish_task_count = array_column($finish_tasks, 'count');
+
     $query = DB::query('SELECT * FROM `finish_tasks` WHERE user_id = :person_id', DB::SELECT);
     $person_finish_tasks = $query->bind('person_id', $person_id)->execute()->as_array();
     $person_finish_task_name = array_column($person_finish_tasks, 'tasks_name');
@@ -71,6 +81,10 @@ class Controller_Api extends Controller
       'person_finish_task_name' => $person_finish_task_name,
       'person_finish_task_date' => $person_finish_task_date,
       'tasks_frequency' => $tasks_frequency,
+      'finish_task_month' => $finish_task_month,
+      'finish_task_count' => $finish_task_count,
+      'person_finish_task_month' => $person_finish_task_month,
+      'person_finish_task_count' => $person_finish_task_count,
       ])->to_json();
     return Response::forge($json, 200);
   }
@@ -257,6 +271,51 @@ class Controller_Api extends Controller
 
     $json = Format::forge([
       'lifemoney' => $lifemoney,
+      ])->to_json();
+    return Response::forge($json, 200);
+  }
+
+  public function action_changepersonnal()
+  {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+    header('Access-Control-Allow-Headers: *');
+
+    if (Input::method() !== 'POST') {
+      return Response::forge('変更できませんでした。', 401);
+    }
+
+    $username = Input::json('username');
+    $personname = Input::json('personname');
+    $lifemoney = Input::json('lifemoney');
+    $inputPersonname = Input::json('inputPersonname');
+    $inputUsername = Input::json('inputUsername');
+    $room_id = Input::json('room_id');
+    $inputLifemoney = Input::json('inputLifemoney');
+
+    if ($inputUsername !== "") {
+      //usernameからinputUsernameへ変更
+      $query = DB::query('UPDATE `users` SET username = :inputUsername WHERE username = :username', DB::UPDATE);
+      $query->bind('inputUsername', $inputUsername)->bind('username', $username)->execute();
+      $username = $inputUsername;
+    };
+    if ($inputPersonname !== "") {
+      //personnameからinputPersonnameへ変更
+      $query = DB::query('UPDATE `users` SET username = :inputPersonname WHERE username = :personname', DB::UPDATE);
+      $query->bind('inputPersonname', $inputPersonname)->bind('personname', $personname)->execute();
+      $personname = $inputPersonname;
+    };
+    if ($inputLifemoney !== "") {
+      //lifemoneyからinputLifemoneyへ変更
+      $query = DB::query('UPDATE `rooms` SET lifemoney = :inputLifemoney WHERE id = :room_id', DB::UPDATE);
+      $query->bind('inputLifemoney', $inputLifemoney)->bind('room_id', $room_id)->execute();
+      $lifemoney = $inputLifemoney;
+    }
+    
+
+    $json = Format::forge([
+      'username' => $username,
+      'personname' => $personname,
       ])->to_json();
     return Response::forge($json, 200);
   }
