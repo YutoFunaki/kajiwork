@@ -129,7 +129,7 @@ const CompleteWorkForm = () => {
         className="datePicker"
       />
       </div>
-      <button className="LoginButton" onClick={handleSubmit}>送信</button>
+      <button className="LoginButton" onClick={handleSubmit}>完了</button>
     </div>
   );
 };
