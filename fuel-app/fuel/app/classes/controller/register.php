@@ -4,8 +4,6 @@ namespace Controller;
 
 use Fuel\Core\Input;
 use Fuel\Core\Response;
-use Fuel\Core\DB;
-use Fuel\Core\Session;
 
 class Register extends \Controller
 {
