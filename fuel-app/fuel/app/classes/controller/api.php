@@ -1,18 +1,17 @@
 <?php
 
-use Fuel\Core\Controller;
+namespace Controller;
+
 use Fuel\Core\DB;
 use Fuel\Core\Format;
 use Fuel\Core\Input;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
 
-class Controller_Api extends Controller
+class Api extends \Controller
 {
   public function before()
   {
-      parent::before();
-
       // CORSヘッダーを設定
       header('Access-Control-Allow-Origin: *');
       header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
@@ -300,7 +299,6 @@ class Controller_Api extends Controller
       $username = $inputUsername;
     };
     if ($inputPersonname !== "") {
-      //personnameからinputPersonnameへ変更
       $query = DB::query('UPDATE `users` SET username = :inputPersonname WHERE username = :personname', DB::UPDATE);
       $query->bind('inputPersonname', $inputPersonname)->bind('personname', $personname)->execute();
       $personname = $inputPersonname;
@@ -309,7 +307,6 @@ class Controller_Api extends Controller
       //lifemoneyからinputLifemoneyへ変更
       $query = DB::query('UPDATE `rooms` SET lifemoney = :inputLifemoney WHERE id = :room_id', DB::UPDATE);
       $query->bind('inputLifemoney', $inputLifemoney)->bind('room_id', $room_id)->execute();
-      $lifemoney = $inputLifemoney;
     }
     
 

@@ -39,4 +39,5 @@ return array(
 	 */
 
 	'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
+	'register' => 'register/index',
 );

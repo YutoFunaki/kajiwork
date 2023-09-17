@@ -20,8 +20,8 @@
  */
 
 return array(
-    'driver'                 => 'Simpleauth',
+    'driver'                 => array('Simpleauth'),
     'verify_multiple_logins' => false,
-    'salt'                   => 'put_your_salt_here',
+    'salt'                   => '********',
     'iterations'             => 10000,
 );

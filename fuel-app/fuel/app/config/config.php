@@ -180,7 +180,7 @@ return array(
 	 *  Change the server's default timezone. This is optional.
 	 */
 
-	'default_timezone' => null,
+	'default_timezone' => 'Asia/Tokyo',
 
 	/**
 	 * -------------------------------------------------------------------------
@@ -198,7 +198,7 @@ return array(
 	 *
 	 */
 
-	// 'log_threshold'   => Fuel::L_WARNING,
+	'log_threshold'   => \Fuel::L_ALL,
 	// 'log_path'        => APPPATH.'logs/',
 	// 'log_date_format' => 'Y-m-d H:i:s',
 
@@ -378,7 +378,7 @@ return array(
 	 *  Controller class prefix
 	 * -------------------------------------------------------------------------
 	 */
-
+	'controller_prefix' => 'Controller\\',
 	/**
 	 * -------------------------------------------------------------------------
 	 *  Routing settings
@@ -467,7 +467,7 @@ return array(
 
 		'packages' => array(
 			"auth",
-		  'orm',
+		  // 'orm',
 		 ),
 	 
 
@@ -510,7 +510,7 @@ return array(
 		 * ---------------------------------------------------------------------
 		 */
 
-		 //'config' => array('session' => ''),
+		 'config' => array('session' => 'auth'),
 
 		/**
 		 * ---------------------------------------------------------------------

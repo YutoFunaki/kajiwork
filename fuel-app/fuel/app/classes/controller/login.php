@@ -1,4 +1,5 @@
 <?php
+namespace Controller;
 
 use Fuel\Core\Controller;
 use Fuel\Core\DB;
@@ -7,7 +8,8 @@ use Fuel\Core\Input;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
 
-class Controller_Login extends Controller
+
+class Login extends \Controller
 {
   public function before()
   {
@@ -28,16 +30,15 @@ class Controller_Login extends Controller
     if (Input::method() !== 'POST') {
       return Response::forge('ログインできませんでした。', 401);
     }
-
-    $email = Input::json('email');
-    $password = Input::json('password');
     
-    $query= DB::query('SELECT * FROM `users` WHERE email = :email AND password = :password', DB::SELECT);
-    $user = $query->bind('email', $email)->bind('password', $password)->execute()->as_array();
-    
-
-    if (empty($user)) {
-      return Response::forge('ログインできませんでした。', 401);
+    $auth = Auth::instance();
+    $email = Input::post('email');
+    $password = Input::post('password');
+    if($auth->login($email, $password)){
+        //ログイン成功！
+    }
+    else{
+        //ログイン失敗・・・
     }
 
     // ログイン成功
