@@ -33,14 +33,8 @@ return [
 	'native_emulation' => false,
 
 	'cookie' => array(
-		'cookie_name' => 'fuelcid',
-		'encrypted' => true, // セッションIDを暗号化しない
-		'lifetime' => 3600,   // セッションの有効期限
-		'path' => '/',
-		'domain' => null,
-		'http_only' => false,
-		'secure' => false,
-		'session_id' => 'testsessid', // ここにセッションIDを指定
+		'cookie_name'    => 'fuelcid',
+    'write_on_set'   => true
 	),
 
 	'file' => array(
