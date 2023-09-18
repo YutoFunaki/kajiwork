@@ -18,7 +18,7 @@ return [
 	'match_ua' => true,
 	'cookie_domain'    => '',
 	'cookie_path'      => '/',
-	'cookie_http_only' => null,
+	'cookie_http_only' => false,
 	'cookie_same_site' => null,
 	'encrypt_cookie' => false,
 	'expire_on_close' => false,
