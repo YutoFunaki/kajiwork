@@ -49,12 +49,26 @@ class User extends \Model
 				}
     }
 
+		public static function get_user_id($username)
+		{
+				$query = \DB::select('id')
+										->from(static::$_table_name)
+										->where('username', '=', $username)
+										->execute();
+				$result = $query->as_array();
+				if ($result) {
+						return $result[0]['id'];
+				} else {
+						return false; // 挿入に失敗した場合はfalseを返す
+				}
+		}
+
 		//ユーザーID取得
-		public static function get_id_by_username($username,$password)
+		public static function login_user($email,$password)
     {
         $query = \DB::select('id')
                     ->from(static::$_table_name)
-                    ->where('username', '=', $username)
+                    ->where('email', '=', $email)
 										->where('password', '=', $password)
                     ->execute();
 
@@ -65,4 +79,66 @@ class User extends \Model
             return false; // ユーザーが見つからなかった場合は false を返す
         }
     }
+
+		public static function update_username($username, $inputUsername)
+		{
+				$query = \DB::update(static::$_table_name);
+				$query->set([
+						'username' => $inputUsername,
+				]);
+				$query->where('username', '=', $username);
+				$result = $query->execute();
+				if ($result) {
+						return true;
+				} else {
+						return false; // 挿入に失敗した場合はfalseを返す
+				}
+		}
+
+		public static function get_username($email, $password)
+		{
+				$query = \DB::select('username')
+										->from(static::$_table_name)
+										->where('email', '=', $email)
+										->where('password', '=', $password)
+										->execute();
+
+				if ($query && $query->count() > 0) {
+						$result = $query->current();
+						return $result['username'];
+				} else {
+						return false; // ユーザーが見つからなかった場合は false を返す
+				}
+		}
+
+		//person_idをidとしてusername取得
+		public static function get_personname($person_id)
+		{
+				$query = \DB::select('username')
+										->from(static::$_table_name)
+										->where('id', '=', $person_id)
+										->execute();
+
+				if ($query && $query->count() > 0) {
+						$result = $query->current();
+						return $result['username'];
+				} else {
+						return false; // ユーザーが見つからなかった場合は false を返す
+				}
+		}
+
+		public static function get_person_id($personname)
+		{
+				$query = \DB::select('id')
+										->from(static::$_table_name)
+										->where('username', '=', $personname)
+										->execute();
+
+				if ($query && $query->count() > 0) {
+						$result = $query->current();
+						return $result['id'];
+				} else {
+						return false; // ユーザーが見つからなかった場合は false を返す
+				}
+		}
 }

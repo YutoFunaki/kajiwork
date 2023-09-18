@@ -31,7 +31,32 @@ class Room extends \Model
       if ($result) {
           return $result[0];
       } else {
-          return false; // 挿入に失敗した場合はfalseを返す
+          return false;
       }
+	}
+
+	public static function get_lifemoney($room_id)
+	{
+			$query = \DB::select('lifemoney')
+						->from(static::$_table_name)
+						->where('id', '=', $room_id)
+						->execute();
+			$result = $query->as_array();
+
+			if ($result) {
+					return $result[0]['lifemoney'];
+			} else {
+					return false; 
+		}
+	}
+
+	public static function update_lifemoney($room_id, $inputlifemoney)
+	{
+			$query = \DB::update(static::$_table_name);
+			$query->set([
+							'lifemoney' => $inputlifemoney,
+					])
+					->where('id', '=', $room_id)
+					->execute();
 	}
 }

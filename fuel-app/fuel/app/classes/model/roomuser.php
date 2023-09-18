@@ -36,4 +36,31 @@ class Roomuser extends \Model
         }
     }
 
+	public static function get_room_id($user_id)
+	{
+		$query = \DB::select('room_id')
+					->from(static::$_table_name)
+					->where('user_id', '=', $user_id)
+					->execute();
+		$result = $query->as_array();
+		if ($result) {
+				return $result[0]['room_id'];
+		} else {
+				return false; // 挿入に失敗した場合はfalseを返す
+		}
+	}
+
+	public static function get_users($room_id)
+	{
+		$query = \DB::select('user_id')
+					->from(static::$_table_name)
+					->where('room_id', '=', $room_id)
+					->execute();
+		$result = $query->as_array();
+		if ($result) {
+				return $result;
+		} else {
+				return false; // 挿入に失敗した場合はfalseを返す
+		}
+	}
 }
