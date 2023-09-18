@@ -6,7 +6,7 @@ delete:
 	@sudo rm -rf ./mysql
 
 login-test:
-	curl -X POST -H "Content-Type: application/json" -d '{"email":"test@gmail.com", "password":"admin"}' localhost:8080/login
+	curl -X POST -H "Content-Type: application/json" -d '{"email":"test1@gmail.com", "password":"test1"}' localhost:8080/login
 login-get-test:
 	curl -X GET localhost:8080/login
 signup-test:
