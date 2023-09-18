@@ -1,77 +1,70 @@
 <?php
 namespace Controller;
 
-use Fuel\Core\Controller;
-use Fuel\Core\DB;
-use Fuel\Core\Format;
-use Fuel\Core\Input;
-use Fuel\Core\Response;
-use Fuel\Core\Session;
-
-
 class Login extends \Controller
 {
   public function before()
   {
-      parent::before();
-
       // CORSヘッダーを設定
       header('Access-Control-Allow-Origin: *');
       header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
       header('Access-Control-Allow-Headers: *');
 
-      if (Input::method() == 'OPTIONS') {
+
+      if (\Input::method() == 'OPTIONS') {
           exit;
       }
   }
 
   public function action_index()
   {
-    if (Input::method() !== 'POST') {
-      return Response::forge('ログインできませんでした。', 401);
+    if (\Input::method() !== 'POST') {
+      return \Response::forge('ログインできませんでした。', 401);
     }
+
+    $email = \Input::json('email');
+    $password = \Input::json('password');
+    $result = \Model\User::login_user($email,$password);
     
-    $auth = Auth::instance();
-    $email = Input::post('email');
-    $password = Input::post('password');
-    if($auth->login($email, $password)){
-        //ログイン成功！
-    }
-    else{
-        //ログイン失敗・・・
-    }
-
-    // ログイン成功
-    $user_id = $user[0]['id'];
-    $username = $user[0]['username'];
-    //room情報を引っ張ってくる
-    $query = DB::query('SELECT * FROM `room_users` WHERE user_id = :user_id', DB::SELECT);
-    $room_users = $query->bind('user_id', $user_id)->execute()->as_array();
-    $room_id = $room_users[0]['room_id'];
-
-    //room_idからroom_users特定し取得
-    $query = DB::query('SELECT * FROM `room_users` WHERE room_id = :room_id', DB::SELECT);
-    $room_users = $query->bind('room_id', $room_id)->execute()->as_array();
-
-    //どちらがログインしたか判断する文
-    if ($room_users[0]['user_id'] === $user_id) {
-      $user_id = $room_users[0]['user_id'];
-      $person_id = $room_users[1]['user_id'];
+    if ($result === false){
+      return \Response::forge('失敗１', 401);
     } else {
-      $user_id = $room_users[1]['user_id'];
-      $person_id = $room_users[0]['user_id'];
+      $user_id = \Model\User::login_user($email,$password);
+      $username = \Model\User::get_username($email,$password);
+      $room_id = \Model\Roomuser::get_room_id($user_id);
+      $room_users = \Model\Roomuser::get_users($room_id);
+      if ($room_users[0]['user_id'] === $user_id) {
+        $user_id = $room_users[0]['user_id'];
+        $person_id = $room_users[1]['user_id'];
+        $personname = \Model\User::get_personname($person_id);
+      } else {
+        $user_id = $room_users[1]['user_id'];
+        $person_id = $room_users[0]['user_id'];
+        $personname = \Model\User::get_personname($person_id);
+      }
     }
-
-    $query = DB::query('SELECT * FROM `users` WHERE id = :id', DB::SELECT);
-    $person = $query->bind('id', $person_id)->execute()->as_array();
-    $personname = $person[0]['username'];
-
-    //ログインユーザーとその相方のIDと名前をセッションが使えないからひとまずcookieへ持ってく
-    $json = Format::forge([
+    $json = \Format::forge([
       'username' => $username, 
       'personname' => $personname,
       'room_id' => $room_id,
       ])->to_json();
-    return Response::forge($json, 200);     
+    return \Response::forge($json, 200);     
   }
+
+  public function action_test1(){
+    \Session::instance();
+    \Session::set('userid', 'あいうえお');
+    $s1 = \Session::get('userid', '失敗1');
+    var_dump($s1);
+    echo '</br>';
+    var_dump(\Session::key('session_id'));
+}
+
+public function action_test2(){
+    echo '2desu</br>';
+    $s2 = Session::get('userid', '失敗2');
+    var_dump($s2);
+    echo '</br>';
+    var_dump(Session::key('session_id'));
+}
 }

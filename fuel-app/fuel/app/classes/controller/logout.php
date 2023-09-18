@@ -1,16 +1,26 @@
 <?php
-
 namespace Controller;
 
 class Logout extends \Controller
 {
-    public function action_index()
+
+  public function before()
     {
-      if (isset($array['http_header_name'])) {
-        \Session::destroy();
-        return \Response::forge(200);
-      } else {
-        return \Response::forge(200);
-      }
+        parent::before();
+
+        // CORSヘッダーを設定
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type');
+    }
+    public function action_logout()
+    {
+      // サーバーサイドでセッションを無効化
+      \Session::destroy();
+
+      // ログアウト後にリダイレクト
+      \Response::redirect('login'); // ログインページにリダイレクト
+
     }
 }
+//セッションを削除する処理を書く
