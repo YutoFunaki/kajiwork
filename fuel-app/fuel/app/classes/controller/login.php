@@ -26,13 +26,11 @@ class Login extends \Controller
 
     $email = \Input::json('email');
     $password = \Input::json('password');
-    $result = \Model\User::login_user($email,$password);
+    $hash_password = \Auth::hash_password($password);
     
-    if ($result === false){
-      return \Response::forge('失敗１', 401);
-    } else {
-      $user_id = \Model\User::login_user($email,$password);
-      $username = \Model\User::get_username($email,$password);
+    if (\Auth::login($email, $password)){
+      $user_id = \Model\User::login_user($email,$hash_password);
+      $username = \Model\User::get_username($email,$hash_password);
       $room_id = \Model\Roomuser::get_room_id($user_id);
       $room_users = \Model\Roomuser::get_users($room_id);
       if ($room_users[0]['user_id'] === $user_id) {
@@ -44,6 +42,8 @@ class Login extends \Controller
         $person_id = $room_users[0]['user_id'];
         $personname = \Model\User::get_personname($person_id);
       }
+    } else {
+      return \Response::forge($hash_password, 401);
     }
     $json = \Format::forge([
       'username' => $username, 

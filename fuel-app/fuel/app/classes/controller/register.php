@@ -27,13 +27,14 @@ class Register extends \Controller
     $username = \Input::json('username');
     $email = \Input::json('email');
     $password = \Input::json('password');
+    $hash_password = \Auth::hash_password($password);
 
     // Userモデルのcreate_userメソッドを呼び出し
-    $user = \Model\User::create_user($username, $email, $password);
+    $user = \Model\User::create_user($username, $email, $hash_password);
       
     if ($user) {
         // room_users作成
-        $user_id = \Model\User::login_user($email,$password);
+        $user_id = \Model\User::login_user($email,$hash_password);
         $room_id = \Input::json('room_id');
         \Model\Roomuser::create_roomuser($user_id, $room_id);
         return \Response::forge(200);
@@ -52,13 +53,14 @@ class Register extends \Controller
     $username = \Input::json('username');
     $email = \Input::json('email');
     $password = \Input::json('password');
+    $hash_password = \Auth::hash_password($password);
 
     // Userモデルのcreate_userメソッドを呼び出し
-    $user = \Model\User::create_user($username, $email, $password);
+    $user = \Model\User::create_user($username, $email, $hash_password);
       
     if ($user) {
         // room_users作成
-        $user_id = \Model\User::get_id_by_username($username,$password);
+        $user_id = \Model\User::login_user($email, $hash_password);
         $room_id = \Input::json('room_id');
         \Model\Roomuser::create_roomuser($user_id, $room_id);
      } else {
@@ -70,4 +72,20 @@ class Register extends \Controller
 
       return \Response::forge(200); 
     }
+
+    public function action_test1(){
+      $d1 = "セッション";
+      var_dump($d1);
+      echo '</br>';
+       
+      \Session::set('d1', $d1);
+  }
+  
+  public function action_test2(){
+      echo '2desu</br>';
+      $s2 = \Session::get('userid', '失敗2');
+      var_dump($s2);
+      echo '</br>';
+      var_dump(\Session::key('session_id'));
+  }
 }

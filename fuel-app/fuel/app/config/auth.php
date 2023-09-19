@@ -24,4 +24,16 @@ return array(
     'verify_multiple_logins' => false,
     'salt'                   => '********',
     'iterations'             => 10000,
+
+    // ユーザーモデルのクラス名
+    'model' => 'User',
+
+    // ユーザーのログインIDカラム名
+    'login_id_column' => 'email',
+    // ユーザーのパスワードカラム名
+    'password_column' => 'password',
+    // セッションIDを保持するHTTPヘッダーの名前
+    'http_header_name' => 'Session-Id',
+    // ログアウト後のリダイレクト先
+    'redirect_after_logout' => '/',
 );

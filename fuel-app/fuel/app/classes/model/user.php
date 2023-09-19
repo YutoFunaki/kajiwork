@@ -28,6 +28,13 @@ class User extends \Model
             'data_type' => 'timestamp',
             'label' => '作成日',
         ),
+				'last_login' => array(
+						'data_type' => 'int',
+						'label' => '最終ログイン日',
+				),
+				'login_hash' => array(
+						'data_type' => 'varchar',
+				)
     );
 		protected static $_created_at = 'created_at';
 

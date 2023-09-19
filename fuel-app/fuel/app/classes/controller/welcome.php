@@ -1,5 +1,5 @@
 <?php
-namespace Controller;
+// namespace Controller;
 /**
  * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
@@ -10,6 +10,7 @@ namespace Controller;
  * @copyright  2010 - 2019 Fuel Development Team
  * @link       https://fuelphp.com
  */
+namespace Controller;
 
 use Fuel\Core\Presenter;
 use Fuel\Core\Response;

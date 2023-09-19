@@ -123,9 +123,9 @@ return array(
 
 	/**
 	 * $_POST key for login username
-	 * emailへ変更
+	 * 
 	 */
-	'email_post_key' => 'email',
+	'username_post_key' => 'email',
 
 	/**
 	 * $_POST key for login password
