@@ -13,10 +13,10 @@ class Logout extends \Controller
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
         header('Access-Control-Allow-Headers: Content-Type');
     }
-    public function action_logout()
+    public function action_index()
     {
-      // サーバーサイドでセッションを無効化
-      \Session::destroy();
+      $auth = \Auth::instance();
+      $auth->logout();
 
       // ログアウト後にリダイレクト
       \Response::redirect('login'); // ログインページにリダイレクト

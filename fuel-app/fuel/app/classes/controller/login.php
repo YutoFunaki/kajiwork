@@ -1,10 +1,12 @@
 <?php
 namespace Controller;
 
+
 class Login extends \Controller
 {
   public function before()
   {
+      parent::before();
       // CORSヘッダーを設定
       header('Access-Control-Allow-Origin: *');
       header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
@@ -52,19 +54,18 @@ class Login extends \Controller
   }
 
   public function action_test1(){
-    \Session::instance();
-    \Session::set('userid', 'あいうえお');
-    $s1 = \Session::get('userid', '失敗1');
-    var_dump($s1);
+    $d1 = "セッション";
+    var_dump($d1);
     echo '</br>';
-    var_dump(\Session::key('session_id'));
+
+    \Session::set('d1', $d1);
 }
 
 public function action_test2(){
     echo '2desu</br>';
-    $s2 = Session::get('userid', '失敗2');
+    $s2 = \Session::get('userid', '失敗2');
     var_dump($s2);
     echo '</br>';
-    var_dump(Session::key('session_id'));
+    var_dump(\Session::key('session_id'));
 }
 }
