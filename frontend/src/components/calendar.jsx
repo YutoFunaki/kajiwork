@@ -11,43 +11,38 @@ const Calendar = ({ onDateClick, onMonthChange, userData, isReady }) => {
   }
   const calendarRef = useRef(null);
   //userDataからfinish_task_dateとfinish_task_nameを取得
-  const finish_task_date = userData.finish_task_date.join(',');
-  const finish_task_name = userData.finish_task_name.join(',');
-  const person_finish_task_date = userData.person_finish_task_date.join(',');
-  const person_finish_task_name = userData.person_finish_task_name.join(',');
-  //finish_task_dateとfinish_task_nameを配列に変換
-  const finish_task_date_array = finish_task_date.split(',');
-  const finish_task_name_array = finish_task_name.split(',');
-  const person_finish_task_date_array = person_finish_task_date.split(',');
-  const person_finish_task_name_array = person_finish_task_name.split(',');
+  const finish_task_date = userData.finish_task_date;
+  const finish_task_name = userData.finish_task_name;
+  const person_finish_task_date = userData.person_finish_task_date;
+  const person_finish_task_name = userData.person_finish_task_name;
   
   //finish_task_date_arrayをYYYY-MM-DDの形式に変換
-  for (let i = 0; i < finish_task_date_array.length; i++) {
-    const date = new Date(finish_task_date_array[i]);
+  for (let i = 0; i < finish_task_date.length; i++) {
+    const date = new Date(finish_task_date[i]);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
-    finish_task_date_array[i] = `${year}-${month}-${day}`;
+    finish_task_date[i] = `${year}-${month}-${day}`;
   }
 
   //person_finish_task_date_arrayもYYYY-MM-DDの形式に変換
-  for (let i = 0; i < person_finish_task_date_array.length; i++) {
-    const date = new Date(person_finish_task_date_array[i]);
+  for (let i = 0; i < person_finish_task_date.length; i++) {
+    const date = new Date(person_finish_task_date[i]);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
-    person_finish_task_date_array[i] = `${year}-${month}-${day}`;
+    person_finish_task_date[i] = `${year}-${month}-${day}`;
   }
  
 
   // 家事完了日と家事名を組み合わせた配列
-  const combinedArray = finish_task_date_array.map((date, index) => ({
-    title: finish_task_name_array[index],
+  const combinedArray = finish_task_date.map((date, index) => ({
+    title: finish_task_name[index],
     date: date,
     status: 'username'
   }));
-  const person_combinedArray = person_finish_task_date_array.map((date, index) => ({
-    title: person_finish_task_name_array[index],
+  const person_combinedArray = person_finish_task_date.map((date, index) => ({
+    title: person_finish_task_name[index],
     date: date,
     status: 'person'
   }));
