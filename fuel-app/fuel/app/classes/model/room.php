@@ -52,11 +52,16 @@ class Room extends \Model
 
 	public static function update_lifemoney($room_id, $inputlifemoney)
 	{
-			$query = \DB::update(static::$_table_name);
-			$query->set([
-							'lifemoney' => $inputlifemoney,
-					])
-					->where('id', '=', $room_id)
-					->execute();
+		$query = \DB::update(static::$_table_name);
+		$query->set([
+				'lifemoney' => $inputlifemoney,
+		]);
+		$query->where('id', '=', $room_id);
+		$result = $query->execute();
+		if ($result) {
+				return true;
+		} else {
+				return false; // 挿入に失敗した場合はfalseを返す
+		}
 	}
 }

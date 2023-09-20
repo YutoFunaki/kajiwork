@@ -18,7 +18,7 @@ const FinishAPI = async (selectedUser, selectedWork, selectedDate, navigate) => 
   await fetch('http://localhost:8080/api/finishwork', {
     method: 'POST',
     mode: 'cors',
-    // credentials: 'include',
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json",
 
@@ -59,7 +59,14 @@ const CompleteWorkForm = () => {
     // APIからデータを取得する
     async function fetchData() {
       try {
-        const response = await fetch(`http://localhost:8080/api/workfinishEffect?room_id=${room_id}&username=${username}&personname=${personname}`);
+        const response = await fetch(`http://localhost:8080/api/workfinishEffect?username=${username}&personname=${personname}`,{
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json"
+          },
+        });
         const data = await response.json();
         setUserData(data);
         setUser_id(data.user_id);

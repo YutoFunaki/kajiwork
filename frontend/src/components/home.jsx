@@ -15,7 +15,6 @@ const Home = () => {
   const [isReady, setIsReady] = useState(false);
   const username = getCookie('username') || '';
   const personname = getCookie('personname') || '';
-  const room_id = getCookie('room_id') || '';
   const [userData, setUserData] = useState(null);
   const [clickedDate, setClickedDate] = useState(null);
   const [clickedEvents, setClickedEvents] = useState(null);
@@ -36,17 +35,21 @@ const Home = () => {
   
 
 
-  //もしcookieにroom_idがなければ、localhost:3000に飛ばす
-  if (room_id === '') {
-    window.location.href = 'http://localhost:3000/';
-  }
+
 
 
   useEffect(() => {
     // APIからデータを取得する
-    async function fetchData() {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api?username=${username}&personname=${personname}&room_id=${room_id}`);
+        const response = await fetch(`http://localhost:8080/api?username=${username}&personname=${personname}`,{
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json"
+          },
+        });
         const data = await response.json();
         setUserData(data);
         setIsReady(true);

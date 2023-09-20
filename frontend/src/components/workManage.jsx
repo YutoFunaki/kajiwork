@@ -15,7 +15,7 @@ const ReWorkAPI = async (selectedWork, inputWorkname, frequency, room_id, nav) =
   await fetch('http://localhost:8080/api/workrename', {
     method: 'POST',
     mode: 'cors',
-    // credentials: 'include',
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json",
 
@@ -44,7 +44,7 @@ const DeleteWorkAPI = async (selectedWork) => {
   await fetch('http://localhost:8080/api/workdelete', {
     method: 'POST',
     mode: 'cors',
-    // credentials: 'include',
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json",
 
@@ -81,7 +81,14 @@ const WorkManage = () => {
     // APIからデータを取得する
     async function fetchData() {
       try {
-        const response = await fetch(`http://localhost:8080/api/workmanage?room_id=${room_id}`);
+        const response = await fetch(`http://localhost:8080/api/workmanage?room_id=${room_id}`, {
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json"
+          },
+        });
         const data = await response.json();
         setUserData(data);
         setWorkname(data.tasks_name);

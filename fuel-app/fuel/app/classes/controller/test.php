@@ -12,15 +12,19 @@ class Test extends \Controller
   }
 
   public function action_index(){
-    $d1 = "セッション";
+    $sesskey = \Session::key();
+    $d1 = $sesskey;
     var_dump($d1);
     echo '</br>';
     \Session::set('d1', $d1);
   }
 
   public function action_test1(){
-    $d1 = \Session::get('d1');
-    var_dump($d1);
+    $s1 = \Session::get('ses');
+    $d2 = \Session::key();
+
+    var_dump($s1);
+    var_dump($d2);
     echo '</br>';
   }
 }

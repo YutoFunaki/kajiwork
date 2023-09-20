@@ -8,9 +8,11 @@ class Api extends \Controller
       parent::before();
 
       // CORSヘッダーを設定
-      header('Access-Control-Allow-Origin: *');
+      header('Access-Control-Allow-Origin: http://localhost:3000');
       header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-      header('Access-Control-Allow-Headers: *');
+      header('Access-Control-Allow-Headers: Content-Type, *');
+      header('Access-Control-Allow-Credentials: true');
+
 
       if (\Input::method() == 'OPTIONS') {
           exit;
@@ -19,9 +21,9 @@ class Api extends \Controller
 
   public function action_index()
   {
-    $username = $_GET['username'];
-    $personname = $_GET['personname'];
-    $room_id = $_GET['room_id'];
+    $username = \Input::get('username');
+    $personname = \Input::get('personname'); 
+    $room_id = \Session::get('roomid');
 
     //user_id取得
     $user_id = \Model\User::get_user_id($username);
@@ -73,7 +75,7 @@ class Api extends \Controller
 
     $workname = \Input::json('workname');
     $frequency = \Input::json('frequency');
-    $room_id = \Input::json('room_id');
+    $room_id = \Session::get('roomid');
 
     $result = \Model\Task::create_task($workname, $room_id, $frequency);
 
@@ -86,7 +88,7 @@ class Api extends \Controller
 
   public function action_workmanage()
   {
-     $room_id = $_GET['room_id'];
+     $room_id = \Session::get('roomid');
 
       //room_idからtasksを取得
       $tasks_name = \Model\Task::get_tasks_name($room_id);
@@ -125,21 +127,19 @@ class Api extends \Controller
     $id = \Input::json('selectedWork');
     $workname = \Input::json('workname');
     $frequency = \Input::json('frequency');
-    $room_id = \Input::json('room_id');
 
-    if ($workname === "") {
-      \Model\Task::update_tasks_name($id, $workname);
-    } else if ($frequency === 0) {
-      \Model\Task::update_tasks_frequency($id, $frequency);
-    } else {
+    if ($workname !== "" && $frequency !== 0) {
       \Model\Task::update_tasks_name($id, $workname);
       \Model\Task::update_tasks_frequency($id, $frequency);
+    } else if ($frequency !== 0 && $workname === "") {
+      \Model\Task::update_tasks_frequency($id, $frequency);
+    } else if ($workname !== "" && $frequency === 0){
+      \Model\Task::update_tasks_name($id, $workname);
     }
   
     $json = \Format::forge([
       'workname' => $workname,
       'frequency' => $frequency,
-      'room_id' => $room_id,
       'id' => $id,
       ])->to_json();
     return \Response::forge($json, 200);
@@ -147,9 +147,9 @@ class Api extends \Controller
 
   public function action_workfinishEffect()
   {
-    $username = $_GET['username'];
-    $personname = $_GET['personname'];
-    $room_id = $_GET['room_id'];
+    $username = \Input::get('username');
+    $personname = \Input::get('personname');
+    $room_id = \Session::get('roomid');
 
     //usernameからuser_idを取得
     $user_id = \Model\User::get_user_id($username);
@@ -193,7 +193,7 @@ class Api extends \Controller
 
   public function action_mypageEffect()
   {
-    $room_id = $_GET['room_id'];
+    $room_id = \Session::get('roomid');
 
     //room_idからlifemoneyを取得
     $lifemoney = \Model\Room::get_lifemoney($room_id);
@@ -212,11 +212,11 @@ class Api extends \Controller
 
     $username = \Input::json('username');
     $personname = \Input::json('personname');
-    $room_id = \Input::json('room_id');
+    $room_id = \Session::get('roomid');
+    $lifemoney = \Input::json('lifemoney');
     $inputPersonname = \Input::json('inputPersonname');
     $inputUsername = \Input::json('inputUsername');
-    $room_id = \Input::json('room_id');
-    $inputLifemoney = \Input::json('inputLifemoney');
+    $inputlifemoney = \Input::json('inputLifemoney');
 
     if ($inputUsername !== "") {
       //usernameからinputUsernameへ変更
@@ -228,10 +228,10 @@ class Api extends \Controller
       \Model\User::update_username($personname, $inputPersonname);
       $personname = $inputPersonname;
     };
-    if ($inputLifemoney !== "") {
+    // if ($inputlifemoney !== $lifemoney || $inputlifemoney !== 0) {
       //lifemoneyからinputLifemoneyへ変更
-      \Model\Room::update_lifemoney($room_id, $inputLifemoney);
-    }
+      \Model\Room::update_lifemoney($room_id, $inputlifemoney);
+    // };
     
 
     $json = \Format::forge([

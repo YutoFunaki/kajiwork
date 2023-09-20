@@ -8,7 +8,7 @@ const NewWorkRegisterAPI = async (workname, frequency, room_id, nav) => {
   await fetch('http://localhost:8080/api/new', {
     method: 'POST',
     mode: 'cors',
-    // credentials: 'include',
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json",
 

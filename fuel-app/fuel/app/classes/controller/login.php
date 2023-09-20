@@ -6,11 +6,13 @@ class Login extends \Controller
 {
   public function before()
   {
-      parent::before();
+
       // CORSヘッダーを設定
-      header('Access-Control-Allow-Origin: *');
+      header('Access-Control-Allow-Origin: http://localhost:3000');
       header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-      header('Access-Control-Allow-Headers: *');
+      header('Access-Control-Allow-Headers: Content-Type, *');
+      header('Access-Control-Allow-Credentials: true');
+
 
 
       if (\Input::method() == 'OPTIONS') {
@@ -27,11 +29,16 @@ class Login extends \Controller
     $email = \Input::json('email');
     $password = \Input::json('password');
     $hash_password = \Auth::hash_password($password);
+    $sesskey = \Session::key();
     
     if (\Auth::login($email, $password)){
       $user_id = \Model\User::login_user($email,$hash_password);
       $username = \Model\User::get_username($email,$hash_password);
       $room_id = \Model\Roomuser::get_room_id($user_id);
+      \Session::instance();
+      \Session::set('roomid', $room_id);
+      \Session::set('email', $email);
+      \Session::set('username', $username);
       $room_users = \Model\Roomuser::get_users($room_id);
       if ($room_users[0]['user_id'] === $user_id) {
         $user_id = $room_users[0]['user_id'];
@@ -46,6 +53,7 @@ class Login extends \Controller
       return \Response::forge($hash_password, 401);
     }
     $json = \Format::forge([
+      'sessionkey' => $sesskey,
       'username' => $username, 
       'personname' => $personname,
       'room_id' => $room_id,
@@ -62,9 +70,8 @@ class Login extends \Controller
 }
 
 public function action_test2(){
-    echo '2desu</br>';
-    $s2 = \Session::get('userid', '失敗2');
-    var_dump($s2);
+    $s1 = \Session::get('ses');
+    var_dump($s1);
     echo '</br>';
     var_dump(\Session::key('session_id'));
 }

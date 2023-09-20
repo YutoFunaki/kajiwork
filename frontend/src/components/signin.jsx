@@ -10,7 +10,7 @@ const SignupAPI = async (username, password, email, room_id, nav) => {
   await fetch('http://localhost:8080/register', {
     method: 'POST',
     mode: 'cors',
-    // credentials: 'include',
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json",
 

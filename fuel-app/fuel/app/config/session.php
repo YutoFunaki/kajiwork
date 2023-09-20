@@ -14,16 +14,17 @@ return [
 	'auto_initialize' => true,
 	'auto_start' => true,
 	'driver' => 'cookie',
-	'match_ip' => false,
-	'match_ua' => true,
+	'match_ip' => true,
+	'match_ua' => false,
+	'use_cookies' => true,
 	'cookie_domain'    => '',
 	'cookie_path'      => '/',
 	'cookie_http_only' => false,
-	'expiration_time'  => 72000,
-	'expire_on_close' => false,
+	'expiration_time'  => 86400,
+	'expire_on_close' => true,
 	'cookie_same_site' => null,
 	'encrypt_cookie' => false,
-	'rotation_time' => 300,
+	'rotation_time' => 86400,
 	'flash_id' => 'flash',
 	'flash_auto_expire' => true,
 	'flash_expire_after_get' => true,
@@ -34,7 +35,7 @@ return [
 
 	'cookie' => array(
 		'cookie_name'    => 'fuelcid',
-    'write_on_set'   => true
+    'write_on_set'   => true,
 	),
 
 	'file' => array(

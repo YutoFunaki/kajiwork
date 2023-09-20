@@ -6,7 +6,8 @@ const loginAPI = async (email, password, nav) => {
   // 非同期処理
   await fetch('http://localhost:8080/login', {
     method: 'POST',
-    // mode: 'cors',
+    mode: 'cors',
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json"
 
@@ -22,10 +23,8 @@ const loginAPI = async (email, password, nav) => {
       console.log(userData);
       const username = userData.username;
       const personname = userData.personname;
-      const room_id = userData.room_id;
       document.cookie = `username=${username}`;
       document.cookie = `personname=${personname}`;
-      document.cookie = `room_id=${room_id}`;
       nav("/home"); 
     } else if(response.status === 401) {
       console.log('失敗 : ' + response.status)

@@ -49,7 +49,14 @@ const MyPageComponent = () => {
     // APIからデータを取得する
     async function fetchData() {
       try {
-        const response = await fetch(`http://localhost:8080/api/mypageEffect?room_id=${room_id}`);
+        const response = await fetch(`http://localhost:8080/api/mypageEffect`,{
+          method: 'GET',
+          mode: 'cors',
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json"
+          },
+        });
         const data = await response.json();
         setUserData(data);
         //dataからlifemoneyを取り出す
