@@ -10,7 +10,7 @@ const ChangeAPI = async (username, personname, lifemoney, inputUsername, inputPe
   await fetch('http://localhost:8080/api/changepersonnal', {
     method: 'POST',
     mode: 'cors',
-    // credentials: 'include',
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json",
 
@@ -23,11 +23,12 @@ const ChangeAPI = async (username, personname, lifemoney, inputUsername, inputPe
     if (response.status === 200) {
       console.log("成功 : " + response.status);
       const userData = await response.json();
+      console.log('data', userData);
       const username = userData.username;
       const personname = userData.personname;
       document.cookie = `username=${username}`
       document.cookie = `personname=${personname}`
-      window.location.reload()
+      // window.location.reload()
     } else if(response.status === 401) {
       console.log('失敗 : ' + response.status)
       alert("ユーザー名またはメールアドレスが既に登録されています。");
