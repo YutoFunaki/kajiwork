@@ -209,14 +209,13 @@ class Api extends \Controller
     if (\Input::method() !== 'POST') {
       return \Response::forge('変更できませんでした。', 401);
     }
-
+    $room_id = \Session::get('roomid');
     $username = \Input::json('username');
     $personname = \Input::json('personname');
-    $room_id = \Session::get('roomid');
     $lifemoney = \Input::json('lifemoney');
     $inputPersonname = \Input::json('inputPersonname');
     $inputUsername = \Input::json('inputUsername');
-    $inputlifemoney = \Input::json('inputLifemoney');
+    $inputLifemoney = \Input::json('inputLifemoney');
 
     if ($inputUsername !== "") {
       //usernameからinputUsernameへ変更
@@ -228,10 +227,10 @@ class Api extends \Controller
       \Model\User::update_username($personname, $inputPersonname);
       $personname = $inputPersonname;
     };
-    // if ($inputlifemoney !== $lifemoney || $inputlifemoney !== 0) {
+    if ($inputLifemoney !== $lifemoney || $inputLifemoney !== 0) {
       //lifemoneyからinputLifemoneyへ変更
-      \Model\Room::update_lifemoney($room_id, $inputlifemoney);
-    // };
+      \Model\Room::update_lifemoney($room_id, $inputLifemoney);
+    };
     
 
     $json = \Format::forge([

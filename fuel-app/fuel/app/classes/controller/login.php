@@ -60,19 +60,4 @@ class Login extends \Controller
       ])->to_json();
     return \Response::forge($json, 200);     
   }
-
-  public function action_test1(){
-    $d1 = "セッション";
-    var_dump($d1);
-    echo '</br>';
-
-    \Session::set('d1', $d1);
-}
-
-public function action_test2(){
-    $s1 = \Session::get('ses');
-    var_dump($s1);
-    echo '</br>';
-    var_dump(\Session::key('session_id'));
-}
 }

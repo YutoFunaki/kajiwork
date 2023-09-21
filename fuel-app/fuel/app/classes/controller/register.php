@@ -73,20 +73,4 @@ class Register extends \Controller
 
       return \Response::forge(200); 
     }
-
-    public function action_test1(){
-      $d1 = "セッション";
-      var_dump($d1);
-      echo '</br>';
-       
-      \Session::set('d1', $d1);
-  }
-  
-  public function action_test2(){
-      echo '2desu</br>';
-      $s2 = \Session::get('userid', '失敗2');
-      var_dump($s2);
-      echo '</br>';
-      var_dump(\Session::key('session_id'));
-  }
 }
