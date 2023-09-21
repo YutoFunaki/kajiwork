@@ -19,12 +19,6 @@ const loginAPI = async (email, password, nav) => {
     if (response.status === 200) {
       console.log("成功 : " + response.status);
       console.log(response);
-      const userData = await response.json();
-      console.log(userData);
-      const username = userData.username;
-      const personname = userData.personname;
-      document.cookie = `username=${username}`;
-      document.cookie = `personname=${personname}`;
       nav("/home"); 
     } else if(response.status === 401) {
       console.log('失敗 : ' + response.status)

@@ -3,18 +3,11 @@ import React, { useState, useEffect } from "react";
 import "./MyComponent.css";
 import Calendarcomponent from './calendar';
 
-//Cookieからusernameを取得
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-};
-
 
 const Home = () => {
   const [isReady, setIsReady] = useState(false);
-  const username = getCookie('username') || '';
-  const personname = getCookie('personname') || '';
+  const [username, setUsername] = useState();
+  const [personname, setPersonname] = useState();
   const [userData, setUserData] = useState(null);
   const [clickedDate, setClickedDate] = useState(null);
   const [clickedEvents, setClickedEvents] = useState(null);
@@ -34,15 +27,11 @@ const Home = () => {
   const person_finish_tasks_dictionary = [];
   
 
-
-
-
-
   useEffect(() => {
     // APIからデータを取得する
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api?username=${username}&personname=${personname}`,{
+        const response = await fetch(`http://localhost:8080/api`,{
           method: 'GET',
           mode: 'cors',
           credentials: 'include',
@@ -53,6 +42,8 @@ const Home = () => {
         const data = await response.json();
         setUserData(data);
         setIsReady(true);
+        setUsername(data.username);
+        setPersonname(data.personname);
         setLifemoney(data.lifemoney);
         setFrequency(data.tasks_frequency);
         setFinish_task_month(data.finish_task_month);

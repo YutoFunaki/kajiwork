@@ -3,11 +3,6 @@ import { useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-};
 
 const FinishAPI = async (selectedUser, selectedWork, selectedDate, navigate) => {
   console.log("送信するデータ");
@@ -42,9 +37,8 @@ const FinishAPI = async (selectedUser, selectedWork, selectedDate, navigate) => 
 };
 
 const CompleteWorkForm = () => {
-  const room_id = getCookie('room_id');
-  const username = getCookie('username');
-  const personname = getCookie('personname');
+  const [username, setUsername] = useState();
+  const [personname, setPersonname] = useState();
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [workname, setWorkname] = useState([]);
@@ -59,7 +53,7 @@ const CompleteWorkForm = () => {
     // APIからデータを取得する
     async function fetchData() {
       try {
-        const response = await fetch(`http://localhost:8080/api/workfinishEffect?username=${username}&personname=${personname}`,{
+        const response = await fetch(`http://localhost:8080/api/workfinishEffect`,{
           method: 'GET',
           mode: 'cors',
           credentials: 'include',
@@ -71,6 +65,8 @@ const CompleteWorkForm = () => {
         setUserData(data);
         setUser_id(data.user_id);
         setPerson_id(data.person_id);
+        setUsername(data.username);
+        setPersonname(data.personname);
         setWorkname(data.tasks_name);
         setTask_id(data.tasks_id);
         console.log(data);

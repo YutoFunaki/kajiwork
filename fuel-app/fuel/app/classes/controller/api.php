@@ -21,8 +21,8 @@ class Api extends \Controller
 
   public function action_index()
   {
-    $username = \Input::get('username');
-    $personname = \Input::get('personname'); 
+    $username = \Session::get('user_name');
+    $personname = \Session::get('personname');
     $room_id = \Session::get('roomid');
 
     //user_id取得
@@ -43,14 +43,24 @@ class Api extends \Controller
 
     $finish_task_month = \Model\Finishtask::get_finish_tasks_month($user_id);
     $finish_task_count = \Model\Finishtask::get_finish_tasks_count($user_id);
+    if ($finish_task_count === []) {
+      $finish_task_count = [0];
+      $finish_task_month = [0];
+    };
     $person_finish_task_month = \Model\Finishtask::get_finish_tasks_month($person_id);
     $person_finish_task_count = \Model\Finishtask::get_finish_tasks_count($person_id);
+    if ($person_finish_task_count === []) {
+      $person_finish_task_count = [0];
+      $person_finish_task_month = [0];
+    };
 
     // 各room_idに関連付けられたfrequency値を合計する
     $tasks_frequency = \Model\Task::get_frequency_sum($room_id);
     
 
     $json = \Format::forge([
+      'username' => $username,
+      'personname' => $personname,
       'room_id' => $room_id,
       'lifemoney' => $lifemoney,
       'finish_task_name' => $finish_task_name,
@@ -147,8 +157,8 @@ class Api extends \Controller
 
   public function action_workfinishEffect()
   {
-    $username = \Input::get('username');
-    $personname = \Input::get('personname');
+    $username = \Session::get('user_name');
+    $personname = \Session::get('personname');
     $room_id = \Session::get('roomid');
 
     //usernameからuser_idを取得
@@ -163,6 +173,8 @@ class Api extends \Controller
 
   
     $json = \Format::forge([
+      'username' => $username,
+      'personname' => $personname,
       'user_id' => $user_id,
       'person_id' => $person_id,
       'tasks_name' => $tasks_name,
@@ -194,12 +206,16 @@ class Api extends \Controller
   public function action_mypageEffect()
   {
     $room_id = \Session::get('roomid');
+    $username = \Session::get('user_name');
+    $personname = \Session::get('personname');
 
     //room_idからlifemoneyを取得
     $lifemoney = \Model\Room::get_lifemoney($room_id);
 
     $json = \Format::forge([
       'lifemoney' => $lifemoney,
+      'username' => $username,
+      'personname' => $personname,
       ])->to_json();
     return \Response::forge($json, 200);
   }
@@ -210,9 +226,9 @@ class Api extends \Controller
       return \Response::forge('変更できませんでした。', 401);
     }
     $room_id = \Session::get('roomid');
-    $username = \Input::json('username');
-    $personname = \Input::json('personname');
-    $lifemoney = \Input::json('lifemoney');
+    $username = \Session::get('user_name');
+    $personname = \Session::get('personname');
+    $lifemoney = \Model\Room::get_lifemoney($room_id);
     $inputPersonname = \Input::json('inputPersonname');
     $inputUsername = \Input::json('inputUsername');
     $inputLifemoney = \Input::json('inputLifemoney');
@@ -221,13 +237,15 @@ class Api extends \Controller
       //usernameからinputUsernameへ変更
       \Model\User::update_username($username, $inputUsername);
       $username = $inputUsername;
+      \Session::set('username', $username);
     };
     if ($inputPersonname !== "") {
       //personnameからinputPersonnameへ変更
       \Model\User::update_username($personname, $inputPersonname);
       $personname = $inputPersonname;
+      \Session::set('personname', $personname);
     };
-    if ($inputLifemoney !== $lifemoney || $inputLifemoney !== 0) {
+    if ($inputLifemoney !== $lifemoney && $inputLifemoney !== '') {
       //lifemoneyからinputLifemoneyへ変更
       \Model\Room::update_lifemoney($room_id, $inputLifemoney);
     };
@@ -238,5 +256,12 @@ class Api extends \Controller
       'personname' => $personname,
       ])->to_json();
     return \Response::forge($json, 200);
+  }
+
+  public function action_session()
+  {
+    //セッションの値を全て出す
+    $session = \Session::get();
+    var_dump($session);
   }
 }

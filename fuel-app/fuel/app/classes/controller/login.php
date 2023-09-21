@@ -36,12 +36,13 @@ class Login extends \Controller
       \Session::instance();
       \Session::set('roomid', $room_id);
       \Session::set('email', $email);
-      \Session::set('username', $username);
+      \Session::set('user_name', $username);
       $room_users = \Model\Roomuser::get_users($room_id);
       if ($room_users[0]['user_id'] === $user_id) {
         $user_id = $room_users[0]['user_id'];
         $person_id = $room_users[1]['user_id'];
         $personname = \Model\User::get_personname($person_id);
+        \Session::set('user_id', $user_id);
         \Session::set('personname', $personname);
       } else {
         $user_id = $room_users[1]['user_id'];

@@ -1,12 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-};
-
-const ChangeAPI = async (username, personname, lifemoney, inputUsername, inputPersonname, inputLifemoney, room_id, nav) => {
+const ChangeAPI = async (inputUsername, inputPersonname, inputLifemoney,) => {
   await fetch('http://localhost:8080/api/changepersonnal', {
     method: 'POST',
     mode: 'cors',
@@ -16,30 +10,22 @@ const ChangeAPI = async (username, personname, lifemoney, inputUsername, inputPe
 
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify({"username": username, "personname": personname, "lifemoney": lifemoney, "inputUsername": inputUsername, 'inputPersonname': inputPersonname, 'inputLifemoney': inputLifemoney, 'room_id': room_id}),
+    body: JSON.stringify({"inputUsername": inputUsername, 'inputPersonname': inputPersonname, 'inputLifemoney': inputLifemoney}),
   }) 
   .then(async response => {
     // 成功
     if (response.status === 200) {
       console.log("成功 : " + response.status);
-      const userData = await response.json();
-      console.log('data', userData);
-      const username = userData.username;
-      const personname = userData.personname;
-      document.cookie = `username=${username}`
-      document.cookie = `personname=${personname}`
-      // window.location.reload()
+      window.location.reload()
     } else if(response.status === 401) {
       console.log('失敗 : ' + response.status)
-      alert("ユーザー名またはメールアドレスが既に登録されています。");
     }
   }) //2
 }
 
 const MyPageComponent = () => {
-  const room_id = getCookie('room_id');
-  const username = getCookie('username');
-  const personname = getCookie('personname');
+  const [username, setUsername] = useState();
+  const [personname, setPersonname] = useState();
   const [userData, setUserData] = useState(null);
   const [lifemoney, setLifemoney] = useState(null);
   const [inputUsername, setInputUsername] = useState("");
@@ -61,6 +47,8 @@ const MyPageComponent = () => {
         const data = await response.json();
         setUserData(data);
         //dataからlifemoneyを取り出す
+        setUsername(data.username);
+        setPersonname(data.personname);
         setLifemoney(data.lifemoney);
         
         console.log(data);
@@ -74,13 +62,7 @@ const MyPageComponent = () => {
 
 
   const handleChangeSubmit = async() => {
-    console.log(username);
-    console.log(inputUsername);
-    console.log(personname);
-    console.log(inputPersonname);
-    console.log(lifemoney);
-    console.log(inputLifemoney);
-    await ChangeAPI(username, personname, lifemoney, inputUsername, inputPersonname, inputLifemoney, room_id);
+    await ChangeAPI(inputUsername, inputPersonname, inputLifemoney);
   };
 
   return (

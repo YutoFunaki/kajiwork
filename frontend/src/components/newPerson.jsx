@@ -3,19 +3,15 @@ import ko from "knockout";
 import { useNavigate } from "react-router-dom";
 
 
-const SignupAPI = async (username, password, email, room_id, nav) => {
-  // 非同期処理
-  document.cookie = `personname=${username}`;
+const SignupAPI = async (username, password, email, nav) => {
   await fetch('http://localhost:8080/register/person', {
     method: 'POST',
     mode: 'cors',
     credentials: 'include',
     headers: {
       "Content-Type": "application/json",
-
-      // 'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify({"username": username, 'password': password, 'email': email, 'room_id': room_id}),
+    body: JSON.stringify({"username": username, 'password': password, 'email': email}),
   }) 
   .then(async response => {
     // 成功
@@ -25,15 +21,9 @@ const SignupAPI = async (username, password, email, room_id, nav) => {
   .catch((error) => {
     // 失敗
     console.log('失敗 : ' + error)
-    //alert("ユーザー名またはパスワードがすでに登録されています。")
+    alert("ユーザー名またはメールアドレスがすでに登録されています。")
   })
 }
-
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-};
 
 
 const NewPersonForm = () => {
@@ -42,7 +32,6 @@ const NewPersonForm = () => {
   const [inputUsername, setInputUsername] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
-  const room_id = getCookie("room_id");
 
   useEffect(() => {
     const viewModel = createKnockoutViewModel();
@@ -84,7 +73,7 @@ const NewPersonForm = () => {
     console.log("inputUsername:", inputUsername);
     console.log("inputPassword:", inputPassword);
     console.log("inputEmail:", inputEmail);
-    await SignupAPI(inputUsername, inputPassword, inputEmail, room_id, nav);
+    await SignupAPI(inputUsername, inputPassword, inputEmail, nav);
   };
 
   return (

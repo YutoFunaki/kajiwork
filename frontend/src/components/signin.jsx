@@ -4,37 +4,28 @@ import { useNavigate } from "react-router-dom";
 
 
 const SignupAPI = async (username, password, email, room_id, nav) => {
-  // 非同期処理
-  document.cookie = `room_id=${room_id}`;
-  document.cookie = `username=${username}`;
   await fetch('http://localhost:8080/register', {
     method: 'POST',
     mode: 'cors',
     credentials: 'include',
     headers: {
       "Content-Type": "application/json",
-
-      // 'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: JSON.stringify({"username": username, 'password': password, 'email': email, 'room_id': room_id}),
   }) 
   .then(async response => {
     // 成功
     if (response.status === 200) {
-      console.log("成功 : " + response.status);
+      console.log(response.status);
       nav("/newPerson"); 
     } else if(response.status === 401) {
       console.log('失敗 : ' + response.status)
       alert("ユーザー名またはメールアドレスが既に登録されています。");
     }
-  }) //2
+  })
 }
 
-// const getCookie = (name) => {
-//   const value = `; ${document.cookie}`;
-//   const parts = value.split(`; ${name}=`);
-//   if (parts.length === 2) return parts.pop().split(';').shift();
-// };
+
 
 const SigninForm = () => {
   const containerRef = useRef(null);
@@ -43,7 +34,6 @@ const SigninForm = () => {
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const [room_id, setRoom_id] = useState(Math.floor(Date.now()));
-  // const sessionId = getCookie('PHPSESSID') || '';
 
   useEffect(() => {
     const viewModel = createKnockoutViewModel();
