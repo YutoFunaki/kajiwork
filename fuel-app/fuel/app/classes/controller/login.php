@@ -29,8 +29,7 @@ class Login extends \Controller
     $email = \Input::json('email');
     $password = \Input::json('password');
     $hash_password = \Auth::hash_password($password);
-    $sesskey = \Session::key();
-    
+
     if (\Auth::login($email, $password)){
       $user_id = \Model\User::login_user($email,$hash_password);
       $username = \Model\User::get_username($email,$hash_password);
@@ -53,7 +52,6 @@ class Login extends \Controller
       return \Response::forge($hash_password, 401);
     }
     $json = \Format::forge([
-      'sessionkey' => $sesskey,
       'username' => $username, 
       'personname' => $personname,
       'room_id' => $room_id,
