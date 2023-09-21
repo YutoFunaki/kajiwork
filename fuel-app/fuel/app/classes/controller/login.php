@@ -14,7 +14,6 @@ class Login extends \Controller
       header('Access-Control-Allow-Credentials: true');
 
 
-
       if (\Input::method() == 'OPTIONS') {
           exit;
       }
@@ -43,19 +42,18 @@ class Login extends \Controller
         $user_id = $room_users[0]['user_id'];
         $person_id = $room_users[1]['user_id'];
         $personname = \Model\User::get_personname($person_id);
+        \Session::set('personname', $personname);
       } else {
         $user_id = $room_users[1]['user_id'];
         $person_id = $room_users[0]['user_id'];
         $personname = \Model\User::get_personname($person_id);
+        \Session::set('personname', $personname);
       }
     } else {
       return \Response::forge($hash_password, 401);
     }
-    $json = \Format::forge([
-      'username' => $username, 
-      'personname' => $personname,
-      'room_id' => $room_id,
-      ])->to_json();
-    return \Response::forge($json, 200);     
+
+
+    return \Response::forge(200);     
   }
 }
