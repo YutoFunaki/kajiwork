@@ -24,7 +24,7 @@ class Register extends \Controller
       return \Response::forge('新規登録できませんでした。', 401);
     }
 
-    $username = \Input::json('username');
+    $username = \Input::json('user_name');
     $email = \Input::json('email');
     $password = \Input::json('password');
     $hash_password = \Auth::hash_password($password);
