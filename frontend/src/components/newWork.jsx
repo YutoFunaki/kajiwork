@@ -20,7 +20,7 @@ const NewWorkRegisterAPI = async (workname, frequency, room_id, nav) => {
     // 成功
     if (response.status === 200) {
       console.log("成功 : " + response.status);
-      nav("/manage"); 
+      alert("新規登録完了しました。");
     } else if(response.status === 401) {
       console.log('失敗 : ' + response.status)
       alert("既に登録されています。");
