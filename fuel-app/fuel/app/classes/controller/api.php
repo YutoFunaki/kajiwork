@@ -1,7 +1,8 @@
 <?php
 
 namespace Controller;
-class Api extends \Controller
+class Api extends \Controller_Rest
+//Restコントローラーを調べる
 {
   public function before()
   {
