@@ -47,7 +47,6 @@ class Register extends \Controller
 
     public function action_person()
   {
-
     if (\Input::method() !== 'POST') {
       return \Response::forge('新規登録できませんでした。', 401);
     }

@@ -112,11 +112,10 @@ const WorkManage = () => {
       const selectedWorkItem = formatData.find((item) => item.value === selectedWork);
   
       if (selectedWorkItem) {
-        
-        // API呼び出しを非同期で実行
-        await ReWorkAPI(selectedWork, inputWorkname, refrequency, room_id, nav);
-        getData();
 
+        await ReWorkAPI(selectedWork, inputWorkname, refrequency, room_id, nav);
+        
+        getData();
         setInputWorkname("");
         setSelectedWork([]);
       } else {
@@ -167,7 +166,7 @@ const WorkManage = () => {
     if (selectedWorkItem) {
       await DeleteWorkAPI(selectedWork);
       getData();
-      //データを送るとselectedworkをリセット
+      //selectedworkをリセット
       setSelectedWork([]);
       } else {
         alert("家事を選択してください。");
