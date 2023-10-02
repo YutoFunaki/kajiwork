@@ -16,10 +16,10 @@ const SignupAPI = async (username, password, email, room_id, nav) => {
   .then(async response => {
     // 成功
     if (response.status === 200) {
-      console.log(response.status);
+      console.log("成功");
       nav("/newPerson"); 
     } else if(response.status === 401) {
-      console.log('失敗 : ' + response.status)
+      console.log('失敗')
       alert("ユーザー名またはメールアドレスが既に登録されています。");
     }
   })

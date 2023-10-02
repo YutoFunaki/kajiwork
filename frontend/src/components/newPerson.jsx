@@ -14,14 +14,12 @@ const SignupAPI = async (username, password, email, nav) => {
     body: JSON.stringify({"username": username, 'password': password, 'email': email}),
   }) 
   .then(async response => {
-    // 成功
-    console.log(response);
-    nav("/home");
-  }) //2
-  .catch((error) => {
-    // 失敗
-    console.log('失敗 : ' + error)
-    alert("ユーザー名またはメールアドレスがすでに登録されています。")
+    if (response.status === 200) {
+      console.log("成功");
+      nav("/home");
+    } else if(response.status === 401) {
+      console.log('失敗')
+    }
   })
 }
 

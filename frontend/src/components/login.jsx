@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const loginAPI = async (email, password, nav) => {
   // 非同期処理
-  await fetch('http://localhost:8080/login', {
+  await fetch('http://localhost:8080/login/process', {
     method: 'POST',
     mode: 'cors',
     credentials: 'include',
@@ -17,11 +17,10 @@ const loginAPI = async (email, password, nav) => {
   }) 
   .then(async response => {  //3
     if (response.status === 200) {
-      console.log("成功 : " + response.status);
-      console.log(response);
+      console.log("成功");
       nav("/home"); 
     } else if(response.status === 401) {
-      console.log('失敗 : ' + response.status)
+      console.log('失敗')
       alert("メールアドレスまたはパスワードに誤りがあります。");
     }
     })
