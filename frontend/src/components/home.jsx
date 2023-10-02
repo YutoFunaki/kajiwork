@@ -36,7 +36,7 @@ const Home = () => {
           mode: 'cors',
           credentials: 'include',
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
         });
         const data = await response.json();
@@ -50,8 +50,6 @@ const Home = () => {
         setFinish_task_count(data.finish_task_count);
         setPerson_finish_task_month(data.person_finish_task_month);
         setPerson_finish_task_count(data.person_finish_task_count);
-        
-        console.log(data);
       } catch (error) {
         console.error('データの取得に失敗しました', error);
       }
