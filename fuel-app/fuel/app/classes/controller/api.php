@@ -11,7 +11,7 @@ class Api extends \Controller_Rest
       // CORSヘッダーを設定
       header('Access-Control-Allow-Origin: http://localhost:3000');
       header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-      header('Access-Control-Allow-Headers: Content-Type, *');
+      header('Access-Control-Allow-Headers: Content-Type, x-csrf-token');
       header('Access-Control-Allow-Credentials: true');
 
 
@@ -25,6 +25,8 @@ class Api extends \Controller_Rest
     $username = \Session::get('user_name');
     $personname = \Session::get('personname');
     $room_id = \Session::get('roomid');
+    $csrf_token = \Security::generate_token();
+    \Cookie::set('csrf_token', $csrf_token);
 
     //user_id取得
     $user_id = \Model\User::get_user_id($username);
@@ -83,6 +85,13 @@ class Api extends \Controller_Rest
     if (\Input::method() !== 'POST') {
       return \Response::forge('入力項目に空欄がある', 401);
     }
+    $submitted_token = \Input::headers('X-CSRF-Token');
+    $stored_token = \Cookie::get('csrf_token');
+
+    if ($submitted_token !== $stored_token) {
+        // トークンが一致しない場合、エラーを返すかリダイレクトするなどの処理を行う
+        return \Response::forge('CSRF攻撃の疑いがあるため、リクエストを拒否しました。', 500);
+    }
 
     $workname = \Input::json('workname');
     $frequency = \Input::json('frequency');
@@ -105,6 +114,7 @@ class Api extends \Controller_Rest
       $tasks_name = \Model\Task::get_tasks_name($room_id);
       $tasks_frequency = \Model\Task::get_tasks_frequency($room_id);
       $tasks_id = \Model\Task::get_tasks_id($room_id);
+      \Session::set('tasks_id', $tasks_id);
 
     
       $json = \Format::forge([
@@ -119,14 +129,17 @@ class Api extends \Controller_Rest
   {
     if (\Input::method() !== 'POST') {
       return \Response::forge('削除できませんでした。', 401);
-    }
-
+    } 
+    $task_id =  \Session::get("task_id");
     $id = \Input::json('selectedWork');
 
-    //tasksからidをもとに削除
-    \Model\Task::delete_task($id);
-  
-     return \Response::forge(200);
+    //tasks_idが一致するか確認
+    if (in_array($id, $task_id)) {
+      \Model\Task::delete_task($id);
+      return \Response::forge(200); 
+    } else {
+      return \Response::forge('削除できませんでした。', 401);
+    }
   }
 
   public function action_workrename()
@@ -135,25 +148,30 @@ class Api extends \Controller_Rest
       return \Response::forge('変更できませんでした。', 401);
     }
 
+    $task_id =  \Session::get("task_id");
     $id = \Input::json('selectedWork');
     $workname = \Input::json('workname');
     $frequency = \Input::json('frequency');
 
-    if ($workname !== "" && $frequency !== 0) {
-      \Model\Task::update_tasks_name($id, $workname);
-      \Model\Task::update_tasks_frequency($id, $frequency);
-    } else if ($frequency !== 0 && $workname === "") {
-      \Model\Task::update_tasks_frequency($id, $frequency);
-    } else if ($workname !== "" && $frequency === 0){
-      \Model\Task::update_tasks_name($id, $workname);
+    if (in_array($id, $task_id)) {
+      if ($workname !== "" && $frequency !== 0) {
+        \Model\Task::update_tasks_name($id, $workname);
+        \Model\Task::update_tasks_frequency($id, $frequency);
+      } else if ($frequency !== 0 && $workname === "") {
+        \Model\Task::update_tasks_frequency($id, $frequency);
+      } else if ($workname !== "" && $frequency === 0){
+        \Model\Task::update_tasks_name($id, $workname);
+      }
+    
+      $json = \Format::forge([
+        'workname' => $workname,
+        'frequency' => $frequency,
+        'id' => $id,
+        ])->to_json();
+      return \Response::forge($json, 200);
+    } else {
+      return \Response::forge('変更できませんでした。', 401);
     }
-  
-    $json = \Format::forge([
-      'workname' => $workname,
-      'frequency' => $frequency,
-      'id' => $id,
-      ])->to_json();
-    return \Response::forge($json, 200);
   }
 
   public function action_workfinishEffect()
