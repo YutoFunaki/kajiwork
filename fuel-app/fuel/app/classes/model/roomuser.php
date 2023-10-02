@@ -21,46 +21,42 @@ class Roomuser extends \Model
 	);
 
 	public static function create_roomuser($user_id, $room_id)
-    {
-        $query = \DB::insert(static::$_table_name);
-        $query->set([
-                'user_id' => $user_id,
-								'room_id' => $room_id,
-            ]);
-				$result = $query->execute();
-        
-        if ($result) {
-            return $result[0];
-        } else {
-            return false; // 挿入に失敗した場合はfalseを返す
-        }
-    }
+	{
+			$query = \DB::insert(static::$_table_name);
+			$query->set([
+					'user_id' => $user_id,
+					'room_id' => $room_id,
+			]);
+			$result = $query->execute();
+			
+			if ($result) {
+					return $result[0];
+			} else {
+					return false; // 挿入に失敗した場合はfalseを返す
+			}
+	}
 
 	public static function get_room_id($user_id)
 	{
-		$query = \DB::select('room_id')
-					->from(static::$_table_name)
-					->where('user_id', '=', $user_id)
-					->execute();
-		$result = $query->as_array();
-		if ($result) {
-				return $result[0]['room_id'];
-		} else {
-				return false; // 挿入に失敗した場合はfalseを返す
-		}
+			$select = "SELECT room_id FROM room_users WHERE user_id = :user_id";
+			$query = \DB::query($select)->bind("user_id", $user_id)->execute();
+			$result = $query->as_array();
+			if ($result) {
+					return $result[0]['room_id'];
+			} else {
+					return false; // 挿入に失敗した場合はfalseを返す
+			}
 	}
 
 	public static function get_users($room_id)
 	{
-		$query = \DB::select('user_id')
-					->from(static::$_table_name)
-					->where('room_id', '=', $room_id)
-					->execute();
-		$result = $query->as_array();
-		if ($result) {
-				return $result;
-		} else {
-				return false; // 挿入に失敗した場合はfalseを返す
-		}
+			$select = "SELECT user_id FROM room_users WHERE room_id = :room_id";
+			$query = \DB::query($select)->bind("room_id", $room_id)->execute();
+			$result = $query->as_array();
+			if ($result) {
+					return $result;
+			} else {
+					return false; // 挿入に失敗した場合はfalseを返す
+			}
 	}
 }

@@ -215,11 +215,11 @@ return array(
 		 * ---------------------------------------------------------------------
 		 */
 
-		// 'csrf_autoload'            => false,
+		'csrf_autoload'            => false,
 		// 'csrf_autoload_methods'    => array('post', 'put', 'delete'),
 		// 'csrf_bad_request_on_fail' => false,
 		// 'csrf_auto_token'          => false,
-		// 'csrf_token_key'           => 'fuel_csrf_token',
+		'csrf_token_key'           => 'fuel_csrf_token',
 		'csrf_expiration'          => 3600*10,
 
 		/**
@@ -228,7 +228,7 @@ return array(
 		 * ---------------------------------------------------------------------
 		 */
 
-		// 'token_salt' => 'put your salt value here to make the token more secure',
+		'token_salt' => 'salt',
 
 		/**
 		 * ---------------------------------------------------------------------

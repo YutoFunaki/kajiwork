@@ -39,63 +39,43 @@ class User extends \Model
 		protected static $_created_at = 'created_at';
 
 		//新規ユーザー登録
-    public static function create_user($username, $email, $password)
-    {
-        $query = \DB::insert(static::$_table_name);
-        $query->set([
-                'username' => $username,
-                'email' => $email,
-                'password' => $password,
-            ]);
-				$result = $query->execute();
-				
-				if ($result) {
-						return $result[0];
-				} else {
-						return false; // 挿入に失敗した場合はfalseを返す
-				}
-    }
-
 		public static function get_user_id($username)
 		{
-				$query = \DB::select('id')
-										->from(static::$_table_name)
-										->where('username', '=', $username)
-										->execute();
-				$result = $query->as_array();
-				if ($result) {
-						return $result[0]['id'];
+				$select = "SELECT id FROM users WHERE username = :username";
+				$query = \DB::query($select)->bind("username", $username)->execute()->as_array();
+
+				if ($query) {
+						return $query[0]['id'];
 				} else {
 						return false; // 挿入に失敗した場合はfalseを返す
 				}
 		}
 
-		//ユーザーID取得
-		public static function login_user($email,$password)
-    {
-        $query = \DB::select('id')
-                    ->from(static::$_table_name)
-                    ->where('email', '=', $email)
-										->where('password', '=', $password)
-                    ->execute();
+		public static function login_user($email, $password)
+		{
+				$select = "SELECT id FROM users WHERE email = :email AND password = :password";
+				$query = \DB::query($select)
+						->bind("email", $email)
+						->bind("password", $password)
+						->execute();
 
-        if ($query && $query->count() > 0) {
-            $result = $query->current();
-            return $result['id'];
-        } else {
-            return false; // ユーザーが見つからなかった場合は false を返す
-        }
-    }
+				if ($query && $query->count() > 0) {
+						$result = $query->current();
+						return $result['id'];
+				} else {
+						return false; // ユーザーが見つからなかった場合は false を返す
+				}
+		}
 
 		public static function update_username($username, $inputUsername)
 		{
-				$query = \DB::update(static::$_table_name);
-				$query->set([
-						'username' => $inputUsername,
-				]);
-				$query->where('username', '=', $username);
-				$result = $query->execute();
-				if ($result) {
+				$update = "UPDATE users SET username = :inputUsername WHERE username = :username";
+				$query = \DB::query($update)
+						->bind("inputUsername", $inputUsername)
+						->bind("username", $username)
+						->execute();
+
+				if ($query) {
 						return true;
 				} else {
 						return false; // 挿入に失敗した場合はfalseを返す
@@ -104,11 +84,11 @@ class User extends \Model
 
 		public static function get_username($email, $password)
 		{
-				$query = \DB::select('username')
-										->from(static::$_table_name)
-										->where('email', '=', $email)
-										->where('password', '=', $password)
-										->execute();
+				$select = "SELECT username FROM users WHERE email = :email AND password = :password";
+				$query = \DB::query($select)
+						->bind("email", $email)
+						->bind("password", $password)
+						->execute();
 
 				if ($query && $query->count() > 0) {
 						$result = $query->current();
@@ -118,13 +98,12 @@ class User extends \Model
 				}
 		}
 
-		//person_idをidとしてusername取得
 		public static function get_personname($person_id)
 		{
-				$query = \DB::select('username')
-										->from(static::$_table_name)
-										->where('id', '=', $person_id)
-										->execute();
+				$select = "SELECT username FROM users WHERE id = :person_id";
+				$query = \DB::query($select)
+						->bind("person_id", $person_id)
+						->execute();
 
 				if ($query && $query->count() > 0) {
 						$result = $query->current();
@@ -136,10 +115,10 @@ class User extends \Model
 
 		public static function get_person_id($personname)
 		{
-				$query = \DB::select('id')
-										->from(static::$_table_name)
-										->where('username', '=', $personname)
-										->execute();
+				$select = "SELECT id FROM users WHERE username = :personname";
+				$query = \DB::query($select)
+						->bind("personname", $personname)
+						->execute();
 
 				if ($query && $query->count() > 0) {
 						$result = $query->current();

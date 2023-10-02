@@ -32,102 +32,93 @@ class Task extends \Model
 			),
 	);
 
-	public static function get_tasks_name_by_id($id)
-	{
-		$query = \DB::select('name')
-					->from(static::$_table_name)
-					->where('id', '=', $id)
-					->execute();
-		$result = $query->as_array();
-		$tasks_name = array_column($result, 'name');
-		return $tasks_name[0];
-	}
+		public static function get_tasks_name_by_id($id)
+		{
+				$select = "SELECT name FROM tasks WHERE id = :id";
+				$query = \DB::query($select)->bind("id", $id)->execute();
+				$result = $query->as_array();
+				$tasks_name = array_column($result, 'name');
+				return $tasks_name[0];
+		}
 
-	public static function get_tasks_name($room_id)
-	{
-		$query = \DB::select('name')
-					->from(static::$_table_name)
-					->where('room_id', '=', $room_id)
-					->execute();
-		$result = $query->as_array();
-		$tasks_name = array_column($result, 'name');
-		return $tasks_name;
-	}
+		public static function get_tasks_name($room_id)
+		{
+				$select = "SELECT name FROM tasks WHERE room_id = :room_id";
+				$query = \DB::query($select)->bind("room_id", $room_id)->execute();
+				$result = $query->as_array();
+				$tasks_name = array_column($result, 'name');
+				return $tasks_name;
+		}
 
-	public static function get_tasks_frequency($room_id)
-	{
-		$query = \DB::select('frequency')
-					->from(static::$_table_name)
-					->where('room_id', '=', $room_id)
-					->execute();
-		$result = $query->as_array();
-		$tasks_frequency = array_column($result, 'frequency');
-		return $tasks_frequency;
-	}
+		public static function get_tasks_frequency($room_id)
+		{
+				$select = "SELECT frequency FROM tasks WHERE room_id = :room_id";
+				$query = \DB::query($select)->bind("room_id", $room_id)->execute();
+				$result = $query->as_array();
+				$tasks_frequency = array_column($result, 'frequency');
+				return $tasks_frequency;
+		}
 
-	public static function get_tasks_id($room_id)
-	{
-		$query = \DB::select('id')
-					->from(static::$_table_name)
-					->where('room_id', '=', $room_id)
-					->execute();
-		$result = $query->as_array();
-		$tasks_id = array_column($result, 'id');
-		return $tasks_id;
-	}
+		public static function get_tasks_id($room_id)
+		{
+				$select = "SELECT id FROM tasks WHERE room_id = :room_id";
+				$query = \DB::query($select)->bind("room_id", $room_id)->execute();
+				$result = $query->as_array();
+				$tasks_id = array_column($result, 'id');
+				return $tasks_id;
+		}
 
-	public static function get_frequency_sum($room_id)
-	{
-		$query = \DB::select('frequency')
-					->from(static::$_table_name)
-					->where('room_id', '=', $room_id)
-					->execute();
-		$result = $query->as_array();
-		$task_frequency = array_column($result, 'frequency');
-		$task_frequency = array_sum($task_frequency);
-		return $task_frequency;
-	}
+		public static function get_frequency_sum($room_id)
+		{
+				$select = "SELECT frequency FROM tasks WHERE room_id = :room_id";
+				$query = \DB::query($select)->bind("room_id", $room_id)->execute();
+				$result = $query->as_array();
+				$task_frequency = array_column($result, 'frequency');
+				$task_frequency = array_sum($task_frequency);
+				return $task_frequency;
+		}
 
-	public static function create_task($workname, $room_id, $frequency)
-	{
-			$query = \DB::insert(static::$_table_name);
-			$query->set([
-							'name' => $workname,
-							'room_id' => $room_id,
-							'frequency' => $frequency,
-					]);
-			$result = $query->execute();
-			
-			return $result;
-	}
+		public static function create_task($workname, $room_id, $frequency)
+		{
+				$query = \DB::insert(static::$_table_name);
+				$query->set([
+						'name' => $workname,
+						'room_id' => $room_id,
+						'frequency' => $frequency,
+				]);
+				$result = $query->execute();
+				
+				return $result;
+		}
 
-	public static function delete_task($id)
-	{
-			$delete = \DB::delete(static::$_table_name)
-					->where('id', '=', $id)
-					->execute();
-			return $delete;
-	}
+		public static function delete_task($id)
+		{
+				$delete = \DB::delete(static::$_table_name)
+						->where('id', '=', $id)
+						->execute();
+				return $delete;
+		}
 
-	public static function update_tasks_name($id, $workname)
-	{
-			$update = \DB::update(static::$_table_name);
-			$update->set([
-							'name' => $workname,
-					]);
-			$update->where('id', '=', $id);
-			$result = $update->execute();
-			return $result;
-	}
+		public static function update_tasks_name($id, $workname)
+		{
+				$update = \DB::update(static::$_table_name);
+				$update->set([
+						'name' => $workname,
+				]);
+				$update->where('id', '=', $id);
+				$result = $update->execute();
+				return $result;
+		}
 
-	public static function update_tasks_frequency($id, $frequency)
-	{
-			$update = \DB::update(static::$_table_name);
-			$update->set([
-							'frequency' => $frequency,
-					]);
-			$update->where('id', '=', $id);
-			$result = $update->execute();
-			return $result;
-	}
+		public static function update_tasks_frequency($id, $frequency)
+		{
+				$update = \DB::update(static::$_table_name);
+				$update->set([
+						'frequency' => $frequency,
+				]);
+				$update->where('id', '=', $id);
+				$result = $update->execute();
+				return $result;
+		}
+
 }

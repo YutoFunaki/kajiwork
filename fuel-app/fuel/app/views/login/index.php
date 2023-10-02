@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome to FuelPHP</title>
+    <title>ログインフォーム</title>
 </head>
 <body>
-    <h1>Welcome to FuelPHP!</h1>
-    <p><?php echo $message; ?></p>
+    <h2>ログイン</h2>
+    <form action="login/process" method="post">
+        <label for="email">メールアドレス:</label>
+        <input type="text" id="email" name="email" required><br><br>
+
+        <label for="password">パスワード:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="submit">ログイン</button>
+    </form>
 </body>
 </html>

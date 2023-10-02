@@ -19,7 +19,7 @@ return [
 	'use_cookies' => true,
 	'cookie_domain'    => '',
 	'cookie_path'      => '/',
-	'cookie_http_only' => false,
+	'cookie_http_only' => true,
 	'expiration_time'  => 86400,
 	'expire_on_close' => true,
 	'cookie_same_site' => null,
