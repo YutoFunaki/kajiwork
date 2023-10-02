@@ -7,62 +7,6 @@ const getCookie = (name) => {
   if (parts.length === 2) return parts.pop().split(';').shift();
 };
 
-const ReWorkAPI = async (selectedWork, inputWorkname, frequency, room_id, nav) => {
-  console.log("送信するデータ");
-  console.log(selectedWork);
-  console.log(inputWorkname);
-
-  // 非同期処理
-  await fetch('http://localhost:8080/api/workrename', {
-    method: 'POST',
-    mode: 'cors',
-    credentials: 'include',
-    headers: {
-      "Content-Type": "application/json",
-
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify({'selectedWork': selectedWork, 'workname': inputWorkname, 'frequency': frequency, 'room_id': room_id}),
-  }) 
-  .then(async response => {
-    // 成功
-    if (response.status === 200) {
-      const data = await response.json();
-      console.log("受け取ったデータ");
-      console.log(data);
-      console.log("成功 : " + response.status);
-    } else if(response.status === 401) {
-      console.log('失敗 : ' + response.status)
-      alert("エラーが発生しました。");
-    }
-  }) //2
-};
-
-const DeleteWorkAPI = async (selectedWork) => {
-  console.log(selectedWork)
-  // 非同期処理
-  await fetch('http://localhost:8080/api/workdelete', {
-    method: 'POST',
-    mode: 'cors',
-    credentials: 'include',
-    headers: {
-      "Content-Type": "application/json",
-
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify({'selectedWork': selectedWork}),
-  }) 
-  .then(async response => {
-    // 成功
-    if (response.status === 200) {
-      console.log("成功 : " + response.status);
-    } else if(response.status === 401) {
-      console.log('失敗 : ' + response.status)
-      alert("エラーが発生しました。");
-    }
-  }) //2
-};
-
 const WorkManage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const room_id = getCookie('room_id');
@@ -76,6 +20,7 @@ const WorkManage = () => {
   const [selectedWork, setSelectedWork] = useState([]);
   const [inputWorkname, setInputWorkname] = useState("");
   const nav = useNavigate();
+  const csrf_token = getCookie('csrf_token');
 
   useEffect(() => {
     getData();
@@ -88,7 +33,8 @@ const WorkManage = () => {
       mode: 'cors',
       credentials: 'include', 
       headers: {
-        'Content-Type': 'application/json', 
+        "Content-Type": "application/json",
+        'X-CSRF-Token': csrf_token
       },
     })
       .then(response => response.json()) 
@@ -100,10 +46,63 @@ const WorkManage = () => {
         console.log(data);
       })
       .catch(error => {
-        console.error('エラー:', error);
+        console.error(error);
       });
     }
 
+    const ReWorkAPI = async (selectedWork, inputWorkname, frequency, room_id, nav) => {
+      console.log("送信するデータ");
+      console.log(selectedWork);
+      console.log(inputWorkname);
+    
+      // 非同期処理
+      await fetch('http://localhost:8080/api/workrename', {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+          'X-CSRF-Token': csrf_token
+        },
+        body: JSON.stringify({'selectedWork': selectedWork, 'workname': inputWorkname, 'frequency': frequency, 'room_id': room_id}),
+      }) 
+      .then(async response => {
+        // 成功
+        if (response.status === 200) {
+          const data = await response.json();
+          console.log("受け取ったデータ");
+          console.log(data);
+          console.log("成功");
+        } else if(response.status === 401) {
+          console.log('失敗')
+          alert("エラーが発生しました。");
+        }
+      }) //2
+    };
+
+    const DeleteWorkAPI = async (selectedWork) => {
+      console.log(selectedWork)
+      // 非同期処理
+      await fetch('http://localhost:8080/api/workdelete', {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+          'X-CSRF-Token': csrf_token
+        },
+        body: JSON.stringify({'selectedWork': selectedWork}),
+      }) 
+      .then(async response => {
+        // 成功
+        if (response.status === 200) {
+          console.log("成功");
+        } else if(response.status === 401) {
+          console.log('失敗')
+          alert("エラーが発生しました。");
+        }
+      }) //2
+    };
 
   const handleSigninSubmit = async() => {
     setIsLoading(true); // ローディングを有効

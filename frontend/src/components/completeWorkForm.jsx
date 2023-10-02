@@ -3,38 +3,13 @@ import { useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-
-const FinishAPI = async (selectedUser, selectedWork, selectedDate, navigate) => {
-  console.log("送信するデータ");
-  console.log(selectedUser);
-  console.log(selectedWork);
-
-  // 非同期処理
-  await fetch('http://localhost:8080/api/finishwork', {
-    method: 'POST',
-    mode: 'cors',
-    credentials: 'include',
-    headers: {
-      "Content-Type": "application/json",
-
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify({'selectedUser': selectedUser, 'selectedWork': selectedWork, 'selectedDate': selectedDate}),
-  }) 
-  .then(async response => {
-    // 成功
-    if (response.status === 200) {
-      const data = await response.json();
-      console.log("受け取ったデータ");
-      console.log(data);
-      console.log("成功 : " + response.status);
-      navigate("/connectwork");
-    } else if(response.status === 401) {
-      console.log('失敗 : ' + response.status)
-      alert("エラーが発生しました。");
-    }
-  }) //2
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 };
+
+
 
 const CompleteWorkForm = () => {
   const [username, setUsername] = useState();
@@ -48,6 +23,7 @@ const CompleteWorkForm = () => {
   const [user_id, setUser_id] = useState([]);
   const [person_id, setPerson_id] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
+  const csrf_token = getCookie('csrf_token');
 
   useEffect(() => {
     // APIからデータを取得する
@@ -58,7 +34,8 @@ const CompleteWorkForm = () => {
           mode: 'cors',
           credentials: 'include',
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'X-CSRF-Token': csrf_token
           },
         });
         const data = await response.json();
@@ -77,6 +54,34 @@ const CompleteWorkForm = () => {
 
     fetchData();
   }, []);
+
+  const FinishAPI = async (selectedUser, selectedWork, selectedDate, navigate) => {
+    console.log("送信するデータ");
+    console.log(selectedUser);
+    console.log(selectedWork);
+  
+    // 非同期処理
+    await fetch('http://localhost:8080/api/finishwork', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+        'X-CSRF-Token': csrf_token
+      },
+      body: JSON.stringify({'selectedUser': selectedUser, 'selectedWork': selectedWork, 'selectedDate': selectedDate}),
+    }) 
+    .then(async response => {
+      // 成功
+      if (response.status === 200) {
+        console.log("成功");
+        navigate("/connectwork");
+      } else if(response.status === 401) {
+        console.log('失敗')
+        alert("エラーが発生しました。");
+      }
+    }) //2
+  };
 
   const chengeUser = (event) => {
     setSelectedUser(event.target.value);

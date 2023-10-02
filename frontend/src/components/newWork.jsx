@@ -3,31 +3,6 @@ import ko from "knockout";
 import { useNavigate } from "react-router-dom";
 
 
-const NewWorkRegisterAPI = async (workname, frequency, room_id, nav) => {
-  // 非同期処理
-  await fetch('http://localhost:8080/api/new', {
-    method: 'POST',
-    mode: 'cors',
-    credentials: 'include',
-    headers: {
-      "Content-Type": "application/json",
-
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify({"workname": workname, 'frequency': frequency, 'room_id': room_id}),
-  }) 
-  .then(async response => {
-    // 成功
-    if (response.status === 200) {
-      console.log("成功 : " + response.status);
-      alert("新規登録完了しました。");
-    } else if(response.status === 401) {
-      console.log('失敗 : ' + response.status)
-      alert("既に登録されています。");
-    }
-  }) //2
-}
-
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -41,7 +16,7 @@ const newWork = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [inputDate, setInputDate] = useState("");
   const frequency = selectedDate * inputDate;
-  const room_id = getCookie('room_id') || '';
+  const csrf_token = getCookie('csrf_token');
 
   useEffect(() => {
     const viewModel = createKnockoutViewModel();
@@ -62,6 +37,33 @@ const newWork = () => {
       frequency(newValue);
     });
   }, []);
+
+  const NewWorkRegisterAPI = async (workname, frequency, nav) => {
+    // 非同期処理
+    await fetch('http://localhost:8080/api/new', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+        'X-CSRF-Token': csrf_token
+      },
+      body: JSON.stringify({"workname": workname, 'frequency': frequency}),
+    }) 
+    .then(async response => {
+      // 成功
+      if (response.status === 200) {
+        console.log("成功");
+        alert("新規登録完了しました。");
+      } else if(response.status === 401) {
+        console.log('失敗')
+        alert("既に登録されています。");
+      } else if(response.status === 500) {
+        alert('csrf_tokenが一致しません');
+        nav("/");
+      }
+    }) //2
+  }
 
   const createKnockoutViewModel = () => {
     var viewModel = {};
@@ -84,7 +86,7 @@ const newWork = () => {
   };
 
   const handleSigninSubmit = async() => {
-    await NewWorkRegisterAPI(inputWorkname, frequency, room_id, nav);
+    await NewWorkRegisterAPI(inputWorkname, frequency, nav);
   };
 
   const handleSelectChange = (event) => {

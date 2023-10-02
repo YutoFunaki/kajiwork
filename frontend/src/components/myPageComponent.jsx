@@ -1,27 +1,11 @@
 import React, {useEffect, useState} from "react";
 
-const ChangeAPI = async (inputUsername, inputPersonname, inputLifemoney,) => {
-  await fetch('http://localhost:8080/api/changepersonnal', {
-    method: 'POST',
-    mode: 'cors',
-    credentials: 'include',
-    headers: {
-      "Content-Type": "application/json",
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+};
 
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify({"inputUsername": inputUsername, 'inputPersonname': inputPersonname, 'inputLifemoney': inputLifemoney}),
-  }) 
-  .then(async response => {
-    // 成功
-    if (response.status === 200) {
-      console.log("成功 : " + response.status);
-      window.location.reload()
-    } else if(response.status === 401) {
-      console.log('失敗 : ' + response.status)
-    }
-  }) //2
-}
 
 const MyPageComponent = () => {
   const [username, setUsername] = useState();
@@ -31,6 +15,7 @@ const MyPageComponent = () => {
   const [inputUsername, setInputUsername] = useState("");
   const [inputPersonname, setInputPersonname] = useState("");
   const [inputLifemoney, setInputLifemoney] = useState("");
+  const csrf_token = getCookie('csrf_token');
 
   useEffect(() => {
     // APIからデータを取得する
@@ -41,7 +26,8 @@ const MyPageComponent = () => {
           mode: 'cors',
           credentials: 'include',
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'X-CSRF-Token': csrf_token
           },
         });
         const data = await response.json();
@@ -59,6 +45,28 @@ const MyPageComponent = () => {
   
     fetchData();
   }, []); 
+
+  const ChangeAPI = async (inputUsername, inputPersonname, inputLifemoney,) => {
+    await fetch('http://localhost:8080/api/changepersonnal', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+        'X-CSRF-Token': csrf_token
+      },
+      body: JSON.stringify({"inputUsername": inputUsername, 'inputPersonname': inputPersonname, 'inputLifemoney': inputLifemoney}),
+    }) 
+    .then(async response => {
+      // 成功
+      if (response.status === 200) {
+        console.log("成功");
+        window.location.reload();
+      } else if(response.status === 401) {
+        console.log('失敗');
+      }
+    }) //2
+  }
 
 
   const handleChangeSubmit = async() => {
