@@ -30,6 +30,10 @@ class Task extends \Model
 					'data_type' => 'timestamp',
 					'label' => 'Updated At',
 			),
+			'deleted_at' => array(
+          'data_type' => 'timestamp',
+          'label' => 'Deleted At',
+      ),
 	);
 
 		public static function get_tasks_name_by_id($id)
@@ -43,7 +47,7 @@ class Task extends \Model
 
 		public static function get_tasks_name($room_id)
 		{
-				$select = "SELECT name FROM tasks WHERE room_id = :room_id";
+				$select = "SELECT name FROM tasks WHERE room_id = :room_id AND deleted_at IS NULL";
 				$query = \DB::query($select)->bind("room_id", $room_id)->execute();
 				$result = $query->as_array();
 				$tasks_name = array_column($result, 'name');
@@ -52,7 +56,7 @@ class Task extends \Model
 
 		public static function get_tasks_frequency($room_id)
 		{
-				$select = "SELECT frequency FROM tasks WHERE room_id = :room_id";
+				$select = "SELECT frequency FROM tasks WHERE room_id = :room_id AND deleted_at IS NULL";
 				$query = \DB::query($select)->bind("room_id", $room_id)->execute();
 				$result = $query->as_array();
 				$tasks_frequency = array_column($result, 'frequency');
@@ -61,7 +65,7 @@ class Task extends \Model
 
 		public static function get_tasks_id($room_id)
 		{
-				$select = "SELECT id FROM tasks WHERE room_id = :room_id";
+				$select = "SELECT id FROM tasks WHERE room_id = :room_id AND deleted_at IS NULL";
 				$query = \DB::query($select)->bind("room_id", $room_id)->execute();
 				$result = $query->as_array();
 				$tasks_id = array_column($result, 'id');
@@ -70,7 +74,7 @@ class Task extends \Model
 
 		public static function get_frequency_sum($room_id)
 		{
-				$select = "SELECT frequency FROM tasks WHERE room_id = :room_id";
+				$select = "SELECT frequency FROM tasks WHERE room_id = :room_id AND deleted_at IS NULL";
 				$query = \DB::query($select)->bind("room_id", $room_id)->execute();
 				$result = $query->as_array();
 				$task_frequency = array_column($result, 'frequency');
@@ -93,10 +97,13 @@ class Task extends \Model
 
 		public static function delete_task($id)
 		{
-				$delete = \DB::delete(static::$_table_name)
-						->where('id', '=', $id)
-						->execute();
-				return $delete;
+				$update = \DB::update(static::$_table_name);
+				$update->set([
+						'deleted_at' => \DB::expr('NOW()'), // 削除日時を設定
+				]);
+				$update->where('id', '=', $id);
+				$result = $update->execute();
+				return $result;
 		}
 
 		public static function update_tasks_name($id, $workname)

@@ -27,7 +27,8 @@ CREATE TABLE `tasks` (
   `room_id` varchar(64) CHARACTER SET utf8mb4 NOT NULL COMMENT 'ルームID',
   `frequency` int(11) NOT NULL COMMENT '頻度',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
