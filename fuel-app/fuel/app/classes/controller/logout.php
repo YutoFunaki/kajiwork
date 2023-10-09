@@ -13,6 +13,7 @@ class Logout extends \Controller
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
         header('Access-Control-Allow-Headers: Content-Type, *');
         header('Access-Control-Allow-Credentials: true');
+        header('X-Frame-Options: DENY');
     }
     public function action_index()
     {

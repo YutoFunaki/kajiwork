@@ -13,6 +13,7 @@ class Api extends \Controller_Rest
       header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
       header('Access-Control-Allow-Headers: Content-Type, x-csrf-token');
       header('Access-Control-Allow-Credentials: true');
+      header('X-Frame-Options: DENY');
 
 
       if (\Input::method() == 'OPTIONS') {
@@ -130,9 +131,9 @@ class Api extends \Controller_Rest
     if (\Input::method() !== 'POST') {
       return \Response::forge('削除できませんでした。', 401);
     } 
-    $task_id =  \Session::get("task_id");
+    $task_id =  \Session::get("tasks_id");
     $id = \Input::json('selectedWork');
-
+    
     //tasks_idが一致するか確認
     if (in_array($id, $task_id)) {
       \Model\Task::delete_task($id);
