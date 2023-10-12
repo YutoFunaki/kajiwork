@@ -110,6 +110,13 @@ class Api extends \Controller_Rest
   public function action_workmanage()
   {
      $room_id = \Session::get('roomid');
+     $submitted_token = \Input::headers('X-CSRF-Token');
+    $stored_token = \Cookie::get('csrf_token');
+
+    if ($submitted_token !== $stored_token) {
+        // トークンが一致しない場合、エラーを返すかリダイレクトするなどの処理を行う
+        return \Response::forge('CSRF攻撃の疑いがあるため、リクエストを拒否しました。', 500);
+    }
 
       //room_idからtasksを取得
       $tasks_name = \Model\Task::get_tasks_name($room_id);
@@ -133,6 +140,14 @@ class Api extends \Controller_Rest
     } 
     $task_id =  \Session::get("tasks_id");
     $id = \Input::json('selectedWork');
+
+    $submitted_token = \Input::headers('X-CSRF-Token');
+    $stored_token = \Cookie::get('csrf_token');
+
+    if ($submitted_token !== $stored_token) {
+        // トークンが一致しない場合、エラーを返すかリダイレクトするなどの処理を行う
+        return \Response::forge('CSRF攻撃の疑いがあるため、リクエストを拒否しました。', 500);
+    }
     
     //tasks_idが一致するか確認
     if (in_array($id, $task_id)) {
@@ -153,6 +168,14 @@ class Api extends \Controller_Rest
     $id = \Input::json('selectedWork');
     $workname = \Input::json('workname');
     $frequency = \Input::json('frequency');
+
+    $submitted_token = \Input::headers('X-CSRF-Token');
+    $stored_token = \Cookie::get('csrf_token');
+
+    if ($submitted_token !== $stored_token) {
+        // トークンが一致しない場合、エラーを返すかリダイレクトするなどの処理を行う
+        return \Response::forge('CSRF攻撃の疑いがあるため、リクエストを拒否しました。', 500);
+    }
 
     if (in_array($id, $task_id)) {
       if ($workname !== "" && $frequency !== 0) {
@@ -180,6 +203,14 @@ class Api extends \Controller_Rest
     $username = \Session::get('user_name');
     $personname = \Session::get('personname');
     $room_id = \Session::get('roomid');
+
+    $submitted_token = \Input::headers('X-CSRF-Token');
+    $stored_token = \Cookie::get('csrf_token');
+
+    if ($submitted_token !== $stored_token) {
+        // トークンが一致しない場合、エラーを返すかリダイレクトするなどの処理を行う
+        return \Response::forge('CSRF攻撃の疑いがあるため、リクエストを拒否しました。', 500);
+    }
 
     //usernameからuser_idを取得
     $user_id = \Model\User::get_user_id($username);
@@ -213,6 +244,13 @@ class Api extends \Controller_Rest
     $tasks_id = \Input::json("selectedWork");
     $selectedDate = \Input::json("selectedDate");
     $finish_date = date('Y-m-d H:i:s', strtotime($selectedDate));
+    $submitted_token = \Input::headers('X-CSRF-Token');
+    $stored_token = \Cookie::get('csrf_token');
+
+    if ($submitted_token !== $stored_token) {
+        // トークンが一致しない場合、エラーを返すかリダイレクトするなどの処理を行う
+        return \Response::forge('CSRF攻撃の疑いがあるため、リクエストを拒否しました。', 500);
+    }
 
     //tasks_idからtasks_nameを取得
     $tasks_name = \Model\Task::get_tasks_name_by_id($tasks_id);
@@ -228,6 +266,13 @@ class Api extends \Controller_Rest
     $room_id = \Session::get('roomid');
     $username = \Session::get('user_name');
     $personname = \Session::get('personname');
+    $submitted_token = \Input::headers('X-CSRF-Token');
+    $stored_token = \Cookie::get('csrf_token');
+
+    if ($submitted_token !== $stored_token) {
+        // トークンが一致しない場合、エラーを返すかリダイレクトするなどの処理を行う
+        return \Response::forge('CSRF攻撃の疑いがあるため、リクエストを拒否しました。', 500);
+    }
 
     //room_idからlifemoneyを取得
     $lifemoney = \Model\Room::get_lifemoney($room_id);
@@ -244,6 +289,13 @@ class Api extends \Controller_Rest
   {
     if (\Input::method() !== 'POST') {
       return \Response::forge('変更できませんでした。', 401);
+    }
+    $submitted_token = \Input::headers('X-CSRF-Token');
+    $stored_token = \Cookie::get('csrf_token');
+
+    if ($submitted_token !== $stored_token) {
+        // トークンが一致しない場合、エラーを返すかリダイレクトするなどの処理を行う
+        return \Response::forge('CSRF攻撃の疑いがあるため、リクエストを拒否しました。', 500);
     }
     $room_id = \Session::get('roomid');
     $username = \Session::get('user_name');
