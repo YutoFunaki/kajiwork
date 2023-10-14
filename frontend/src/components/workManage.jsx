@@ -10,9 +10,9 @@ const getCookie = (name) => {
 const WorkManage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const room_id = getCookie('room_id');
-  const [userData, setUserData] = useState(null);
+  const [, setUserData] = useState(null);
   const [workname, setWorkname] = useState([]);
-  const [frequency, setFrequency] = useState([]);
+  const [, setFrequency] = useState([]);
   const [task_id, setTask_id] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
   const [inputDate, setInputDate] = useState("");

@@ -10,7 +10,7 @@ const getCookie = (name) => {
 const MyPageComponent = () => {
   const [username, setUsername] = useState();
   const [personname, setPersonname] = useState();
-  const [userData, setUserData] = useState(null);
+  const [, setUserData] = useState(null);
   const [lifemoney, setLifemoney] = useState(null);
   const [inputUsername, setInputUsername] = useState("");
   const [inputPersonname, setInputPersonname] = useState("");

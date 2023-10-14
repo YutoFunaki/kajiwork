@@ -10,9 +10,9 @@ const Home = () => {
   const [personname, setPersonname] = useState();
   const [userData, setUserData] = useState(null);
   const [clickedDate, setClickedDate] = useState(null);
-  const [clickedEvents, setClickedEvents] = useState(null);
-  const [usernameEventsTitle, setUsernameEventsTitle] = useState([]); // 新たに追加
-  const [personnameEventsTitle, setPersonnameEventsTitle] = useState([]); // 新たに追
+  const [, setClickedEvents] = useState(null);
+  const [usernameEventsTitle, setUsernameEventsTitle] = useState([]);
+  const [personnameEventsTitle, setPersonnameEventsTitle] = useState([]); 
   const [finish_task_month, setFinish_task_month] = useState([]);
   const [finish_task_count, setFinish_task_count] = useState([]);
   const [person_finish_task_month, setPerson_finish_task_month] = useState([]);

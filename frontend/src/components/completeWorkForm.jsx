@@ -15,7 +15,7 @@ const CompleteWorkForm = () => {
   const [username, setUsername] = useState();
   const [personname, setPersonname] = useState();
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
+  const [, setUserData] = useState(null);
   const [workname, setWorkname] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedWork, setSelectedWork] = useState([]);
