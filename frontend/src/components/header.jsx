@@ -13,40 +13,50 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    // 全てのCookieを削除する
-    const cookies = document.cookie.split(';')
-
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i]
-        const eqPos = cookie.indexOf('=')
-        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
-        document.cookie = name + '=;max-age=0'
+    fetch('http://localhost:8080/logout', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json"
       }
-      
-    navigate("/");
+    })
+    .then(response => {
+      if (response.status === 200) {
+        console.log("成功");
+        navigate("/");
+      } else {
+        console.log("失敗");
+      }
+    })
+    .catch(error => {
+      console.error("エラー:", error);
+    });
   };
 
   return (
     <div className="header">
       <div className="HeaderList">
-       <button onClick={handleButtonClick} className="HeaderListButton">< ListIcon className="ListIcon" /></button>
-      {showDropdown && (
+        <button onClick={handleButtonClick} className="HeaderListButton">
+          <ListIcon className="ListIcon" />
+        </button>
+        {showDropdown && (
           <ul className="DropdownMenu">
             <li><a href="/newWork">家事の新規登録　　＞＞</a></li>
             <li><a href="/manage">家事の管理　　　　＞＞</a></li>
-            <li><a href="/" onClick={handleLogout}>ログアウト　　　　＞＞</a></li>
+            <li><a href="/" onClick={(e) => { e.preventDefault(); handleLogout(); }}>ログアウト　　　　＞＞</a></li>
           </ul>
-      )}
+        )}
       </div>
       <p className="AppTitle">
         <a href="/home">KajiWork</a>
       </p>
       <div className="AccountCircleIconBackground">
         <a href="/mypage">
-        <AccountCircleIcon className="AccountCircleIcon" />
+          <AccountCircleIcon className="AccountCircleIcon" />
         </a>
       </div>
-    </div>  
+    </div>
   );
 };
 

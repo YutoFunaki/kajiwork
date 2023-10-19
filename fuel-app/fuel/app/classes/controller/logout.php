@@ -4,25 +4,27 @@ namespace Controller;
 class Logout extends \Controller
 {
 
-  public function before()
+    public function before()
     {
         parent::before();
-
-        // CORSヘッダーを設定
-        header('Access-Control-Allow-Origin: http://localhost:3000');
-        header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-        header('Access-Control-Allow-Headers: Content-Type, *');
-        header('Access-Control-Allow-Credentials: true');
-        header('X-Frame-Options: DENY');
+       // CORSヘッダーを設定
+       header('Access-Control-Allow-Origin: http://localhost:3000');
+       header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+       header('Access-Control-Allow-Headers: Content-Type, x-csrf-token');
+       header('Access-Control-Allow-Credentials: true');
+       header('X-Frame-Options: DENY');
+  
+        if (\Input::method() == 'OPTIONS') {
+            exit;
+        }
     }
     public function action_index()
     {
-      $auth = \Auth::instance();
-      $auth->logout();
+        \Session::destroy();
+        //cookieを削除
+        \Cookie::delete('fuelcid');
+        \Cookie::delete('csrf_token');
 
-      // ログアウト後にリダイレクト
-      \Response::redirect('login'); // ログインページにリダイレクト
-
+        return \Response::forge(200);
     }
 }
-//セッションを削除する処理を書く
