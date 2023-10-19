@@ -27,7 +27,7 @@ class Api extends \Controller_Rest
           return \Response::forge('CSRF攻撃の疑いがあるため、リクエストを拒否しました。', 500);
       }
   }
-  
+
   public function action_index()
   {
     $username = \Session::get('user_name');
@@ -101,7 +101,11 @@ class Api extends \Controller_Rest
     }
 
     $workname = \Input::json('workname');
-    $frequency = \Input::json('frequency');
+    $frequency_key = \Input::json('selectedDate');
+    $frequency_config = \Config::load('frequency');
+    $frequency_value = $frequency_config[$frequency_key];
+    $frequency_count = \Input::json('frequency');
+    $frequency = $frequency_value * $frequency_count;
     $room_id = \Session::get('roomid');
 
     $result = \Model\Task::create_task($workname, $room_id, $frequency);
@@ -161,7 +165,11 @@ class Api extends \Controller_Rest
     $task_id =  \Session::get("tasks_id");
     $id = \Input::json('selectedWork');
     $workname = \Input::json('workname');
-    $frequency = \Input::json('frequency');
+    $frequency_key = \Input::json('selectedDate');
+    $frequency_config = \Config::load('frequency');
+    $frequency_value = $frequency_config[$frequency_key];
+    $frequency_count = \Input::json('inputDate');
+    $frequency = $frequency_value * $frequency_count;
 
     if (in_array($id, $task_id)) {
       if ($workname !== "" && $frequency !== 0) {
@@ -299,4 +307,12 @@ class Api extends \Controller_Rest
     $session = \Session::get();
     var_dump($session);
   }
+
+  public function action_config()
+  {
+    $config = \Config::load('frequency');
+    $data = $config['週'];
+    var_dump($data);
+  }
 }
+
