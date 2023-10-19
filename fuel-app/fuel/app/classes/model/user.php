@@ -39,6 +39,17 @@ class User extends \Model
 		protected static $_created_at = 'created_at';
 
 		//新規ユーザー登録
+		public static function create_user($username, $email, $password)
+		{
+				$query = \DB::insert(static::$_table_name);
+				$query->set([
+						'username' => $username,
+						'email' => $email,
+						'password' => $password,
+				])->execute();
+				return $query;
+		}
+
 		public static function get_user_id($username)
 		{
 				$select = "SELECT id FROM users WHERE username = :username";
