@@ -29,7 +29,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "fuel/app/**"
+            "App\\": "fuel/app/**",
+            "person\\": "fuel/app/person/**"
         }
     },
     "config": {
