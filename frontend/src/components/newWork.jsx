@@ -14,8 +14,7 @@ const newWork = () => {
   const nav = useNavigate();
   const [inputWorkname, setInputWorkname] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
-  const [inputDate, setInputDate] = useState("");
-  const frequency = selectedDate * inputDate;
+  const [frequency, setFrequency] = useState("");
   const csrf_token = getCookie('csrf_token');
 
   useEffect(() => {
@@ -29,16 +28,12 @@ const newWork = () => {
       setSelectedDate(newValue);
     });
 
-    viewModel.inputDate.subscribe((newValue) => {
-      setInputDate(newValue);
-    });
-
     viewModel.frequency.subscribe((newValue) => {
       frequency(newValue);
     });
   }, []);
 
-  const NewWorkRegisterAPI = async (workname, frequency, nav) => {
+  const NewWorkRegisterAPI = async (workname, frequency, selectedDate, nav) => {
     // 非同期処理
     await fetch('http://localhost:8080/api/new', {
       method: 'POST',
@@ -48,7 +43,7 @@ const newWork = () => {
         "Content-Type": "application/json",
         'X-CSRF-Token': csrf_token
       },
-      body: JSON.stringify({"workname": workname, 'frequency': frequency}),
+      body: JSON.stringify({"workname": workname, 'frequency': frequency, 'selectedDate': selectedDate}),
     }) 
     .then(async response => {
       // 成功
@@ -60,7 +55,7 @@ const newWork = () => {
         alert("既に登録されています。");
       } else if(response.status === 500) {
         alert('csrf_tokenが一致しません');
-        nav("/");
+        window.location.href = 'http://localhost:3000/';
       }
     }) //2
   }
@@ -86,7 +81,7 @@ const newWork = () => {
   };
 
   const handleSigninSubmit = async() => {
-    await NewWorkRegisterAPI(inputWorkname, frequency, nav);
+    await NewWorkRegisterAPI(inputWorkname, frequency, selectedDate, nav);
   };
 
   const handleSelectChange = (event) => {
@@ -94,9 +89,9 @@ const newWork = () => {
   };
 
   const works = [
-    { value: 30, label: "日に" },
-    { value: 4, label: "週に" },
-    { value: 1, label: "月に" },
+    { value: '日', label: "日に" },
+    { value: '週', label: "週に" },
+    { value: '月', label: "月に" },
   ];
 
 
@@ -128,8 +123,8 @@ const newWork = () => {
             placeholder="何回"
             type="text"
             className="workcount"
-            value={inputDate}
-            onChange={(e) => setInputDate(e.target.value)} />
+            value={frequency}
+            onChange={(e) => setFrequency(e.target.value)} />
         </div>
         <button 
         type="button" 

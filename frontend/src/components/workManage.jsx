@@ -12,11 +12,9 @@ const WorkManage = () => {
   const room_id = getCookie('room_id');
   const [, setUserData] = useState(null);
   const [workname, setWorkname] = useState([]);
-  const [, setFrequency] = useState([]);
   const [task_id, setTask_id] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
   const [inputDate, setInputDate] = useState("");
-  const refrequency = selectedDate && inputDate ? Number(selectedDate) * Number(inputDate) : 0;
   const [selectedWork, setSelectedWork] = useState([]);
   const [inputWorkname, setInputWorkname] = useState("");
   const nav = useNavigate();
@@ -41,7 +39,6 @@ const WorkManage = () => {
       .then(data => {
         setUserData(data);
         setWorkname(data.tasks_name);
-        setFrequency(data.tasks_frequency);
         setTask_id(data.tasks_id);
         console.log(data);
       })
@@ -50,7 +47,7 @@ const WorkManage = () => {
       });
     }
 
-    const ReWorkAPI = async (selectedWork, inputWorkname, frequency, room_id, nav) => {
+    const ReWorkAPI = async (selectedWork, inputWorkname, selectedDate, inputDate, room_id, nav) => {
       console.log("送信するデータ");
       console.log(selectedWork);
       console.log(inputWorkname);
@@ -64,7 +61,7 @@ const WorkManage = () => {
           "Content-Type": "application/json",
           'X-CSRF-Token': csrf_token
         },
-        body: JSON.stringify({'selectedWork': selectedWork, 'workname': inputWorkname, 'frequency': frequency, 'room_id': room_id}),
+        body: JSON.stringify({'selectedWork': selectedWork, 'workname': inputWorkname, 'selectedDate': selectedDate, 'inputDate': inputDate, 'room_id': room_id}),
       }) 
       .then(async response => {
         // 成功
@@ -112,7 +109,9 @@ const WorkManage = () => {
   
       if (selectedWorkItem) {
 
-        await ReWorkAPI(selectedWork, inputWorkname, refrequency, room_id, nav);
+        await ReWorkAPI(selectedWork, inputWorkname, selectedDate, inputDate, room_id, nav);
+        setSelectedDate("");
+        setInputDate("");
         
         getData();
         setInputWorkname("");
@@ -148,9 +147,9 @@ const WorkManage = () => {
   };
   
   const worksfrequency = [
-    { value: 30, label: "日に" },
-    { value: 4, label: "週に" },
-    { value: 1, label: "月に" },
+    { value: '日', label: "日に" },
+    { value: '週', label: "週に" },
+    { value: '月', label: "月に" },
   ];
 
 
