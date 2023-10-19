@@ -37,5 +37,4 @@ Fuel::$env = Arr::get($_SERVER, 'FUEL_ENV', Arr::get($_ENV, 'FUEL_ENV', getenv('
 
 Autoloader::add_classes(array(
 	'Model\\User' => APPPATH.'classes/model/user.php',
-	// 他のモデルも同様に設定
 ));
