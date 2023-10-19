@@ -22,7 +22,6 @@ return array(
   'default' => array(
     'connection'  => array(
 			'dsn'        => 'mysql:host=mysql;dbname=kajiwork;charset=utf8mb4;unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock',
-//unix_socketを指定
             'username'   => 'root',
             'password'   => 'root',
     ),
