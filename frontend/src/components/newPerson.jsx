@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const SignupAPI = async (username, password, email, nav) => {
-  await fetch('http://localhost:8080/register/person', {
+  await fetch('http://localhost:8080/person/register', {
     method: 'POST',
     mode: 'cors',
     credentials: 'include',
