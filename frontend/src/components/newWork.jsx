@@ -89,9 +89,9 @@ const newWork = () => {
   };
 
   const works = [
-    { value: '日', label: "日に" },
-    { value: '週', label: "週に" },
-    { value: '月', label: "月に" },
+    { value: 'day', label: "日に" },
+    { value: 'week', label: "週に" },
+    { value: 'month', label: "月に" },
   ];
 
 

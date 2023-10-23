@@ -52,7 +52,7 @@ const Home = () => {
         setPerson_finish_task_count(data.person_finish_task_count);
       } catch (error) {
         console.error('データの取得に失敗しました', error);
-        window.location.href = "/";
+        // window.location.href = "/";
       }
     }
   
