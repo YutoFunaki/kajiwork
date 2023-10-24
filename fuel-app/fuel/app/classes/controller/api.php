@@ -24,7 +24,7 @@ class Api extends \Controller_Rest
       $submitted_token = \Input::headers('X-CSRF-Token');
       $stored_token = \Cookie::get('csrf_token');
       if ($submitted_token !== $stored_token) {
-          return \Response::forge('CSRF攻撃の疑いがあるため、リクエストを拒否しました。', 500);
+          return \Response::forge('CSRF攻撃の疑いがあるため、リクエストを拒否しました。', 401);
       }
   }
 
