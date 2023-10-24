@@ -301,18 +301,5 @@ class Api extends \Controller_Rest
     return \Response::forge($json, 200);
   }
 
-  public function action_session()
-  {
-    //セッションの値を全て出す
-    $session = \Session::get();
-    var_dump($session);
-  }
-
-  public function action_config()
-  {
-    $config = \Config::load('frequency');
-    $data = $config['週'];
-    var_dump($data);
-  }
 }
 
